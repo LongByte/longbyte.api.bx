@@ -9,6 +9,7 @@ namespace Api\Core\Base;
 class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
 
     protected static $_keyFunction = 'getId';
+    protected $_uniqueMode = false;
     protected $_collection = array();
     protected $_keys = array();
 
@@ -23,8 +24,10 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
         } else {
             $strGetFunction = static::$_keyFunction;
         }
-        $this->_collection[] = $obEntity;
-        $this->_keys[] = $obEntity->$strGetFunction();
+        if (!$this->_uniqueMode || $this->_uniqueMode && !$this->getByKey($obEntity->$strGetFunction())) {
+            $this->_collection[] = $obEntity;
+            $this->_keys[] = $obEntity->$strGetFunction();
+        }
         return $this;
     }
 
@@ -32,6 +35,20 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
         return $this->_collection;
     }
 
+    /**
+     * 
+     * @param bool $bUniqueMode
+     * @return $this
+     */
+    public function setUniqueMode(bool $bUniqueMode) {
+        $this->_uniqueMode = $bUniqueMode;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return array
+     */
     public function getKeys() {
         return array_values($this->_keys);
     }
