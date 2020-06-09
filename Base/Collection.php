@@ -67,6 +67,20 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
     }
 
     /**
+     *
+     * @param string $strKey
+     * @return $this
+     */
+    public function removeByKey($strKey) {
+        $iCollectionKey = array_search($strKey, $this->_keys);
+        if ($iCollectionKey !== false) {
+            unset($this->_collection[$iCollectionKey]);
+            unset($this->_keys[$iCollectionKey]);
+        }
+        return $this;
+    }
+
+    /**
      * @return \ArrayIterator
      */
     public function getIterator() {

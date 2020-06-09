@@ -66,16 +66,8 @@ abstract class Model {
      */
     public static function getAll(array $arFilter = array(), int $iLimit = 0, int $iOffset = 0, array $arParams = array()) {
 
-        $arParams['filter'] = $arFilter;
-        if ($iLimit > 0) {
-            $arParams['limit'] = $iLimit;
-        }
-        if ($iOffset > 0) {
-            $arParams['offset'] = $iOffset;
-        }
-
+        $arRows = static::getAllAsArray($arFilter, $iLimit, $iOffset, $arParams);
         $primaryField = static::getTable()::getEntity()->getPrimary();
-        $arRows = static::getTable()::getList($arParams)->fetchAll();
 
         $strCollectionClass = static::getEntity()::getCollection();
         $obCollection = new $strCollectionClass();
@@ -95,6 +87,28 @@ abstract class Model {
         }
 
         return $obCollection;
+    }
+
+    /**
+     * 
+     * @param array $arFilter
+     * @param int $iLimit
+     * @param int $iOffset
+     * @param array $arParams
+     * @return array
+     */
+    public static function getAllAsArray(array $arFilter = array(), int $iLimit = 0, int $iOffset = 0, array $arParams = array()) {
+        $arParams['filter'] = $arFilter;
+        if ($iLimit > 0) {
+            $arParams['limit'] = $iLimit;
+        }
+        if ($iOffset > 0) {
+            $arParams['offset'] = $iOffset;
+        }
+
+        $arRows = static::getTable()::getList($arParams)->fetchAll();
+
+        return $arRows;
     }
 
     /**
