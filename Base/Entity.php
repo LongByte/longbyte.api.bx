@@ -27,6 +27,12 @@ abstract class Entity {
      * @var array
      */
     protected $_data;
+    
+    /**
+     *
+     * @var \Bitrix\Main\Result
+     */
+    protected $_obDBResult = null;
 
     /**
      *
@@ -248,6 +254,14 @@ abstract class Entity {
     public function getFields() {
         return static::$arFields;
     }
+    
+    /**
+     * 
+     * @return \Bitrix\Main\Result
+     */
+    public function getDBResult() {
+        return $this->_obDBResult;
+    }
 
     /**
      * @return bool
@@ -271,6 +285,7 @@ abstract class Entity {
             }
         }
         $this->_changed = false;
+        $this->_obDBResult = $rsResult;
 
         return $rsResult->isSuccess();
     }
@@ -285,7 +300,8 @@ abstract class Entity {
             $this->_exists = false;
             $this->_primary = null;
             $this->_changed = true;
-
+            $this->_obDBResult = $rsResult;
+            
             return $rsResult->isSuccess();
         }
 
