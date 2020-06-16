@@ -134,13 +134,21 @@ class Entity extends \Api\Core\Base\Entity {
      * @return $this
      */
     public function setResize($iWidth, $iHeight, int $iMode = BX_RESIZE_IMAGE_PROPORTIONAL) {
-        if (is_null($iWidth)) {
-            $iWidth = ($iHeight * $this->getWidth()) / $this->getHeight();
+        if ($iMode === BX_RESIZE_IMAGE_PROPORTIONAL || $iMode === BX_RESIZE_IMAGE_PROPORTIONAL_ALT) {
+            if (is_null($iWidth)) {
+                $iWidth = ($iHeight * $this->getWidth()) / $this->getHeight();
+            }
+            if (is_null($iHeight)) {
+                $iHeight = ($iWidth * $this->getHeight()) / $this->getWidth();
+            }
+        } elseif ($iMode === BX_RESIZE_IMAGE_EXACT) {
+            if (is_null($iWidth)) {
+                $iWidth = $this->getWidth();
+            }
+            if (is_null($iHeight)) {
+                $iHeight = $this->getHeight();
+            }
         }
-        if (is_null($iHeight)) {
-            $iHeight = ($iWidth * $this->getHeight()) / $this->getWidth();
-        }
-
         $arImage = \CFile::ResizeImageGet($this->getId(), array('width' => $iWidth, 'height' => $iHeight), $iMode, true);
         if ($arImage) {
             $this->setWidth($arImage['width']);
