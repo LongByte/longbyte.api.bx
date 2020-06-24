@@ -27,7 +27,7 @@ abstract class Entity {
      * @var array
      */
     protected $_data;
-    
+
     /**
      *
      * @var \Bitrix\Main\Result
@@ -254,7 +254,7 @@ abstract class Entity {
     public function getFields() {
         return static::$arFields;
     }
-    
+
     /**
      * 
      * @return \Bitrix\Main\Result
@@ -301,7 +301,7 @@ abstract class Entity {
             $this->_primary = null;
             $this->_changed = true;
             $this->_obDBResult = $rsResult;
-            
+
             return $rsResult->isSuccess();
         }
 
