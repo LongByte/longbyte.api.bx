@@ -205,6 +205,12 @@ abstract class Entity {
             $oldValue = $oldValue->getTimestamp();
             $newValue = $newValue->getTimestamp();
         }
+        
+        if (is_numeric($oldValue) && is_numeric($newValue)) {
+            $oldValue = (float) $oldValue;
+            $newValue = (float) $newValue;
+            return abs(($oldValue - $newValue) / $newValue) > 0.000000001;
+        }
 
         return $oldValue != $newValue;
     }
