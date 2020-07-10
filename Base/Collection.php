@@ -145,6 +145,13 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
     }
 
     /**
+     * Move forward to end element
+     */
+    public function end() {
+        return end($this->_collection);
+    }
+
+    /**
      * Return the key of the current element
      */
     public function key() {
