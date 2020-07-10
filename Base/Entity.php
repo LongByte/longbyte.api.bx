@@ -201,11 +201,15 @@ abstract class Entity {
      * @return bool
      */
     protected function checkChanges($oldValue, $newValue) {
+        if (is_null($oldValue) && !is_null($newValue) || !is_null($oldValue) && is_null($newValue)) {
+            return true;
+        }
+
         if ($oldValue instanceof \Bitrix\Main\Type\DateTime && $newValue instanceof \Bitrix\Main\Type\DateTime) {
             $oldValue = $oldValue->getTimestamp();
             $newValue = $newValue->getTimestamp();
         }
-        
+
         if (is_numeric($oldValue) && is_numeric($newValue)) {
             $oldValue = (float) $oldValue;
             $newValue = (float) $newValue;
