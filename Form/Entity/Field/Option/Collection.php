@@ -5,7 +5,7 @@ namespace Api\Core\Form\Entity\Field\Option;
 /**
  * Class \Api\Core\Form\Entity\Field\Option\Collection
  */
-class Collection extends \Realweb\Api\Model\Data\Collection {
+class Collection extends \Api\Core\Base\Collection {
 
     /**
      *

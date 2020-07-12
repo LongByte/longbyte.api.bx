@@ -156,7 +156,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
      */
     public function getData() {
         if (is_null($this->_data)) {
-            $this->_data = array_fill_keys($this->getFields(), '');
+            $this->_data = array_fill_keys($this->getAllFields(), '');
             if (!is_null($this->_primary)) {
                 $_arData = static::getModel()::getOneAsArray(array('ID' => $this->_primary));
                 if ($_arData) {
@@ -166,6 +166,21 @@ abstract class Entity extends \Api\Core\Base\Entity {
             }
         }
         return $this->_data;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function getAllFields() {
+        $arFields = array();
+        if (is_array($this->getFields())) {
+            $arFields = array_merge($arFields, $this->getFields());
+        }
+        if (is_array($this->getProps())) {
+            $arFields = array_merge($arFields, $this->getProps());
+        }
+        return $arFields;
     }
 
     /**

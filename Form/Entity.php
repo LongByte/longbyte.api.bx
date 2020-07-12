@@ -4,7 +4,7 @@ namespace Api\Core\Form;
 
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\Mail\Event;
-use Realweb\Api\Model\Utils\ArrayHelper;
+use Api\Core\Utils\ArrayHelper;
 use Api\Core\Form\Entity\Field;
 use Api\Core\Form\Entity\Group;
 
@@ -186,7 +186,6 @@ class Entity {
             'method' => $this->getMethod(),
             'fields' => $this->_getFields(),
             'submit' => $this->_getSubmitField(),
-            'price' => $this->_getPriceField(),
             'success' => $this->isSuccess(),
             'success_message' => $this->getSuccessMessage(),
             'errors' => $this->getErrors(),

@@ -18,7 +18,7 @@ abstract class Validate {
         'hidden' => self::STRING,
         'textarea' => self::STRING,
         'email' => self::STRING,
-        'phone' => self::STRING,
+        'tel' => self::STRING,
         'password' => self::STRING,
         'radio' => self::INTEGER,
         'checkbox' => self::INTEGER,
