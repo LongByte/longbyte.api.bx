@@ -71,9 +71,25 @@ abstract class Model extends \Api\Core\Base\Model {
      * @param array $arParams
      * @return \Api\Core\Base\Collection
      */
-    public static function getAll(array $arFilter = array(), int $iLimit = 0, int $iOffset = 0, array $arParams = array()) {
+    public static function getAll(array $arFilter = array(), $iLimit = null, $iOffset = null, array $arParams = array()) {
 
         Loader::includeModule('iblock');
+
+        $arFunctionParams = func_get_args();
+        switch (count($arFunctionParams)) {
+            case 2:
+                if (is_array($arFunctionParams[1])) {
+                    $arParams = $arFunctionParams[1];
+                    $iLimit = null;
+                }
+                break;
+            case 3:
+                if (is_array($arFunctionParams[2])) {
+                    $arParams = $arFunctionParams[2];
+                    $iOffset = null;
+                }
+                break;
+        }
 
         $arFilter['IBLOCK_ID'] = static::getIblockId();
 
