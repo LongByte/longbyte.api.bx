@@ -66,12 +66,35 @@ class Cache {
 
     /**
      *
+     * @var bool
+     */
+    protected $_igbinary = false;
+
+    /**
+     *
      * @var \Api\Core\Main\Cache
      */
     private static $instance;
 
     protected function __construct() {
-        
+        $this->setIgbinary(\extension_loaded('igbinary'));
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIgbinary() {
+        return $this->_igbinary;
+    }
+
+    /**
+     * @param bool $bIgbinary
+     * @return $this
+     */
+    public function setIgbinary(bool $bIgbinary = false) {
+        $this->_igbinary = $bIgbinary;
+
+        return $this;
     }
 
     /**
@@ -161,7 +184,7 @@ class Cache {
      */
     public function setId($id) {
         if ($this->_change_params) {
-            $this->_id = md5(serialize($id));
+            $this->_id = md5($this->serialize($id));
         }
         return $this;
     }
@@ -302,7 +325,7 @@ class Cache {
         $this->setParams(array(
             'id' => $this->getId(),
             'dir' => $this->getDir(),
-            'content' => md5(serialize($arResult)),
+            'content' => md5($this->serialize($arResult)),
         ));
         $this->_start_caching = false;
 
@@ -320,6 +343,17 @@ class Cache {
 
     public function hasDeadCache() {
         return $this->_has_dead_cache;
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    public function serialize($value) {
+        if ($this->isIgbinary()) {
+            return igbinary_serialize($value);
+        }
+        return serialize($value);
     }
 
 }
