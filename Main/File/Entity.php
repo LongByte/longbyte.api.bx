@@ -66,7 +66,7 @@ class Entity extends \Api\Core\Base\Entity {
      * 
      * @return string
      */
-    public static function getModel() {
+    public static function getModel(): string {
         return Model::class;
     }
 
@@ -74,15 +74,15 @@ class Entity extends \Api\Core\Base\Entity {
      * 
      * @return array
      */
-    public function getFields() {
+    public function getFields(): array {
         return array_keys(static::getModel()::getTable()::getMap());
     }
 
     /**
      * 
-     * @return string
+     * @return string|null
      */
-    public function getSrc() {
+    public function getSrc(): ?string {
         if ($this->isExists() && is_null($this->_src)) {
             $uploadDirName = \Bitrix\Main\Config\Option::get('main', 'upload_dir', 'upload');
             $this->_src = '/' . $uploadDirName . '/' . $this->getSubdir() . '/' . $this->getFileName();
@@ -94,7 +94,7 @@ class Entity extends \Api\Core\Base\Entity {
      * 
      * @return string
      */
-    public function getFileSizePrint() {
+    public function getFileSizePrint(): string {
         $iSize = $this->getFileSize();
         $fs_type = 0;
         while ($iSize > 1024) {
@@ -108,7 +108,7 @@ class Entity extends \Api\Core\Base\Entity {
      * 
      * @return \Bitrix\Main\IO\File
      */
-    public function getIOFile() {
+    public function getIOFile(): \Bitrix\Main\IO\File {
         if (is_null($this->_obIOFile)) {
             $obIOFile = new \Bitrix\Main\IO\File(Application::getDocumentRoot() . $this->getSrc());
             $this->_obIOFile = $obIOFile;
@@ -119,9 +119,9 @@ class Entity extends \Api\Core\Base\Entity {
     /**
      * 
      * @param string $strSrc
-     * @return $this
+     * @return \self
      */
-    protected function _setSrc(string $strSrc) {
+    protected function _setSrc(string $strSrc): self {
         $this->_src = $strSrc;
         return $this;
     }
@@ -131,9 +131,9 @@ class Entity extends \Api\Core\Base\Entity {
      * @param int $iWidth
      * @param int $iHeight
      * @param int $iMode
-     * @return $this
+     * @return \self
      */
-    public function setResize(int $iWidth = null, int $iHeight = null, int $iMode = BX_RESIZE_IMAGE_PROPORTIONAL) {
+    public function setResize(int $iWidth = null, int $iHeight = null, int $iMode = BX_RESIZE_IMAGE_PROPORTIONAL): self {
         if ($iMode === BX_RESIZE_IMAGE_PROPORTIONAL || $iMode === BX_RESIZE_IMAGE_PROPORTIONAL_ALT) {
             if (is_null($iWidth)) {
                 $iWidth = ($iHeight * $this->getWidth()) / $this->getHeight();
@@ -161,9 +161,9 @@ class Entity extends \Api\Core\Base\Entity {
 
     /**
      * 
-     * @return $this
+     * @return \self
      */
-    public function convertToWebp() {
+    public function convertToWebp(): self {
         if (class_exists('\LongByte\Webp')) {
             $strSrc = $this->getSrc();
             if (strlen($strSrc) > 0) {

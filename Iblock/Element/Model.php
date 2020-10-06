@@ -14,22 +14,26 @@ abstract class Model extends \Api\Core\Base\Model {
      */
     protected static $_iblockId = 0;
 
-    public static function getTable() {
-        
+    /**
+     * 
+     * @return string
+     */
+    public static function getTable(): string {
+        return '';
     }
 
     /**
      * 
      * @return int
      */
-    public static function getIblockId() {
+    public static function getIblockId(): int {
         return static::$_iblockId;
     }
 
     /**
      * 
      * @param array $arFilter
-     * @return \Api\Core\Entity\Base
+     * @return \Api\Core\Entity\Base|null
      */
     public static function getOne(array $arFilter = array()) {
 

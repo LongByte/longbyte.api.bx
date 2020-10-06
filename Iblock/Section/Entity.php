@@ -30,7 +30,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
      * 
      * @return \Api\Core\Main\File\Entity
      */
-    public function getPictureFile() {
+    public function getPictureFile(): ?\Api\Core\Main\File\Entity {
         $iFile = 0;
         if (is_null($this->_obPicture)) {
             if ($this->hasPicture()) {
@@ -45,7 +45,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
      * 
      * @return \Api\Core\Main\File\Entity
      */
-    public function getDetailPictureFile() {
+    public function getDetailPictureFile(): ?\Api\Core\Main\File\Entity {
         $iFile = 0;
         if (is_null($this->_obDetailPicture)) {
             if ($this->hasDetailPicture()) {
@@ -59,7 +59,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
     /**
      * @return string
      */
-    public function getSectionPageUrl() {
+    public function getSectionPageUrl(): string {
         $arReplaceFrom = array('#SITE_DIR#');
         $arReplaceTo = array('/');
         if ($this->hasCode()) {
@@ -84,9 +84,10 @@ abstract class Entity extends \Api\Core\Base\Entity {
     }
 
     /**
-     * @return string
+     * 
+     * @return string|null
      */
-    public function getUrlTemplate() {
+    public function getUrlTemplate(): ?string {
         if (is_null($this->_url_template)) {
             if ($obIblock = $this->getIblock()) {
                 $this->_url_template = $obIblock->getSectionPageUrl();
@@ -97,9 +98,10 @@ abstract class Entity extends \Api\Core\Base\Entity {
     }
 
     /**
-     * @return null|\Api\Core\Iblock\Iblock\Entity
+     * 
+     * @return \Api\Core\Iblock\Iblock\Entity|null
      */
-    public function getIblock() {
+    public function getIblock(): ?\Api\Core\Iblock\Iblock\Entity {
         if (is_null($this->_iblock)) {
             $this->_iblock = \Api\Core\Iblock\Iblock\Model::getOne(array('ID' => static::getModel()::getIblockId()));
         }
@@ -111,7 +113,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
      * 
      * @return array
      */
-    public function getMeta() {
+    public function getMeta(): array {
         if (is_null($this->_arIProperty)) {
             $obIProperty = new \Bitrix\Iblock\InheritedProperty\ElementValues(static::getModel()::getIblockId(), $this->getId());
             $this->_arIProperty = $obIProperty->getValues();
@@ -121,9 +123,9 @@ abstract class Entity extends \Api\Core\Base\Entity {
 
     /**
      * 
-     * @return $this
+     * @return \self
      */
-    public function setMeta() {
+    public function setMeta(): self {
         $this->getMeta();
 
         \Api\Core\Main\Seo::getInstance()->setMeta(array(
@@ -137,9 +139,9 @@ abstract class Entity extends \Api\Core\Base\Entity {
 
     /**
      * 
-     * @return $this
+     * @return \self
      */
-    public function addToBreadcrumbs() {
+    public function addToBreadcrumbs(): self {
         $this->getMeta();
 
         $strName = $this->_arIProperty['SECTION_PAGE_TITLE'] ?: $this->getName();
@@ -149,6 +151,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
     }
 
     /**
+     * 
      * @return $this
      */
     public function save() {

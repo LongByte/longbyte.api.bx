@@ -16,9 +16,9 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
     /**
      * 
      * @param \Api\Core\Base\Entity $obEntity
-     * @return $this
+     * @return \self
      */
-    public function addItem($obEntity) {
+    public function addItem(\Api\Core\Base\Entity $obEntity) {
         if ($obEntity instanceof \Api\Core\Base\Virtual\Entity) {
             $strGetFunction = 'get' . \Api\Core\Utils\StringHelper::convertCodeToUpperCamelCase($obEntity->getPrimaryField());
         } else {
@@ -31,16 +31,20 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
         return $this;
     }
 
-    public function getCollection() {
+    /**
+     * 
+     * @return array
+     */
+    public function getCollection(): array {
         return $this->_collection;
     }
 
     /**
      * 
      * @param bool $bUniqueMode
-     * @return $this
+     * @return \self
      */
-    public function setUniqueMode(bool $bUniqueMode) {
+    public function setUniqueMode(bool $bUniqueMode): self {
         $this->_uniqueMode = $bUniqueMode;
         return $this;
     }
@@ -49,7 +53,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
      * 
      * @return array
      */
-    public function getKeys() {
+    public function getKeys(): array {
         return array_values($this->_keys);
     }
 
@@ -67,11 +71,11 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
     }
 
     /**
-     *
-     * @param string $strKey
-     * @return $this
+     * 
+     * @param type $strKey
+     * @return \self
      */
-    public function removeByKey($strKey) {
+    public function removeByKey($strKey): self {
         $iCollectionKey = array_search($strKey, $this->_keys);
         if ($iCollectionKey !== false) {
             unset($this->_collection[$iCollectionKey]);
@@ -186,7 +190,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
      *
      * @return array
      */
-    public function toArray() {
+    public function toArray(): array {
         $arArray = array();
         foreach ($this->_collection as $obItem) {
             $arItem = $obItem->toArray();

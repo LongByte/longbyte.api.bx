@@ -14,15 +14,19 @@ abstract class Model extends \Api\Core\Base\Model {
      */
     protected static $_iblockId = 0;
 
-    public static function getTable() {
-        
+    /**
+     * 
+     * @return string
+     */
+    public static function getTable(): string {
+        return '';
     }
 
     /**
      * 
      * @return int
      */
-    public static function getIblockId() {
+    public static function getIblockId(): int {
         return static::$_iblockId;
     }
 
@@ -165,7 +169,7 @@ abstract class Model extends \Api\Core\Base\Model {
 
     /**
      * 
-     * @return type
+     * @return \Bitrix\Main\ORM\Data\DataManager
      */
     protected static function _getTableEntity() {
         return \Bitrix\Iblock\Model\Section::compileEntityByIblock(self::getIblockId());

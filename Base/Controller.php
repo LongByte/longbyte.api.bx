@@ -21,6 +21,9 @@ class Controller {
      */
     protected $rawPost = null;
 
+    /**
+     * 
+     */
     public function __construct() {
         $this->obRequest = Context::getCurrent()->getRequest();
         $this->rawPost = file_get_contents('php://input');
@@ -30,7 +33,7 @@ class Controller {
      * 
      * @return \Bitrix\Main\HttpRequest
      */
-    protected function getRequest() {
+    protected function getRequest(): \Bitrix\Main\HttpRequest {
         return $this->obRequest;
     }
 
@@ -38,7 +41,7 @@ class Controller {
      * 
      * @return string
      */
-    protected function getPostData() {
+    protected function getPostData(): string {
         return $this->rawPost;
     }
 
@@ -47,7 +50,7 @@ class Controller {
      * @param mixed $rawPost
      * @return $this
      */
-    public function setPostData($rawPost) {
+    public function setPostData($rawPost): self {
         $this->rawPost = $rawPost;
         return $this;
     }

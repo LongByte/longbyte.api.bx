@@ -41,24 +41,24 @@ abstract class Entity {
     protected static $arFields = array('ID');
 
     /**
-     * @return \Api\Core\Model\Base
+     * @return string
      */
-    abstract public static function getModel();
+    abstract public static function getModel(): string;
 
     /**
      * 
      * @return string
      */
-    public static function getCollection() {
+    public static function getCollection(): string {
         return Collection::class;
     }
 
     /**
      * DataEntity constructor.
-     * @param null $primary
+     * @param mixed $primary
      * @param array $data
      */
-    public function __construct($primary = null, $data = array()) {
+    public function __construct($primary = null, array $data = array()) {
         if ($data) {
             $this->_data = array_fill_keys($this->getFields(), '');
             foreach ($data as $strField => $value) {
@@ -89,9 +89,10 @@ abstract class Entity {
     }
 
     /**
-     * @return array|false
+     * 
+     * @return array|null
      */
-    public function getData() {
+    public function getData(): ?array {
         if (is_null($this->_data)) {
             $this->_data = array_fill_keys($this->getFields(), '');
 
@@ -183,14 +184,14 @@ abstract class Entity {
     /**
      * @return bool
      */
-    public function isExists() {
+    public function isExists(): bool {
         return $this->_exists;
     }
 
     /**
      * @return bool
      */
-    public function isChanged() {
+    public function isChanged(): bool {
         return $this->_changed;
     }
 
@@ -200,7 +201,7 @@ abstract class Entity {
      * @param type $newValue
      * @return bool
      */
-    protected function checkChanges($oldValue, $newValue) {
+    protected function checkChanges($oldValue, $newValue): bool {
         if (is_null($oldValue) && !is_null($newValue) || !is_null($oldValue) && is_null($newValue)) {
             return true;
         }
@@ -223,7 +224,7 @@ abstract class Entity {
      * 
      * @return array
      */
-    public function toArray() {
+    public function toArray(): array {
         $arArray = array();
         foreach ($this->_data as $strKey => $value) {
             if (strpos($strKey, '~') === 0) {
@@ -244,7 +245,7 @@ abstract class Entity {
      * @param $strString
      * @return string
      */
-    protected static function toLower($strString) {
+    protected static function toLower($strString): string {
         return ToLower($strString);
     }
 
@@ -253,7 +254,7 @@ abstract class Entity {
      *
      * @return string
      */
-    protected static function toUpper($strString) {
+    protected static function toUpper($strString): string {
         return ToUpper($strString);
     }
 
@@ -261,7 +262,7 @@ abstract class Entity {
      * 
      * @return array
      */
-    public function getFields() {
+    public function getFields(): array {
         return static::$arFields;
     }
 
@@ -269,7 +270,7 @@ abstract class Entity {
      * 
      * @return \Bitrix\Main\Result
      */
-    public function getDBResult() {
+    public function getDBResult(): ?\Bitrix\Main\Result {
         return $this->_obDBResult;
     }
 
@@ -297,7 +298,7 @@ abstract class Entity {
         $this->_changed = false;
         $this->_obDBResult = $rsResult;
 
-        return $rsResult->isSuccess();
+        return $this;
     }
 
     /**
@@ -311,11 +312,9 @@ abstract class Entity {
             $this->_primary = null;
             $this->_changed = true;
             $this->_obDBResult = $rsResult;
-
-            return $rsResult->isSuccess();
         }
 
-        return false;
+        return $this;
     }
 
 }

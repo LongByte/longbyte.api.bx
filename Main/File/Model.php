@@ -7,11 +7,19 @@ namespace Api\Core\Main\File;
  */
 class Model extends \Api\Core\Base\Model {
 
-    public static function getEntity() {
+    /**
+     * 
+     * @return string
+     */
+    public static function getEntity(): string {
         return Entity::class;
     }
 
-    public static function getTable() {
+    /**
+     * 
+     * @return string
+     */
+    public static function getTable(): string {
         return \Bitrix\Main\FileTable::class;
     }
 

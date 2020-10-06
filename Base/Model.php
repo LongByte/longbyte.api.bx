@@ -7,15 +7,15 @@ namespace Api\Core\Base;
  */
 abstract class Model {
 
-    abstract public static function getTable();
+    abstract public static function getTable(): string;
 
-    abstract public static function getEntity();
+    abstract public static function getEntity(): string;
 
     /**
      * 
      * @param array $arFilter
      * @param array $arParams
-     * @return \Api\Core\Entity\Base
+     * @return \Api\Core\Entity\Base|null
      */
     public static function getOne(array $arFilter = array(), array $arParams = array()) {
 
@@ -45,7 +45,7 @@ abstract class Model {
      * @param array $arFilter
      * @return array|null
      */
-    public static function getOneAsArray(array $arFilter = array(), array $arParams = array()) {
+    public static function getOneAsArray(array $arFilter = array(), array $arParams = array()): ?array {
         $arParams['filter'] = $arFilter;
         $arRow = static::getTable()::getRow($arParams);
 
@@ -97,7 +97,7 @@ abstract class Model {
      * @param array $arParams
      * @return array
      */
-    public static function getAllAsArray(array $arFilter = array(), int $iLimit = 0, int $iOffset = 0, array $arParams = array()) {
+    public static function getAllAsArray(array $arFilter = array(), int $iLimit = 0, int $iOffset = 0, array $arParams = array()): array {
         $arParams['filter'] = $arFilter;
         if ($iLimit > 0) {
             $arParams['limit'] = $iLimit;
@@ -116,7 +116,7 @@ abstract class Model {
      * @param array $array
      * @return array
      */
-    protected static function _getFromTilda(array $array) {
+    protected static function _getFromTilda(array $array): array {
         $clearArray = array();
         foreach ($array as $strKey => $value) {
             if (strpos($strKey, '~') === 0) {

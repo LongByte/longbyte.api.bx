@@ -16,7 +16,7 @@ class Model extends \Api\Core\Base\Model {
      * 
      * @return string
      */
-    public static function getTable() {
+    public static function getTable(): string {
         return \Bitrix\Iblock\IblockTable::class;
     }
 
@@ -24,7 +24,7 @@ class Model extends \Api\Core\Base\Model {
      * 
      * @return string
      */
-    public static function getEntity() {
+    public static function getEntity(): string {
         return Entity::class;
     }
 

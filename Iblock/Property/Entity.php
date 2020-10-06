@@ -102,7 +102,11 @@ namespace Api\Core\Iblock\Property;
  */
 class Entity extends \Api\Core\Base\Entity {
 
-    public static function getModel() {
+    /**
+     * 
+     * @return string
+     */
+    public static function getModel(): string {
         return Model::class;
     }
 
@@ -110,7 +114,7 @@ class Entity extends \Api\Core\Base\Entity {
      * 
      * @return string
      */
-    public static function getCollection() {
+    public static function getCollection(): string {
         return Collection::class;
     }
 
@@ -118,7 +122,7 @@ class Entity extends \Api\Core\Base\Entity {
      * 
      * @return array
      */
-    public function getFields() {
+    public function getFields(): array {
         $arFields = array_keys(static::getModel()::getTable()::getScalarFields());
         $arFields[] = 'VALUE';
         $arFields[] = 'VALUE_XML_ID';
@@ -129,9 +133,9 @@ class Entity extends \Api\Core\Base\Entity {
 
     /**
      * 
-     * @return \Api\Core\Iblock\Property\Value\Entity
+     * @return \Api\Core\Iblock\Property\Value\Entity|null
      */
-    public function getValueObject() {
+    public function getValueObject(): ?\Api\Core\Iblock\Property\Value\Entity {
         if ($this->getMultiple() == 'N') {
             return new \Api\Core\Iblock\Property\Value\Entity(array(
                 'VALUE' => $this->getValue(),
@@ -145,9 +149,9 @@ class Entity extends \Api\Core\Base\Entity {
 
     /**
      * 
-     * @return \Api\Core\Iblock\Property\Value\Collection
+     * @return \Api\Core\Iblock\Property\Value\Collection|null
      */
-    public function getValuesCollection() {
+    public function getValuesCollection(): ?\Api\Core\Iblock\Property\Value\Collection {
         if ($this->getMultiple() == 'Y') {
 
             $obCollection = new \Api\Core\Iblock\Property\Value\Collection();
@@ -167,14 +171,26 @@ class Entity extends \Api\Core\Base\Entity {
         return null;
     }
 
-    public function getData() {
+    /**
+     * 
+     * @return array|null
+     */
+    public function getData(): ?array {
         return null;
     }
 
+    /**
+     * 
+     * @return null
+     */
     public function save() {
         return null;
     }
 
+    /**
+     * 
+     * @return null
+     */
     public function delete() {
         return null;
     }

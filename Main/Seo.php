@@ -64,7 +64,7 @@ class Seo {
      * 
      * @return \Api\Core\Main\Seo
      */
-    public static function getInstance() {
+    public static function getInstance(): self {
         if (is_null(self::$instance)) {
             self::$instance = new Self();
         }
@@ -74,9 +74,9 @@ class Seo {
 
     /**
      * @param null $arParams
-     * @return $this
+     * @return \self
      */
-    public function setMeta($arParams = null) {
+    public function setMeta($arParams = null): self {
         if (is_null($arParams)) {
             return $this;
         }
@@ -106,10 +106,11 @@ class Seo {
     }
 
     /**
-     *
+     * 
      * @global \CMain $APPLICATION
+     * @return \self
      */
-    public function setMetaPage() {
+    public function setMetaPage(): self {
         global $APPLICATION;
         if ($this->_title !== null) {
             $APPLICATION->SetPageProperty('title', $this->_title);
@@ -136,9 +137,10 @@ class Seo {
         foreach ($this->_breadcrumbs as $arBreadcrumb) {
             $APPLICATION->AddChainItem($arBreadcrumb['name'], $arBreadcrumb['url']);
         }
+        return $this;
     }
 
-    public function getPageTitle() {
+    public function getPageTitle(): string {
         return $this->_h1;
     }
 
@@ -147,7 +149,7 @@ class Seo {
      * @param string $strTitle
      * @return $this
      */
-    public function setPageTitle($strTitle) {
+    public function setPageTitle($strTitle): self {
         $this->_h1 = $strTitle;
         return $this;
     }
@@ -158,7 +160,7 @@ class Seo {
      * @param string $strUrl
      * @return $this
      */
-    public function addBreadcrumb($strName, $strUrl = '') {
+    public function addBreadcrumb($strName, $strUrl = ''): self {
         $this->_breadcrumbs[] = array(
             'name' => $strName,
             'url' => $strUrl,
@@ -170,7 +172,7 @@ class Seo {
      * @param array $arItems
      * @return $this
      */
-    public function setBreadcrumbs(array $arItems) {
+    public function setBreadcrumbs(array $arItems): self {
         $this->_breadcrumbs = $arItems;
 
         return $this;

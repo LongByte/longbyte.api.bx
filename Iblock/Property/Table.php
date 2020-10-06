@@ -7,7 +7,11 @@ namespace Api\Core\Iblock\Property;
  */
 class Table extends \Bitrix\Iblock\PropertyTable {
 
-    public static function getScalarFields() {
+    /**
+     * 
+     * @return array
+     */
+    public static function getScalarFields(): array {
         $arFields = array();
         foreach (static::getMap() as $strId => $obField) {
             if ($obField instanceof \Bitrix\Main\Entity\ScalarField) {

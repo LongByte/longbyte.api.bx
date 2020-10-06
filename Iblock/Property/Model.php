@@ -7,7 +7,11 @@ namespace Api\Core\Iblock\Property;
  */
 abstract class Model extends \Api\Core\Base\Model {
 
-    public static function getTable() {
+    /**
+     * 
+     * @return string
+     */
+    public static function getTable(): string {
         return \Api\Core\Iblock\Property\Table::class;
     }
 

@@ -8,6 +8,10 @@ namespace Api\Core\Iblock\Property;
  */
 class Collection extends \Api\Core\Base\Collection {
 
+    /**
+     *
+     * @var string
+     */
     protected static $_keyFunction = 'getCode';
 
     /**
@@ -54,7 +58,7 @@ class Collection extends \Api\Core\Base\Collection {
      * @param $strString
      * @return string
      */
-    protected static function toLower($strString) {
+    protected static function toLower(string $strString): string {
         return ToLower($strString);
     }
 
@@ -63,7 +67,7 @@ class Collection extends \Api\Core\Base\Collection {
      *
      * @return string
      */
-    protected static function toUpper($strString) {
+    protected static function toUpper(string $strString): string {
         return ToUpper($strString);
     }
 

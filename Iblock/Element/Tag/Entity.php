@@ -12,12 +12,15 @@ class Entity extends \Api\Core\Base\Entity {
      * 
      * @return null|array
      */
-    public function getData() {
-
+    public function getData(): ?array {
         return $this->_data;
     }
 
-    public static function getModel() {
+    /**
+     * 
+     * @return string
+     */
+    public static function getModel(): string {
         return \Api\Core\Model\Base::class;
     }
 

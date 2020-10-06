@@ -8,13 +8,17 @@ namespace Api\Core\Base\Virtual;
  */
 abstract class Entity extends \Api\Core\Base\Entity {
 
+    /**
+     *
+     * @var string
+     */
     protected static $_primaryField = 'ID';
 
     /**
-     * DataEntity constructor.
+     * 
      * @param array $data
      */
-    public function __construct($data = array()) {
+    public function __construct(array $data = array()) {
         if ($data) {
             $this->_data = array_fill_keys($this->getFields(), '');
             foreach ($data as $strField => $value) {
@@ -25,21 +29,29 @@ abstract class Entity extends \Api\Core\Base\Entity {
         }
     }
 
-    public function getData() {
+    public function getData(): ?array {
         return null;
     }
 
     /**
      * @return bool
      */
-    public function isExists() {
+    public function isExists(): bool {
         return true;
     }
 
+    /**
+     * 
+     * @return null
+     */
     public function save() {
         return null;
     }
 
+    /**
+     * 
+     * @return null
+     */
     public function delete() {
         return null;
     }
@@ -48,7 +60,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
      * 
      * @return string
      */
-    public function getPrimaryField() {
+    public function getPrimaryField(): string {
         return static::$_primaryField;
     }
 

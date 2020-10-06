@@ -7,14 +7,26 @@ namespace Api\Core\Base\Virtual;
  */
 abstract class Model extends \Api\Core\Base\Model {
 
-    public static function getTable() {
-        return null;
+    /**
+     * 
+     * @return string
+     */
+    public static function getTable(): string {
+        return '';
     }
 
+    /**
+     * 
+     * @return null
+     */
     public static function getOne() {
         return null;
     }
 
+    /**
+     * 
+     * @return null
+     */
     public static function getAll() {
         return null;
     }

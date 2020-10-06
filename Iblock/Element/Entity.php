@@ -47,7 +47,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
      * 
      * @return \Api\Core\Main\File\Entity
      */
-    public function getPreviewPictureFile() {
+    public function getPreviewPictureFile(): ?\Api\Core\Main\File\Entity {
         $iFile = 0;
         if (is_null($this->_obPreviewPicture)) {
             if ($this->hasPreviewPicture()) {
@@ -62,7 +62,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
      * 
      * @return \Api\Core\Main\File\Entity
      */
-    public function getDetailPictureFile() {
+    public function getDetailPictureFile(): ?\Api\Core\Main\File\Entity {
         $iFile = 0;
         if (is_null($this->_obDetailPicture)) {
             if ($this->hasDetailPicture()) {
@@ -94,7 +94,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
      * 
      * @return \Api\Core\Iblock\Property\Collection
      */
-    public function getPropertyCollection() {
+    public function getPropertyCollection(): \Api\Core\Iblock\Property\Collection {
         if (is_null($this->_obPropertyCollection)) {
             $this->_obPropertyCollection = new \Api\Core\Iblock\Property\Collection();
         }
@@ -105,7 +105,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
      * 
      * @return array
      */
-    public function getProps() {
+    public function getProps(): array {
         return static::$arProps;
     }
 
@@ -113,7 +113,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
      * 
      * @return array
      */
-    public function getMeta() {
+    public function getMeta(): ?array {
         if (is_null($this->_arIProperty)) {
             $obIProperty = new \Bitrix\Iblock\InheritedProperty\ElementValues(static::getModel()::getIblockId(), $this->getId());
             $this->_arIProperty = $obIProperty->getValues();
@@ -123,9 +123,9 @@ abstract class Entity extends \Api\Core\Base\Entity {
 
     /**
      * 
-     * @return $this
+     * @return \self
      */
-    public function setMeta() {
+    public function setMeta(): self {
         $this->getMeta();
 
         \Api\Core\Main\Seo::getInstance()->setMeta(array(
@@ -139,9 +139,9 @@ abstract class Entity extends \Api\Core\Base\Entity {
 
     /**
      * 
-     * @return $this
+     * @return \self
      */
-    public function addToBreadcrumbs() {
+    public function addToBreadcrumbs(): self {
         $this->getMeta();
 
         $strName = $this->_arIProperty['ELEMENT_PAGE_TITLE'] ?: $this->getName();
@@ -154,7 +154,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
      * 
      * @return null|array
      */
-    public function getData() {
+    public function getData(): ?array {
         if (is_null($this->_data)) {
             $this->_data = array_fill_keys($this->getAllFields(), '');
             if (!is_null($this->_primary)) {
@@ -172,7 +172,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
      * 
      * @return array
      */
-    public function getAllFields() {
+    public function getAllFields(): array {
         $arFields = array();
         if (is_array($this->getFields())) {
             $arFields = array_merge($arFields, $this->getFields());
@@ -314,7 +314,11 @@ abstract class Entity extends \Api\Core\Base\Entity {
         return $this;
     }
 
-    public function counterInc() {
+    /**
+     * 
+     * @return $this
+     */
+    public function counterInc(): self {
         $iId = $this->getId();
         if (intval($iId) > 0) {
             \CIBlockElement::CounterInc($iId);
