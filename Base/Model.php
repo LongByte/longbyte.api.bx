@@ -2,6 +2,8 @@
 
 namespace Api\Core\Base;
 
+use Api\Core\Utils\ArrayHelper;
+
 /**
  * Class \Api\Core\Base\Model
  */
@@ -47,6 +49,9 @@ abstract class Model {
      */
     public static function getOneAsArray(array $arFilter = array(), array $arParams = array()): ?array {
         $arParams['filter'] = $arFilter;
+        if (!ArrayHelper::keyExists('select', $arParams)) {
+            $arParams['select'] = static::getEntity()::getFields();
+        }
         $arRow = static::getTable()::getRow($arParams);
 
         if ($arRow) {
@@ -104,6 +109,9 @@ abstract class Model {
         }
         if ($iOffset > 0) {
             $arParams['offset'] = $iOffset;
+        }
+        if (!ArrayHelper::keyExists('select', $arParams)) {
+            $arParams['select'] = static::getEntity()::getFields();
         }
 
         $arRows = static::getTable()::getList($arParams)->fetchAll();

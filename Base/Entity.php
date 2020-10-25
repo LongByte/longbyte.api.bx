@@ -107,6 +107,7 @@ abstract class Entity {
                 if ($arPrimaryFilter !== null) {
                     $_arData = static::getModel()::getTable()::getRow(array(
                             'filter' => $arPrimaryFilter,
+                            'select' => $this->getFields(),
                     ));
                     if ($_arData) {
                         foreach ($_arData as $strField => $value) {
@@ -224,9 +225,12 @@ abstract class Entity {
      * 
      * @return array
      */
-    public function toArray(): array {
+    public function toArray($arData = null): array {
+        if (is_null($arData)) {
+            $arData = $this->_data;
+        }
         $arArray = array();
-        foreach ($this->_data as $strKey => $value) {
+        foreach ($arData as $strKey => $value) {
             if (strpos($strKey, '~') === 0) {
                 continue;
             }
@@ -268,7 +272,7 @@ abstract class Entity {
 
     /**
      * 
-     * @return \Bitrix\Main\Result
+     * @return \Bitrix\Main\Result|null
      */
     public function getDBResult(): ?\Bitrix\Main\Result {
         return $this->_obDBResult;
