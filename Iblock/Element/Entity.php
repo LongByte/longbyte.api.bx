@@ -44,6 +44,12 @@ abstract class Entity extends \Api\Core\Base\Entity {
     protected static $arProps = array();
 
     /**
+     *
+     * @var \CIBlockElement
+     */
+    protected $_CIBlockElement = null;
+
+    /**
      * 
      * @return \Api\Core\Main\File\Entity
      */
@@ -160,6 +166,17 @@ abstract class Entity extends \Api\Core\Base\Entity {
             if (!is_null($this->_primary)) {
                 $_arData = static::getModel()::getOneAsArray(array('ID' => $this->_primary));
                 if ($_arData) {
+                    if (is_array($_arData['PROPERTIES'])) {
+                        foreach ($_arData['PROPERTIES'] as $arProperty) {
+                            if (!in_array($arProperty['CODE'], $this->getProps())) {
+                                continue;
+                            }
+                            $obProperty = new \Api\Core\Iblock\Property\Entity($arProperty['ID'], $arProperty);
+                            $this->getPropertyCollection()->addItem($obProperty);
+                        }
+                    }
+                    unset($_arData['PROPERTIES']);
+
                     $this->_data = $_arData;
                     $this->_exists = true;
                 }
@@ -247,6 +264,9 @@ abstract class Entity extends \Api\Core\Base\Entity {
                 $this->_data[$strField] = $arguments[0];
                 return $this;
             } elseif ($this->getPropertyCollection()->getByKey($strField)) {
+                if ($this->checkChanges($this->getPropertyCollection()->getByKey($strField)->getValue(), $arguments[0])) {
+                    $this->_changed = true;
+                }
                 $this->getPropertyCollection()->getByKey($strField)->setValue($arguments[0]);
             } else {
                 throw new \Exception("Call to undefined method {$name}");
@@ -270,21 +290,24 @@ abstract class Entity extends \Api\Core\Base\Entity {
         $arProperties = array();
 
         foreach ($this->getProps() as $strProperty) {
-            $arProperties[$strProperty] = $this->_data[$strProperty];
+            $obProperty = $this->getPropertyCollection()->getByKey($strProperty);
+            if (!is_null($obProperty)) {
+                $arProperties[$strProperty] = $obProperty->getValue();
+            }
         }
 
         unset($arData['ID']);
         $arData['IBLOCK_ID'] = static::getModel()::getIblockId();
         $iId = $this->getId();
 
-        $el = new \CIBlockElement;
+        $this->getCIBlockElement();
 
         if (intval($iId) > 0) {
-            $el->Update($iId, $arData);
+            $this->getCIBlockElement()->Update($iId, $arData);
             $this->_data = null;
             $this->getData();
         } else {
-            $iId = $el->Add($arData);
+            $iId = $this->getCIBlockElement()->Add($arData);
             $this->setId($iId);
             $this->_primary = $iId;
         }
@@ -325,6 +348,17 @@ abstract class Entity extends \Api\Core\Base\Entity {
         }
 
         return $this;
+    }
+
+    /**
+     * 
+     * @return \CIBlockElement
+     */
+    public function getCIBlockElement(): \CIBlockElement {
+        if (is_null($this->_CIBlockElement)) {
+            $this->_CIBlockElement = new \CIBlockElement();
+        }
+        return $this->_CIBlockElement;
     }
 
 }

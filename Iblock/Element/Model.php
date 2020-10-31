@@ -37,26 +37,29 @@ abstract class Model extends \Api\Core\Base\Model {
      */
     public static function getOne(array $arFilter = array()) {
 
-        Loader::includeModule('iblock');
-
-        $arFilter['IBLOCK_ID'] = static::getIblockId();
-        $arSelect = static::getEntity()::getFields();
-        $arSelect[] = 'IBLOCK_ID';
-
-        $rsElement = \CIBlockElement::GetList(
-                array('SORT' => 'ASC', 'NAME' => 'ASC', 'ID' => 'ASC'),
-                $arFilter,
-                false,
-                array('nTopCount' => 1),
-                $arSelect
-        );
-
-        $obElement = $rsElement->GetNextElement(false, true);
-
-        if ($obElement) {
+        if ($obElement = static::_getElementObject($arFilter)) {
 
             $obEntity = static::_getEntityFromElementObject($obElement);
             return $obEntity;
+        }
+
+        return null;
+    }
+
+    /**
+     * 
+     * @param array $arFilter
+     * @return array|null
+     */
+    public static function getOneAsArray(array $arFilter = array(), array $arParams = array()): ?array {
+
+        if ($obElement = static::_getElementObject($arFilter, $arParams)) {
+
+            $arElement = $obElement->GetFields();
+            $arElement['PROPERTIES'] = $obElement->GetProperties();
+            $arElement = static::_getFromTilda($arElement);
+
+            return $arElement;
         }
 
         return null;
@@ -124,6 +127,32 @@ abstract class Model extends \Api\Core\Base\Model {
         }
 
         return $obCollection;
+    }
+
+    /**
+     * 
+     * @param array $arFilter
+     * @param array $arParams
+     * @return \_CIBElement|array|false
+     */
+    protected static function _getElementObject(array $arFilter = array(), array $arParams = array()) {
+        Loader::includeModule('iblock');
+
+        $arFilter['IBLOCK_ID'] = static::getIblockId();
+        $arSelect = static::getEntity()::getFields();
+        $arSelect[] = 'IBLOCK_ID';
+
+        $rsElement = \CIBlockElement::GetList(
+                array('SORT' => 'ASC', 'NAME' => 'ASC', 'ID' => 'ASC'),
+                $arFilter,
+                false,
+                array('nTopCount' => 1),
+                $arSelect
+        );
+
+        $obElement = $rsElement->GetNextElement(false, true);
+
+        return $obElement;
     }
 
     /**

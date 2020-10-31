@@ -236,7 +236,7 @@ abstract class Entity {
             }
             $strLowerKey = self::toLower($strKey);
             if (is_array($value)) {
-                $arArray[$strLowerKey] = $this->toArray($value);
+                $arArray[$strLowerKey] = self::toArray($value);
             } else {
                 $arArray[$strLowerKey] = $value;
             }
