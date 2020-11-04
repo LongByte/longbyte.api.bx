@@ -47,7 +47,7 @@ use \Bitrix\Main\Application;
  * @method $this setExternalId(string $strExternalId)
  * @method bool hasExternalId()
  */
-class Entity extends \Api\Core\Base\Entity {
+class Entity extends \Api\Core\Base\Table\Entity {
 
     protected static $_sizeUnits = array('Б', 'КБ', 'МБ', 'ГБ', 'ТБ');
 
@@ -68,14 +68,6 @@ class Entity extends \Api\Core\Base\Entity {
      */
     public static function getModel(): string {
         return Model::class;
-    }
-
-    /**
-     * 
-     * @return array
-     */
-    public function getFields(): array {
-        return array_keys(static::getModel()::getTable()::getMap());
     }
 
     /**
