@@ -57,7 +57,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
         $iFile = 0;
         if (is_null($this->_obPreviewPicture)) {
             if ($this->hasPreviewPicture()) {
-                $iFile = $this->getPreviewPicture();
+                $iFile = (int) $this->getPreviewPicture();
             }
             $this->_obPreviewPicture = new \Api\Core\Main\File\Entity($iFile);
         }

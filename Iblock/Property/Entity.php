@@ -100,7 +100,7 @@ namespace Api\Core\Iblock\Property;
  * @method $this setDescription(mixed $mixedDescription)
  * @method bool hasDescription()
  */
-class Entity extends \Api\Core\Base\Table\Entity {
+class Entity extends \Api\Core\Base\Entity {
 
     /**
      * 
@@ -123,7 +123,7 @@ class Entity extends \Api\Core\Base\Table\Entity {
      * @return array
      */
     public function getFields(): array {
-        $arFields = parent::getFields();
+        $arFields = array_keys(static::getModel()::getTable()::getScalarFields());
         $arFields[] = 'VALUE';
         $arFields[] = 'VALUE_XML_ID';
         $arFields[] = 'VALUE_ID';

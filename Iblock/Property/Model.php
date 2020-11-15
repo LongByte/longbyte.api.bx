@@ -12,7 +12,7 @@ class Model extends \Api\Core\Base\Model {
      * @return string
      */
     public static function getTable(): string {
-        return \Bitrix\Iblock\PropertyTable::class;
+        return Table::class;
     }
 
     /**
