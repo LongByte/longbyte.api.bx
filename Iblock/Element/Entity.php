@@ -109,6 +109,16 @@ abstract class Entity extends \Api\Core\Base\Entity {
 
     /**
      * 
+     * @param \Api\Core\Iblock\Property\Collection $obPropertyCollection
+     * @return $this
+     */
+    private function setPropertyCollection(\Api\Core\Iblock\Property\Collection $obPropertyCollection): self {
+        $this->_obPropertyCollection = $obPropertyCollection;
+        return $this;
+    }
+
+    /**
+     * 
      * @return array
      */
     public function getProps(): array {
@@ -162,7 +172,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
      */
     public function getData(): ?array {
         if (is_null($this->_data)) {
-            $this->_data = array_fill_keys($this->getAllFields(), '');
+            $this->_data = array_fill_keys($this->getFields(), '');
             if (!is_null($this->_primary)) {
                 $_arData = static::getModel()::getOneAsArray(array('ID' => $this->_primary));
                 if ($_arData) {
@@ -180,6 +190,19 @@ abstract class Entity extends \Api\Core\Base\Entity {
                     $this->_data = $_arData;
                     $this->_exists = true;
                 }
+            } else {
+                $this->setPropertyCollection(
+                    \Api\Core\Iblock\Property\Model::getAll(array(
+                        '=CODE' => $this->getProps(),
+                        'IBLOCK_ID' => $this->getModel()::getIblockId()
+                        ),
+                        0,
+                        0,
+                        array(
+                            'select' => \Api\Core\Iblock\Property\Entity::getTableFields()
+                        )
+                    )
+                );
             }
         }
         return $this->_data;
@@ -268,6 +291,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
                     $this->_changed = true;
                 }
                 $this->getPropertyCollection()->getByKey($strField)->setValue($arguments[0]);
+                return $this;
             } else {
                 throw new \Exception("Call to undefined method {$name}");
             }

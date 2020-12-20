@@ -122,8 +122,16 @@ class Entity extends \Api\Core\Base\Entity {
      * 
      * @return array
      */
+    public static function getTableFields(): array {
+        return array_keys(static::getModel()::getTable()::getScalarFields());
+    }
+
+    /**
+     * 
+     * @return array
+     */
     public function getFields(): array {
-        $arFields = array_keys(static::getModel()::getTable()::getScalarFields());
+        $arFields = static::getTableFields();
         $arFields[] = 'VALUE';
         $arFields[] = 'VALUE_XML_ID';
         $arFields[] = 'VALUE_ID';
