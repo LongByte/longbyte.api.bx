@@ -133,12 +133,17 @@ abstract class Entity {
         if ((strpos($name, "get") === 0)) {
 
             $strKey = substr_replace($name, "", 0, 3);
-            preg_match_all('/[A-Z][^A-Z]*?/Us', $strKey, $res, PREG_SET_ORDER);
-            $arField = array();
-            foreach ($res as $arRes) {
-                $arField[] = $arRes[0];
+            if (strlen($strKey) > 0 && count($arguments) == 0) {
+                preg_match_all('/[A-Z][^A-Z]*?/Us', $strKey, $res, PREG_SET_ORDER);
+                $arField = array();
+                foreach ($res as $arRes) {
+                    $arField[] = $arRes[0];
+                }
+                $strField = self::toUpper(implode('_', $arField));
+            } else {
+                $strField = $arguments[0];
+                $value = $arguments[1];
             }
-            $strField = self::toUpper(implode('_', $arField));
             $arData = $this->_data;
             if (array_key_exists($strField, $arData)) {
                 return $arData[$strField];
@@ -147,12 +152,17 @@ abstract class Entity {
             }
         } elseif ((strpos($name, "has") === 0)) {
             $strKey = substr_replace($name, "", 0, 3);
-            preg_match_all('/[A-Z][^A-Z]*?/Us', $strKey, $res, PREG_SET_ORDER);
-            $arField = array();
-            foreach ($res as $arRes) {
-                $arField[] = $arRes[0];
+            if (strlen($strKey) > 0 && count($arguments) == 0) {
+                preg_match_all('/[A-Z][^A-Z]*?/Us', $strKey, $res, PREG_SET_ORDER);
+                $arField = array();
+                foreach ($res as $arRes) {
+                    $arField[] = $arRes[0];
+                }
+                $strField = self::toUpper(implode('_', $arField));
+            } else {
+                $strField = $arguments[0];
+                $value = $arguments[1];
             }
-            $strField = self::toUpper(implode('_', $arField));
             $arData = $this->_data;
             if (array_key_exists($strField, $arData)) {
                 return true;
@@ -161,18 +171,24 @@ abstract class Entity {
             }
         } elseif ((strpos($name, "set") === 0)) {
             $strKey = substr_replace($name, "", 0, 3);
-            preg_match_all('/[A-Z][^A-Z]*?/Us', $strKey, $res, PREG_SET_ORDER);
-            $arField = array();
-            foreach ($res as $arRes) {
-                $arField[] = $arRes[0];
+            if (strlen($strKey) > 0 && count($arguments) == 1) {
+                preg_match_all('/[A-Z][^A-Z]*?/Us', $strKey, $res, PREG_SET_ORDER);
+                $arField = array();
+                foreach ($res as $arRes) {
+                    $arField[] = $arRes[0];
+                }
+                $strField = self::toUpper(implode('_', $arField));
+                $value = $arguments[0];
+            } else {
+                $strField = $arguments[0];
+                $value = $arguments[1];
             }
-            $strField = self::toUpper(implode('_', $arField));
             $arData = $this->_data;
             if (array_key_exists($strField, $arData)) {
-                if ($this->checkChanges($this->_data[$strField], $arguments[0])) {
+                if ($this->checkChanges($this->_data[$strField], $value)) {
                     $this->_changed = true;
                 }
-                $this->_data[$strField] = $arguments[0];
+                $this->_data[$strField] = $value;
                 return $this;
             } else {
                 throw new \Exception("Call to undefined method {$name}");
