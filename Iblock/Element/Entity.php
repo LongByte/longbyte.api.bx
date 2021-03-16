@@ -79,7 +79,11 @@ abstract class Entity extends \Api\Core\Base\Entity {
         return $this->_obDetailPicture;
     }
 
-    public function getTags() {
+    /**
+     * 
+     * @return \Api\Core\Base\Collection
+     */
+    public function getTags(): \Api\Core\Base\Collection {
         if (is_null($this->_obTagCollection)) {
             $this->_obTagCollection = new \Api\Core\Base\Collection();
             $strTags = parent::getTags();
@@ -316,7 +320,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
         foreach ($this->getProps() as $strProperty) {
             $obProperty = $this->getPropertyCollection()->getByKey($strProperty);
             if (!is_null($obProperty)) {
-                $arProperties[$strProperty] = $obProperty->getValue();
+                $arProperties[$strProperty] = $obProperty->toSaveFormat();
             }
         }
 

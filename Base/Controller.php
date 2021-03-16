@@ -48,6 +48,7 @@ class Controller {
                 echo $obController->$strMethod();
             }
         }
+        \CMain::FinalActions();
     }
 
     /**
@@ -64,7 +65,7 @@ class Controller {
     protected function getRequest(): \Bitrix\Main\HttpRequest {
         return $this->obRequest;
     }
-    
+
     /**
      * 
      * @return string

@@ -103,6 +103,18 @@ namespace Api\Core\Iblock\Property;
 class Entity extends \Api\Core\Base\Entity {
 
     /**
+     *
+     * @var \Api\Core\Iblock\Property\Value\Entity
+     */
+    protected $_obValueObject = null;
+
+    /**
+     *
+     * @var \Api\Core\Iblock\Property\Value\Collection
+     */
+    protected $_obValuesCollection = null;
+
+    /**
      * 
      * @return string
      */
@@ -145,14 +157,16 @@ class Entity extends \Api\Core\Base\Entity {
      */
     public function getValueObject(): ?\Api\Core\Iblock\Property\Value\Entity {
         if ($this->getMultiple() == 'N') {
-            return new \Api\Core\Iblock\Property\Value\Entity(array(
-                'VALUE' => $this->getValue(),
-                'VALUE_XML_ID' => $this->getValueXmlId(),
-                'VALUE_ID' => $this->getValueId(),
-                'DESCRIPTION' => $this->getDescription(),
-            ));
+            if (is_null($this->_obValueObject)) {
+                $this->_obValueObject = new \Api\Core\Iblock\Property\Value\Entity(array(
+                    'VALUE' => $this->getValue(),
+                    'VALUE_XML_ID' => $this->getValueXmlId(),
+                    'VALUE_ID' => $this->getValueId(),
+                    'DESCRIPTION' => $this->getDescription(),
+                ));
+            }
         }
-        return null;
+        return $this->_obValueObject;
     }
 
     /**
@@ -161,22 +175,22 @@ class Entity extends \Api\Core\Base\Entity {
      */
     public function getValuesCollection(): ?\Api\Core\Iblock\Property\Value\Collection {
         if ($this->getMultiple() == 'Y') {
+            if (is_null($this->_obValuesCollection)) {
+                $obCollection = new \Api\Core\Iblock\Property\Value\Collection();
+                foreach ($this->getValue() as $keyValue => $mixedValue) {
+                    $obValue = new \Api\Core\Iblock\Property\Value\Entity(array(
+                        'VALUE' => $mixedValue,
+                        'VALUE_XML_ID' => $this->getValueXmlId()[$keyValue],
+                        'VALUE_ID' => $this->getValueId()[$keyValue],
+                        'DESCRIPTION' => $this->getDescription()[$keyValue],
+                    ));
 
-            $obCollection = new \Api\Core\Iblock\Property\Value\Collection();
-            foreach ($this->getValue() as $keyValue => $mixedValue) {
-                $obValue = new \Api\Core\Iblock\Property\Value\Entity(array(
-                    'VALUE' => $mixedValue,
-                    'VALUE_XML_ID' => $this->getValueXmlId()[$keyValue],
-                    'VALUE_ID' => $this->getValueId()[$keyValue],
-                    'DESCRIPTION' => $this->getDescription()[$keyValue],
-                ));
-
-                $obCollection->addItem($obValue);
+                    $obCollection->addItem($obValue);
+                }
+                $this->_obValuesCollection = $obCollection;
             }
-
-            return $obCollection;
         }
-        return null;
+        return $this->_obValuesCollection;
     }
 
     /**
@@ -201,6 +215,40 @@ class Entity extends \Api\Core\Base\Entity {
      */
     public function delete() {
         return null;
+    }
+
+    /**
+     * 
+     * @return array|string
+     */
+    public function toSaveFormat() {
+        $result = '';
+        if ($this->getMultiple() == 'Y') {
+            $result = array();
+            /** @var \Api\Core\Iblock\Property\Value\Entity $obValue */
+            foreach ($this->getValuesCollection() as $obValue) {
+                if ($this->getWithDescription() == 'Y') {
+                    $result[] = array(
+                        'VALUE' => $obValue->getValue(),
+                        'DESCRIPTION' => $obValue->getDescription(),
+                    );
+                } else {
+                    $obValue = $this->getValueObject();
+                    $result[] = $obValue->getValue();
+                }
+            }
+        } else {
+            $obValue = $this->getValueObject();
+            if ($this->getWithDescription() == 'Y') {
+                $result = array(
+                    'VALUE' => $obValue->getValue(),
+                    'DESCRIPTION' => $obValue->getDescription(),
+                );
+            } else {
+                $result = $obValue->getValue();
+            }
+        }
+        return $result;
     }
 
 }

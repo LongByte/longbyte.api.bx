@@ -19,8 +19,8 @@ abstract class Entity extends \Api\Core\Base\Entity {
      * @param array $data
      */
     public function __construct(array $data = array()) {
+        $this->_data = array_fill_keys($this->getFields(), '');
         if ($data) {
-            $this->_data = array_fill_keys($this->getFields(), '');
             foreach ($data as $strField => $value) {
                 if (array_key_exists($strField, $this->_data)) {
                     $this->_data[$strField] = $value;

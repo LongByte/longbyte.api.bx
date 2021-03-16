@@ -187,6 +187,16 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
     }
 
     /**
+     * 
+     * @return $this
+     */
+    public function clear() {
+        $this->_collection = array();
+        $this->_keys = array();
+        return $this;
+    }
+
+    /**
      *
      * @return array
      */
