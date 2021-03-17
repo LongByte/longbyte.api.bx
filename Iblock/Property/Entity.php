@@ -153,12 +153,40 @@ class Entity extends \Api\Core\Base\Entity {
 
     /**
      * 
+     * @return bool
+     */
+    public function isMultiple(): bool {
+        return $this->getMultiple() == 'Y';
+    }
+
+    /**
+     * 
+     * @return bool
+     */
+    public function isWithDescription(): bool {
+        return $this->getWithDescription() == 'Y';
+    }
+
+    /**
+     * 
+     * @return bool
+     */
+    public function isFileProperty(): bool {
+        return $this->getPropertyType() == \Bitrix\Iblock\PropertyTable::TYPE_FILE;
+    }
+
+    /**
+     * 
      * @return \Api\Core\Iblock\Property\Value\Entity|null
      */
     public function getValueObject(): ?\Api\Core\Iblock\Property\Value\Entity {
-        if ($this->getMultiple() == 'N') {
+        if (!$this->isMultiple()) {
             if (is_null($this->_obValueObject)) {
-                $this->_obValueObject = new \Api\Core\Iblock\Property\Value\Entity(array(
+                $entityClass = '\Api\Core\Iblock\Property\Value\Entity';
+                if ($this->isFileProperty()) {
+                    $entityClass = '\Api\Core\Iblock\Property\Value\Entity\File';
+                }
+                $this->_obValueObject = new $entityClass(array(
                     'VALUE' => $this->getValue(),
                     'VALUE_XML_ID' => $this->getValueXmlId(),
                     'VALUE_ID' => $this->getValueId(),
@@ -174,14 +202,18 @@ class Entity extends \Api\Core\Base\Entity {
      * @return \Api\Core\Iblock\Property\Value\Collection|null
      */
     public function getValuesCollection(): ?\Api\Core\Iblock\Property\Value\Collection {
-        if ($this->getMultiple() == 'Y') {
+        if ($this->isMultiple()) {
             if (is_null($this->_obValuesCollection)) {
+                $entityClass = '\Api\Core\Iblock\Property\Value\Entity';
+                if ($this->getPropertyType() == \Bitrix\Iblock\PropertyTable::TYPE_FILE) {
+                    $entityClass = '\Api\Core\Iblock\Property\Value\Entity\File';
+                }
                 $obCollection = new \Api\Core\Iblock\Property\Value\Collection();
                 foreach ($this->getValue() as $keyValue => $mixedValue) {
-                    $obValue = new \Api\Core\Iblock\Property\Value\Entity(array(
+                    $obValue = new $entityClass(array(
                         'VALUE' => $mixedValue,
                         'VALUE_XML_ID' => $this->getValueXmlId()[$keyValue],
-                        'VALUE_ID' => $this->getValueId()[$keyValue],
+                        'VALUE_ID' => $this->getPropertyValueId()[$keyValue],
                         'DESCRIPTION' => $this->getDescription()[$keyValue],
                     ));
 
@@ -223,23 +255,44 @@ class Entity extends \Api\Core\Base\Entity {
      */
     public function toSaveFormat() {
         $result = '';
-        if ($this->getMultiple() == 'Y') {
+        if ($this->isMultiple()) {
             $result = array();
             /** @var \Api\Core\Iblock\Property\Value\Entity $obValue */
             foreach ($this->getValuesCollection() as $obValue) {
-                if ($this->getWithDescription() == 'Y') {
-                    $result[] = array(
-                        'VALUE' => $obValue->getValue(),
-                        'DESCRIPTION' => $obValue->getDescription(),
-                    );
+                if ($this->isWithDescription()) {
+                    if ($this->isFileProperty()) {
+                        $arSaveValue = $obValue->getSaveValue();
+                        if (is_null($arSaveValue)) {
+                            continue;
+                        }
+                        $resultIndex = $obValue->getValueId() ?: $this->_getNewIndex($result);
+                        $result[$resultIndex] = array(
+                            'VALUE' => $obValue->getSaveValue(),
+                            'DESCRIPTION' => $obValue->getDescription(),
+                        );
+                    } else {
+                        $result[] = array(
+                            'VALUE' => $obValue->getValue(),
+                            'DESCRIPTION' => $obValue->getDescription(),
+                        );
+                    }
                 } else {
                     $obValue = $this->getValueObject();
-                    $result[] = $obValue->getValue();
+                    if ($this->isFileProperty()) {
+                        $arSaveValue = $obValue->getSaveValue();
+                        if (is_null($arSaveValue)) {
+                            continue;
+                        }
+                        $resultIndex = $obValue->getValueId() ?: $this->_getNewIndex($result);
+                        $result[$resultIndex] = $obValue->getSaveValue();
+                    } else {
+                        $result[] = $obValue->getValue();
+                    }
                 }
             }
         } else {
             $obValue = $this->getValueObject();
-            if ($this->getWithDescription() == 'Y') {
+            if ($this->isWithDescription()) {
                 $result = array(
                     'VALUE' => $obValue->getValue(),
                     'DESCRIPTION' => $obValue->getDescription(),
@@ -249,6 +302,16 @@ class Entity extends \Api\Core\Base\Entity {
             }
         }
         return $result;
+    }
+
+    private function _getNewIndex(array $arResult): string {
+        $iNewIndex = 0;
+        foreach ($arResult as $key => $value) {
+            if ($key == 'n' . $iNewIndex) {
+                $iNewIndex++;
+            }
+        }
+        return 'n' . $iNewIndex;
     }
 
 }
