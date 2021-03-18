@@ -248,7 +248,7 @@ abstract class Entity extends \Api\Core\Base\Entity {
             } elseif ($obProperty = $this->getPropertyCollection()->getByKey($strField)) {
                 /** @var \Api\Core\Iblock\Property\Entity $obProperty */
                 if ($arguments[0] == true) {
-                    if ($obProperty->getMultiple() == 'Y') {
+                    if ($obProperty->isMultiple()) {
                         return $obProperty->getValuesCollection();
                     } else {
                         return $obProperty->getValueObject();

@@ -261,10 +261,7 @@ class Entity extends \Api\Core\Base\Entity {
             foreach ($this->getValuesCollection() as $obValue) {
                 if ($this->isWithDescription()) {
                     if ($this->isFileProperty()) {
-                        $arSaveValue = $obValue->getSaveValue();
-                        if (is_null($arSaveValue)) {
-                            continue;
-                        }
+                        /** @var \Api\Core\Iblock\Property\Value\Entity\File $obValue */
                         $resultIndex = $obValue->getValueId() ?: $this->_getNewIndex($result);
                         $result[$resultIndex] = array(
                             'VALUE' => $obValue->getSaveValue(),
@@ -279,10 +276,6 @@ class Entity extends \Api\Core\Base\Entity {
                 } else {
                     $obValue = $this->getValueObject();
                     if ($this->isFileProperty()) {
-                        $arSaveValue = $obValue->getSaveValue();
-                        if (is_null($arSaveValue)) {
-                            continue;
-                        }
                         $resultIndex = $obValue->getValueId() ?: $this->_getNewIndex($result);
                         $result[$resultIndex] = $obValue->getSaveValue();
                     } else {

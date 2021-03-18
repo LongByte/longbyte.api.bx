@@ -21,6 +21,30 @@ class File extends \Api\Core\Iblock\Property\Value\Entity {
 
     /**
      * 
+     * @param array $data
+     */
+    public function __construct(array $data = array()) {
+        parent::__construct($data);
+        if (is_numeric($data['VALUE'])) {
+            $this->getFile();
+        }
+    }
+
+    /**
+     * 
+     * @param mixed $value
+     * @return $this
+     */
+    public function setValue($value) {
+        parent::setValue($value);
+        if (is_numeric($value)) {
+            $this->getFile();
+        }
+        return $this;
+    }
+
+    /**
+     * 
      * @param bool $bMarkToDelele
      * @return $this
      */
@@ -52,15 +76,18 @@ class File extends \Api\Core\Iblock\Property\Value\Entity {
 
     /**
      * 
-     * @return mixed
+     * @return array|int
      */
     public function getSaveValue() {
         if ($this->bMarkToDelele) {
+            /* Удаление файла */
             return array('del' => 'Y');
         } elseif (!$this->getValueId()) {
+            /* Новый файл */
             return parent::getValue();
         } else {
-            return null;
+            /* Оставить текущий, как есть */
+            return (int) parent::getValue();
         }
     }
 
