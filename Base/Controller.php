@@ -7,7 +7,8 @@ use Bitrix\Main\Context;
 /**
  * Class \Api\Core\Base\Controller
  */
-class Controller {
+class Controller
+{
 
     const RESPONSE_TYPE_JSON = 0;
     const RESPONSE_TYPE_RAW = 1;
@@ -26,14 +27,21 @@ class Controller {
 
     /**
      *
-     * @var type 
+     * @var type
      */
     protected $response = null;
 
     /**
-     * 
+     *
+     * @var string|null
      */
-    public static function callController() {
+    protected $rawPost = null;
+
+    /**
+     *
+     */
+    public static function callController()
+    {
         $obRequest = Context::getCurrent()->getRequest();
 
         $strModule = $obRequest->get('module');
@@ -52,33 +60,40 @@ class Controller {
     }
 
     /**
-     * 
+     *
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->obRequest = Context::getCurrent()->getRequest();
     }
 
     /**
-     * 
+     *
      * @return \Bitrix\Main\HttpRequest
      */
-    protected function getRequest(): \Bitrix\Main\HttpRequest {
+    protected function getRequest(): \Bitrix\Main\HttpRequest
+    {
         return $this->obRequest;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    protected function getPostData(): string {
-        return $this->getRequest()->getInput();
+    protected function getPostData(): string
+    {
+        if (is_null($this->rawPost)) {
+            $this->rawPost = $this->getRequest()->getInput();
+        }
+        return $this->rawPost;
     }
 
     /**
-     * 
+     *
      * @return \Api\Core\Base\Controller\Response
      */
-    protected function getResponse(): \Api\Core\Base\Controller\Response {
+    protected function getResponse(): \Api\Core\Base\Controller\Response
+    {
         if (is_null($this->response)) {
             $this->response = new \Api\Core\Base\Controller\Response();
         }
@@ -86,81 +101,102 @@ class Controller {
     }
 
     /**
-     * 
+     *
+     * @param mixed $rawPost
+     * @return $this
+     */
+    public function setPostData($rawPost): self
+    {
+        $this->rawPost = $rawPost;
+        return $this;
+    }
+
+    /**
+     *
      * @param int $responseType
      * @return $this
      */
-    protected function setResponseType(int $responseType) {
+    protected function setResponseType(int $responseType)
+    {
         $this->responseType = $responseType;
         return $this;
     }
 
     /**
-     * 
+     *
      */
-    protected function get() {
-        
+    protected function get()
+    {
+
     }
 
     /**
-     * 
+     *
      * @return mixed
      */
-    private function getAction() {
+    private function getAction()
+    {
         $this->get();
         return $this->exitAction();
     }
 
     /**
-     * 
+     *
      */
-    protected function post() {
-        
+    protected function post()
+    {
+
     }
 
     /**
-     * 
+     *
      * @return mixed
      */
-    private function postAction() {
+    private function postAction()
+    {
         $this->post();
         return $this->exitAction();
     }
 
-    protected function put() {
-        
+    protected function put()
+    {
+
     }
 
     /**
-     * 
+     *
      * @return mixed
      */
-    private function putAction() {
+    private function putAction()
+    {
         $this->put();
         return $this->exitAction();
     }
 
     /**
-     * 
+     *
      */
-    protected function delete() {
-        
+    protected function delete()
+    {
+
     }
 
     /**
-     * 
+     *
      * @return mixed
      */
-    private function deleteAction() {
+    private function deleteAction()
+    {
         $this->delete();
         return $this->exitAction();
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    protected function exitAction(): string {
+    protected function exitAction(): string
+    {
         if (is_null($this->response)) {
             return '';
         }
