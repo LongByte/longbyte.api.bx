@@ -8,7 +8,8 @@ use Bitrix\Main\ArgumentException;
  * Class \Api\Core\Utils\ArrayHelper
  *
  */
-class ArrayHelper {
+class ArrayHelper
+{
 
     /**
      * Converts an object or an array of objects into an array.
@@ -19,7 +20,8 @@ class ArrayHelper {
      *
      * @return array
      */
-    public static function toArray($object, $properties = [], $recursive = true) {
+    public static function toArray($object, $properties = [], $recursive = true)
+    {
         if (is_array($object)) {
             if ($recursive) {
                 foreach ($object as $key => $value) {
@@ -65,7 +67,8 @@ class ArrayHelper {
      *
      * @return array|mixed
      */
-    public static function merge($a, $b) {
+    public static function merge($a, $b)
+    {
         $args = func_get_args();
         $res = array_shift($args);
         while (!empty($args)) {
@@ -95,7 +98,8 @@ class ArrayHelper {
      *
      * @return mixed|null
      */
-    public static function getValue($array, $key, $default = null) {
+    public static function getValue($array, $key, $default = null)
+    {
         if ($key instanceof \Closure) {
             return $key($array, $default);
         }
@@ -134,7 +138,8 @@ class ArrayHelper {
      * @param $path
      * @param $value
      */
-    public static function setValue(&$array, $path, $value) {
+    public static function setValue(&$array, $path, $value)
+    {
         if ($path === null) {
             $array = $value;
 
@@ -165,7 +170,8 @@ class ArrayHelper {
      *
      * @return mixed|null
      */
-    public static function remove(&$array, $key, $default = null) {
+    public static function remove(&$array, $key, $default = null)
+    {
         if (is_array($array) && (isset($array[$key]) || array_key_exists($key, $array))) {
             $value = $array[$key];
             unset($array[$key]);
@@ -183,7 +189,8 @@ class ArrayHelper {
      *
      * @return array
      */
-    public static function removeValue(&$array, $value) {
+    public static function removeValue(&$array, $value)
+    {
         $result = [];
         if (is_array($array)) {
             foreach ($array as $key => $val) {
@@ -205,7 +212,8 @@ class ArrayHelper {
      *
      * @return array
      */
-    public static function index($array, $key, $groups = []) {
+    public static function index($array, $key, $groups = [])
+    {
         $result = [];
         $groups = (array) $groups;
 
@@ -247,7 +255,8 @@ class ArrayHelper {
      *
      * @return array
      */
-    public static function getColumn($array, $name, $keepKeys = true) {
+    public static function getColumn($array, $name, $keepKeys = true)
+    {
         $result = [];
         if ($keepKeys) {
             foreach ($array as $k => $element) {
@@ -271,7 +280,8 @@ class ArrayHelper {
      *
      * @return array
      */
-    public static function map($array, $from, $to, $group = null) {
+    public static function map($array, $from, $to, $group = null)
+    {
         $result = [];
         foreach ($array as $element) {
             $key = static::getValue($element, $from);
@@ -294,7 +304,8 @@ class ArrayHelper {
      *
      * @return bool
      */
-    public static function keyExists($key, $array, $caseSensitive = true) {
+    public static function keyExists($key, $array, $caseSensitive = true)
+    {
         if ($caseSensitive) {
             // Function `isset` checks key faster but skips `null`, `array_key_exists` handles this case
             // https://secure.php.net/manual/en/function.array-key-exists.php#107786
@@ -319,7 +330,8 @@ class ArrayHelper {
      *
      * @throws ArgumentException
      */
-    public static function multisort(&$array, $key, $direction = SORT_ASC, $sortFlag = SORT_REGULAR) {
+    public static function multisort(&$array, $key, $direction = SORT_ASC, $sortFlag = SORT_REGULAR)
+    {
         $keys = is_array($key) ? $key : [$key];
         if (empty($keys) || empty($array)) {
             return;
@@ -361,7 +373,8 @@ class ArrayHelper {
      *
      * @return array
      */
-    public static function htmlEncode($data, $valuesOnly = true, $charset = null) {
+    public static function htmlEncode($data, $valuesOnly = true, $charset = null)
+    {
         if ($charset === null) {
             $charset = 'UTF-8';
         }
@@ -389,7 +402,8 @@ class ArrayHelper {
      *
      * @return array
      */
-    public static function htmlDecode($data, $valuesOnly = true) {
+    public static function htmlDecode($data, $valuesOnly = true)
+    {
         $d = [];
         foreach ($data as $key => $value) {
             if (!$valuesOnly && is_string($key)) {
@@ -414,7 +428,8 @@ class ArrayHelper {
      *
      * @return bool
      */
-    public static function isAssociative($array, $allStrings = true) {
+    public static function isAssociative($array, $allStrings = true)
+    {
         if (!is_array($array) || empty($array)) {
             return false;
         }
@@ -445,7 +460,8 @@ class ArrayHelper {
      *
      * @return bool
      */
-    public static function isIndexed($array, $consecutive = false) {
+    public static function isIndexed($array, $consecutive = false)
+    {
         if (!is_array($array)) {
             return false;
         }
@@ -476,7 +492,8 @@ class ArrayHelper {
      * @return bool
      * @throws ArgumentException
      */
-    public static function isIn($needle, $haystack, $strict = false) {
+    public static function isIn($needle, $haystack, $strict = false)
+    {
         if ($haystack instanceof \Traversable) {
             foreach ($haystack as $value) {
                 if ($needle == $value && (!$strict || $needle === $value)) {
@@ -498,7 +515,8 @@ class ArrayHelper {
      *
      * @return bool
      */
-    public static function isTraversable($var) {
+    public static function isTraversable($var)
+    {
         return is_array($var) || $var instanceof \Traversable;
     }
 
@@ -511,7 +529,8 @@ class ArrayHelper {
      * @return bool
      * @throws ArgumentException
      */
-    public static function isSubset($needles, $haystack, $strict = false) {
+    public static function isSubset($needles, $haystack, $strict = false)
+    {
         if (is_array($needles) || $needles instanceof \Traversable) {
             foreach ($needles as $needle) {
                 if (!static::isIn($needle, $haystack, $strict)) {
@@ -532,7 +551,8 @@ class ArrayHelper {
      *
      * @return array
      */
-    public static function filter($array, $filters) {
+    public static function filter($array, $filters)
+    {
         $result = [];
         $forbiddenVars = [];
 
@@ -582,7 +602,8 @@ class ArrayHelper {
      *
      * @return array
      */
-    public static function fillByKeys($keys, $values) {
+    public static function fillByKeys($keys, $values)
+    {
         $result = [];
         foreach ($keys as $key) {
             $result[$key] = $values[$key];

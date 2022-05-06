@@ -6,7 +6,8 @@ namespace Api\Core\Form\Validate\File;
  * Class \Api\Core\Form\Validate\File\Exist
  *
  */
-class Exist extends \Api\Core\Form\Validate {
+class Exist extends \Api\Core\Form\Validate
+{
 
     /**
      * @const string Error constants
@@ -20,16 +21,18 @@ class Exist extends \Api\Core\Form\Validate {
         self::NOT_FOUND => "File '%value%' is not readable or does not exist",
     );
 
-    public function __construct() {
-        
+    public function __construct()
+    {
+
     }
 
     /**
-     * 
+     *
      * @param type $value
      * @return boolean
      */
-    public function isValid($value) {
+    public function isValid($value)
+    {
         // Is file readable ?
         $obFile = new \Realweb\Api\Model\FileSystem\File($value['tmp_name']);
         if (!$obFile->isExist()) {

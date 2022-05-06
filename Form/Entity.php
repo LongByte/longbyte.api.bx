@@ -16,7 +16,8 @@ if (class_exists('\Bitrix\Main\Localization\Loc')) {
  * Class Entity
  * @package Api\Core\Form
  */
-class Entity {
+class Entity
+{
 
     const METHOD_DELETE = 'delete';
     const METHOD_GET = 'get';
@@ -119,14 +120,16 @@ class Entity {
     /**
      * Entity constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->init();
     }
 
     /**
      * @throws \Exception
      */
-    public function init() {
+    public function init()
+    {
         $this->setMethod($this->getFormMethod());
         $this->setName($this->getFormName());
         $methods = get_class_methods($this);
@@ -141,14 +144,16 @@ class Entity {
     /**
      *
      */
-    public function initForm() {
-        
+    public function initForm()
+    {
+
     }
 
     /**
      * @return $this
      */
-    public function clean() {
+    public function clean()
+    {
         foreach ($this->getElements() as $obElement) {
             $obElement->cleanValue();
         }
@@ -158,7 +163,8 @@ class Entity {
     /**
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->_type;
     }
 
@@ -167,7 +173,8 @@ class Entity {
      * @param string $strType
      * @return $this
      */
-    public function setType($strType) {
+    public function setType($strType)
+    {
         $this->_type = $strType;
         return $this;
     }
@@ -175,7 +182,8 @@ class Entity {
     /**
      * @return array
      */
-    public function getStructure() {
+    public function getStructure()
+    {
         $arForm = array(
             'name' => $this->getName(),
             'type' => $this->getType(),
@@ -205,14 +213,16 @@ class Entity {
     /**
      * @return string
      */
-    public function getHash() {
+    public function getHash()
+    {
         return md5(serialize($this));
     }
 
     /**
      * @return bool
      */
-    public function isSuccess() {
+    public function isSuccess()
+    {
         return $this->_isSuccess;
     }
 
@@ -220,7 +230,8 @@ class Entity {
      * @param bool $bSuccess
      * @return $this
      */
-    public function setSuccess($bSuccess = true) {
+    public function setSuccess($bSuccess = true)
+    {
         $this->_isSuccess = $bSuccess;
         return $this;
     }
@@ -228,7 +239,8 @@ class Entity {
     /**
      * @return array
      */
-    protected function _getFields() {
+    protected function _getFields()
+    {
         $arFields = array();
         foreach ($this->_elements as $obElement) {
             $strType = $obElement->getType();
@@ -254,7 +266,8 @@ class Entity {
      * @param Field|Group $obElement
      * @return array
      */
-    public function _getField($obElement) {
+    public function _getField($obElement)
+    {
         $arField = $obElement->getStructure();
         return $arField;
     }
@@ -264,7 +277,8 @@ class Entity {
      * @param Field $obElement
      * @return $this
      */
-    protected function _setSubmit(Field $obElement) {
+    protected function _setSubmit(Field $obElement)
+    {
         $this->submit = $obElement;
         return $this;
     }
@@ -273,7 +287,8 @@ class Entity {
      *
      * @return Field
      */
-    protected function _getSubmit() {
+    protected function _getSubmit()
+    {
         if (is_null($this->submit)) {
             $this->_getFields();
         }
@@ -284,7 +299,8 @@ class Entity {
      *
      * @return null|array
      */
-    protected function _getSubmitField() {
+    protected function _getSubmitField()
+    {
         $obSubmit = $this->_getSubmit();
         $arSubmit = null;
         if ($obSubmit instanceof Field) {
@@ -297,14 +313,16 @@ class Entity {
      * @param $action
      * @return Entity
      */
-    public function setAction($action) {
+    public function setAction($action)
+    {
         return $this->setAttribute('action', strval($action));
     }
 
     /**
      * @return mixed|string|null
      */
-    public function getAction() {
+    public function getAction()
+    {
         $action = $this->getAttribute('action');
         if (null === $action) {
             $action = '';
@@ -316,7 +334,8 @@ class Entity {
     /**
      * @return string
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         return strval($this->title);
     }
 
@@ -325,7 +344,8 @@ class Entity {
      * @param string $strTitle
      * @return $this
      */
-    public function setTitle($strTitle) {
+    public function setTitle($strTitle)
+    {
         $this->title = $strTitle;
 
         return $this;
@@ -337,7 +357,8 @@ class Entity {
      * @return $this
      * @throws \Exception
      */
-    public function setMethod($method) {
+    public function setMethod($method)
+    {
         $method = strtolower($method);
         if (!in_array($method, $this->_methods)) {
             throw new \Exception(sprintf('"%s" is an invalid form method', $method));
@@ -350,7 +371,8 @@ class Entity {
     /**
      * @return string
      */
-    public function getMethod() {
+    public function getMethod()
+    {
         if (null === ($method = $this->getAttribute('method'))) {
             $method = self::METHOD_POST;
             $this->setAttribute('method', $method);
@@ -362,7 +384,8 @@ class Entity {
     /**
      * @return mixed
      */
-    public function getFormMethod() {
+    public function getFormMethod()
+    {
         return $this->method;
     }
 
@@ -372,7 +395,8 @@ class Entity {
      * @return $this
      * @throws \Exception
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $name = $this->filterName($name);
         if ('' === (string) $name) {
             throw new \Exception('Invalid name provided; must contain only valid variable characters and be non-empty');
@@ -384,14 +408,16 @@ class Entity {
     /**
      * @return mixed|null
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->getAttribute('name');
     }
 
     /**
      * @return string
      */
-    public function getFormName() {
+    public function getFormName()
+    {
         return (strlen($this->name) > 0 ? $this->name : md5($this->title));
     }
 
@@ -400,7 +426,8 @@ class Entity {
      * @param bool $allowBrackets
      * @return string|string[]|null
      */
-    public function filterName($value, $allowBrackets = false) {
+    public function filterName($value, $allowBrackets = false)
+    {
         $charset = '^a-zA-Z0-9_\x7f-\xff';
         if ($allowBrackets) {
             $charset .= '\[\]';
@@ -414,7 +441,8 @@ class Entity {
      * @param mixed $value
      * @return $this
      */
-    public function setAttribute($key, $value) {
+    public function setAttribute($key, $value)
+    {
         $key = strval($key);
         $this->_attributes[$key] = $value;
         return $this;
@@ -425,7 +453,8 @@ class Entity {
      * @param null $default
      * @return mixed|null
      */
-    public function getAttribute($key, $default = null) {
+    public function getAttribute($key, $default = null)
+    {
         $key = (string) $key;
         if (isset($this->_attributes[$key])) {
             return $this->_attributes[$key];
@@ -436,7 +465,8 @@ class Entity {
     /**
      * @return array
      */
-    public function getAttributes() {
+    public function getAttributes()
+    {
         return $this->_attributes;
     }
 
@@ -445,7 +475,8 @@ class Entity {
      * @return Field|Group
      * @throws \Exception
      */
-    public function createField($strName) {
+    public function createField($strName)
+    {
         if (isset($this->_elements[$strName])) {
             return $this->_elements[$strName];
         }
@@ -460,7 +491,8 @@ class Entity {
      * @param string $strName
      * @return $this
      */
-    public function deleteField($strName) {
+    public function deleteField($strName)
+    {
         if (isset($this->_elements[$strName])) {
             unset($this->_elements[$strName]);
         }
@@ -471,7 +503,8 @@ class Entity {
      * @param $strName
      * @return Field|Group
      */
-    public function createGroup($strName) {
+    public function createGroup($strName)
+    {
         if (isset($this->_elements[$strName])) {
             return $this->_elements[$strName];
         }
@@ -486,7 +519,8 @@ class Entity {
      * @param $obField
      * @return $this
      */
-    public function addField($obField) {
+    public function addField($obField)
+    {
         $name = $obField->getName();
         $this->_elements[$name] = $obField;
 
@@ -498,7 +532,8 @@ class Entity {
      *
      * @return \Api\Core\Form\Entity\Field|\Api\Core\Form\Entity\Group
      */
-    public function getElement($name) {
+    public function getElement($name)
+    {
         $path = explode(".", $name);
         $name = array_shift($path);
         if (array_key_exists($name, $this->_elements)) {
@@ -520,7 +555,8 @@ class Entity {
      * @return bool
      * @throws \Exception
      */
-    public function isValid(array $arData) {
+    public function isValid(array $arData)
+    {
         $this->setValues($arData);
         $valid = true;
         foreach ($this->_elements as $key => $obElement) {
@@ -552,7 +588,8 @@ class Entity {
      * @param $strKey
      * @return string
      */
-    public function getMessage($strKey) {
+    public function getMessage($strKey)
+    {
         if (class_exists('\Bitrix\Main\Localization\Loc')) {
             return \Bitrix\Main\Localization\Loc::getMessage($strKey);
         }
@@ -562,7 +599,8 @@ class Entity {
     /**
      * @param $arData
      */
-    public function setValues($arData) {
+    public function setValues($arData)
+    {
         foreach ($this->_elements as $name => &$obElement) {
             if ($obElement->isGroup()) {
                 $obElement->setValues($arData);
@@ -586,7 +624,8 @@ class Entity {
      * @param Field $obElement
      * @param $value
      */
-    private function _setValueElement(&$obElement, $value) {
+    private function _setValueElement(&$obElement, $value)
+    {
         $obElement->setValue($value);
         if ($obElement->isCheckbox()) {
             if (!empty($obElement->getValue())) {
@@ -598,7 +637,8 @@ class Entity {
     /**
      * @return array
      */
-    public function getValues() {
+    public function getValues()
+    {
         $arValues = array();
         foreach ($this->_elements as $name => $obElement) {
             if ($obElement->isGroup()) {
@@ -636,14 +676,16 @@ class Entity {
     /**
      * @return bool
      */
-    protected function _hasErrors() {
+    protected function _hasErrors()
+    {
         return !empty($this->_errors);
     }
 
     /**
      * @return array
      */
-    public function getErrors() {
+    public function getErrors()
+    {
         return $this->_errors;
     }
 
@@ -652,7 +694,8 @@ class Entity {
      * @param mixed $error
      * @return $this
      */
-    public function setError($error) {
+    public function setError($error)
+    {
         $this->_errors[] = $error;
         return $this;
     }
@@ -660,7 +703,8 @@ class Entity {
     /**
      * @return Field[]|Group[]
      */
-    public function getElements() {
+    public function getElements()
+    {
         $arElements = $this->_elements;
 
         return $arElements;
@@ -670,7 +714,8 @@ class Entity {
      *
      * @return \Bitrix\Main\HttpRequest
      */
-    protected function _getRequest() {
+    protected function _getRequest()
+    {
         if (is_null($this->request)) {
             $obContext = \Bitrix\Main\Application::getInstance()->getContext();
             $this->request = $obContext->getRequest();
@@ -682,7 +727,8 @@ class Entity {
      * Only for GET forms, see \Api\Core\Form\Filter
      * @return $this
      */
-    public function setElementValues() {
+    public function setElementValues()
+    {
         foreach ($this->getElements() as $obElement) {
             $strFieldName = $obElement->getName();
             $strValue = $this->_getRequest()->get($strFieldName, null);
@@ -710,7 +756,8 @@ class Entity {
      *
      * @return array
      */
-    public function getElementValues() {
+    public function getElementValues()
+    {
         $arValues = array();
         foreach ($this->getElements() as $obElement) {
             if ($obElement instanceof \Api\Core\Form\Entity\Field) {
@@ -727,7 +774,8 @@ class Entity {
      *
      * @return \Api\Core\Form\Entity\Field[]
      */
-    public function getNotEmptyElements() {
+    public function getNotEmptyElements()
+    {
         $arElements = array();
         foreach ($this->getElements() as $obElement) {
             if ($obElement instanceof \Api\Core\Form\Entity\Field) {
@@ -753,7 +801,8 @@ class Entity {
      *
      * @return array
      */
-    public function getNotEmptyElementsValues() {
+    public function getNotEmptyElementsValues()
+    {
         $arElements = $this->getNotEmptyElements();
         $arValues = array();
         foreach ($arElements as $obElement) {
@@ -765,7 +814,8 @@ class Entity {
     /**
      * @return mixed
      */
-    public function getText() {
+    public function getText()
+    {
         return $this->_text;
     }
 
@@ -774,7 +824,8 @@ class Entity {
      * @param string $strText
      * @return $this
      */
-    public function setText($strText) {
+    public function setText($strText)
+    {
         $this->_text = $strText;
         return $this;
     }
@@ -782,7 +833,8 @@ class Entity {
     /**
      * @return bool
      */
-    public function hasErrors() {
+    public function hasErrors()
+    {
         return $this->getErrors() ? true : false;
     }
 
@@ -790,7 +842,8 @@ class Entity {
      * @param array $arAdditionalFields
      * @throws \Bitrix\Main\ArgumentTypeException
      */
-    public function sendMail(array $arAdditionalFields = array()) {
+    public function sendMail(array $arAdditionalFields = array())
+    {
         if ($this->getMailEvent()) {
             $arEventFields = ArrayHelper::merge($this->getElementValues(), $arAdditionalFields);
             if ($this->isRecordEvent()) {
@@ -820,7 +873,8 @@ class Entity {
      * @param bool $is
      * @return $this
      */
-    public function setRecordEvent(bool $is = true) {
+    public function setRecordEvent(bool $is = true)
+    {
         $this->_record_event = $is;
 
         return $this;
@@ -829,7 +883,8 @@ class Entity {
     /**
      * @return bool
      */
-    public function isRecordEvent() {
+    public function isRecordEvent()
+    {
         return $this->_record_event;
     }
 
@@ -837,7 +892,8 @@ class Entity {
      * @param string $message
      * @return $this
      */
-    public function setSuccessMessage(string $message) {
+    public function setSuccessMessage(string $message)
+    {
         $this->_success_message = $message;
 
         return $this;
@@ -846,7 +902,8 @@ class Entity {
     /**
      * @return string
      */
-    public function getSuccessMessage() {
+    public function getSuccessMessage()
+    {
         return $this->_success_message;
     }
 
@@ -854,7 +911,8 @@ class Entity {
      * @param string $strEvent
      * @return $this
      */
-    public function setMailEvent(string $strEvent) {
+    public function setMailEvent(string $strEvent)
+    {
         $this->_mail_event = $strEvent;
 
         return $this;
@@ -863,7 +921,8 @@ class Entity {
     /**
      * @return string
      */
-    public function getMailEvent() {
+    public function getMailEvent()
+    {
         return $this->_mail_event;
     }
 
@@ -871,7 +930,8 @@ class Entity {
      * @param array $arParams
      * @return $this
      */
-    public function setCaptcha(array $arParams = array()) {
+    public function setCaptcha(array $arParams = array())
+    {
         global $APPLICATION;
 
         if (!empty($arParams)) {
@@ -889,21 +949,24 @@ class Entity {
     /**
      * @return array
      */
-    public function getCaptcha() {
+    public function getCaptcha()
+    {
         return $this->_captcha;
     }
 
     /**
      * @return bool
      */
-    public function isCaptcha() {
+    public function isCaptcha()
+    {
         return !is_null($this->_captcha) ? true : false;
     }
 
     /**
      * @return bool
      */
-    public function checkCaptcha() {
+    public function checkCaptcha()
+    {
         global $APPLICATION;
         $obRequest = $this->_getRequest();
 

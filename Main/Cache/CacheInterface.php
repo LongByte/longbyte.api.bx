@@ -2,7 +2,8 @@
 
 namespace Api\Core\Main\Cache;
 
-interface CacheInterface {
+interface CacheInterface
+{
 
     public function get($id, $path);
 

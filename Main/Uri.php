@@ -4,18 +4,14 @@ namespace Api\Core\Main;
 
 /**
  * Class \Api\Core\Main\Uri
- *
  */
-class Uri extends \Bitrix\Main\Web\Uri {
+class Uri extends \Bitrix\Main\Web\Uri
+{
 
     private $params;
 
-    /**
-     * 
-     * @global \CMain $APPLICATION
-     * @param string $url
-     */
-    public function __construct($url = '') {
+    public function __construct(string $url = '')
+    {
         if (strlen($url) == 0) {
             global $APPLICATION;
             $url = $APPLICATION->GetCurUri();
@@ -23,11 +19,8 @@ class Uri extends \Bitrix\Main\Web\Uri {
         parent::__construct($url);
     }
 
-    /**
-     * 
-     * @return array
-     */
-    public function getParams(): array {
+    public function getParams(): array
+    {
         if (is_null($this->params)) {
             $arParams = array();
             parse_str($this->query, $arParams);
@@ -36,32 +29,22 @@ class Uri extends \Bitrix\Main\Web\Uri {
         return $this->params;
     }
 
-    /**
-     * @param array $arParams
-     * @return $this
-     */
-    public function deleteParams($arParams): self {
+    public function deleteParams(array $arParams): self
+    {
         $this->params = null;
         return parent::deleteParams($arParams);
     }
 
-    /**
-     * 
-     * @param string $strKey
-     * @param string $strValue
-     * @return $this
-     */
-    public function addParam($strKey, $strValue): self {
+    public function addParam(string $strKey, string $strValue): self
+    {
         $this->getParams();
         $this->params[$strKey] = $strValue;
         $this->query = http_build_query($this->params, '', '&');
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getQueryString(): string {
+    public function getQueryString(): string
+    {
         $strQuery = $this->getQuery();
         if (strlen($strQuery) > 0) {
             return '?' . $strQuery;
@@ -70,22 +53,14 @@ class Uri extends \Bitrix\Main\Web\Uri {
         return '';
     }
 
-    /**
-     *
-     * @param int $port
-     * @return $this
-     */
-    public function setPort($port): self {
+    public function setPort(int $port): self
+    {
         $this->port = $port;
         return $this;
     }
 
-    /**
-     *
-     * @param string $scheme
-     * @return $this
-     */
-    public function setScheme($scheme): self {
+    public function setScheme(string $scheme): self
+    {
         if ($scheme == 'https') {
             $this->setPort(443);
         } else {
@@ -95,12 +70,8 @@ class Uri extends \Bitrix\Main\Web\Uri {
         return $this;
     }
 
-    /**
-     *
-     * @param bool $isHttps
-     * @return $this
-     */
-    public function setHttps(bool $isHttps = true): self {
+    public function setHttps(bool $isHttps = true): self
+    {
         if ($isHttps) {
             $this->setScheme('https');
         } else {

@@ -6,9 +6,10 @@ use Api\Core\Form\Validate;
 
 /**
  * Class \Api\Core\Form\Validate\Email
- * 
+ *
  */
-class Email extends Validate {
+class Email extends Validate
+{
 
     const INVALID = 'emailAddressInvalid';
     const INVALID_FORMAT = 'emailAddressInvalidFormat';
@@ -40,11 +41,12 @@ class Email extends Validate {
     protected $_localPart;
 
     /**
-     * 
+     *
      * @param type $value
      * @return boolean
      */
-    public function isValid($value) {
+    public function isValid($value)
+    {
         if (!is_string($value)) {
             $this->_error(self::INVALID);
             return false;
@@ -59,7 +61,7 @@ class Email extends Validate {
         $this->_setValue($value);
 
         // Split email address up and disallow '..'
-        if ((strpos($value, '..') !== false) or ( !preg_match('/^(.+)@([^@]+)$/', $value, $matches))) {
+        if ((strpos($value, '..') !== false) or (!preg_match('/^(.+)@([^@]+)$/', $value, $matches))) {
             $this->_error(self::INVALID_FORMAT);
             return false;
         }
@@ -82,10 +84,11 @@ class Email extends Validate {
     }
 
     /**
-     * 
+     *
      * @return boolean
      */
-    private function _validateLocalPart() {
+    private function _validateLocalPart()
+    {
         // First try to match the local part on the common dot-atom format
         $result = false;
 

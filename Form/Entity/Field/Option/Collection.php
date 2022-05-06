@@ -5,7 +5,8 @@ namespace Api\Core\Form\Entity\Field\Option;
 /**
  * Class \Api\Core\Form\Entity\Field\Option\Collection
  */
-class Collection extends \Api\Core\Base\Collection {
+class Collection extends \Api\Core\Base\Collection
+{
 
     /**
      *
@@ -14,11 +15,12 @@ class Collection extends \Api\Core\Base\Collection {
     protected $_keySelected = array();
 
     /**
-     * 
+     *
      * @param \Api\Core\Form\Entity\Field\Option\Entity $obOption
      * @return $this
      */
-    public function addItem($obOption) {
+    public function addItem($obOption)
+    {
         $this->_collection[] = $obOption;
         $this->_keys[] = $obOption->getValue();
         if ($obOption->isSelected()) {
@@ -28,11 +30,12 @@ class Collection extends \Api\Core\Base\Collection {
     }
 
     /**
-     * 
+     *
      * @param mixed $value
      * @return $this
      */
-    public function setOptionsValue($value) {
+    public function setOptionsValue($value)
+    {
         $this->_keySelected = array();
         /** @var \Api\Core\Form\Entity\Field\Option\Entity $obOption */
         foreach ($this->getCollection() as $keyOption => $obOption) {
@@ -45,10 +48,11 @@ class Collection extends \Api\Core\Base\Collection {
     }
 
     /**
-     * 
+     *
      * @return \Api\Core\Form\Entity\Field\Option\Collection
      */
-    public function getSelectedOptions() {
+    public function getSelectedOptions()
+    {
         $obSelectedOptions = new \Api\Core\Form\Entity\Field\Option\Collection();
         /** @var \Api\Core\Form\Entity\Field\Option\Entity $obOption */
         foreach ($this->_keySelected as $iKeySelected) {

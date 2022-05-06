@@ -5,60 +5,33 @@ namespace Api\Core\Base\Controller;
 /**
  * Class \Api\Core\Base\Controller\Response
  */
-class Response {
+class Response
+{
 
-    /**
-     *
-     * @var array
-     */
-    protected $data = array();
+    protected array $data = array();
+    protected array $errors = array();
+    protected bool $success = true;
 
-    /**
-     *
-     * @var array
-     */
-    protected $errors = array();
-
-    /**
-     *
-     * @var bool
-     */
-    protected $success = true;
-
-    /**
-     * 
-     * @param array $arData
-     * @return $this
-     */
-    public function setData(array $arData) {
+    public function setData(array $arData): self
+    {
         $this->data = $arData;
         return $this;
     }
 
-    /**
-     * 
-     * @param string $strError
-     * @return $this
-     */
-    public function addError(string $strError) {
+    public function addError(string $strError): self
+    {
         $this->errors[] = $strError;
         $this->success = false;
         return $this;
     }
 
-    /**
-     * 
-     * @return bool
-     */
-    public function hasErrors(): bool {
+    public function hasErrors(): bool
+    {
         return count($this->errors);
     }
 
-    /**
-     * 
-     * @return array
-     */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return array(
             'data' => $this->data,
             'errors' => $this->errors,

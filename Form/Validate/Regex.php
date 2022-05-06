@@ -4,7 +4,8 @@ namespace Api\Core\Form\Validate;
 
 use Api\Core\Form\Validate;
 
-class Regex extends Validate {
+class Regex extends Validate
+{
 
     const INVALID = 'regexInvalid';
     const NOT_MATCH = 'regexNotMatch';
@@ -21,10 +22,11 @@ class Regex extends Validate {
     protected $_pattern;
 
     /**
-     * 
+     *
      * @param type $pattern
      */
-    public function __construct($pattern) {
+    public function __construct($pattern)
+    {
         parent::__construct();
 
         $this->setPattern($pattern);
@@ -35,7 +37,8 @@ class Regex extends Validate {
      *
      * @return string
      */
-    public function getPattern() {
+    public function getPattern()
+    {
         return $this->_pattern;
     }
 
@@ -44,7 +47,8 @@ class Regex extends Validate {
      * @return $this
      * @throws \Exception
      */
-    public function setPattern($pattern) {
+    public function setPattern($pattern)
+    {
         $this->_pattern = (string) $pattern;
         $status = @preg_match($this->_pattern, "Test");
 
@@ -56,11 +60,12 @@ class Regex extends Validate {
     }
 
     /**
-     * 
+     *
      * @param type $value
      * @return boolean
      */
-    public function isValid($value) {
+    public function isValid($value)
+    {
         if (!is_string($value) && !is_int($value) && !is_float($value)) {
             $this->_error(self::INVALID);
             return false;

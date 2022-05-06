@@ -6,7 +6,8 @@ namespace Api\Core\Form\Validate\File;
  * Class \Api\Core\Form\Validate\File\Extension
  *
  */
-class Extension extends \Api\Core\Form\Validate\File\Exist {
+class Extension extends \Api\Core\Form\Validate\File\Exist
+{
 
     /**
      * @const string Error constants
@@ -39,7 +40,8 @@ class Extension extends \Api\Core\Form\Validate\File\Exist {
      * @param array $arOptions
      * @return void
      */
-    public function __construct(array $arOptions) {
+    public function __construct(array $arOptions)
+    {
         $this->setExtension($arOptions);
     }
 
@@ -48,7 +50,8 @@ class Extension extends \Api\Core\Form\Validate\File\Exist {
      *
      * @return array
      */
-    public function getExtension() {
+    public function getExtension()
+    {
         return $this->_extension;
     }
 
@@ -58,7 +61,8 @@ class Extension extends \Api\Core\Form\Validate\File\Exist {
      * @param array $arExtensions The extensions to validate
      * @return $this
      */
-    public function setExtension(array $arExtensions) {
+    public function setExtension(array $arExtensions)
+    {
         $this->_extension = null;
         $this->addExtension($arExtensions);
         return $this;
@@ -70,7 +74,8 @@ class Extension extends \Api\Core\Form\Validate\File\Exist {
      * @param array $arExtensions The extensions to add for validation
      * @return $this
      */
-    public function addExtension($arExtensions) {
+    public function addExtension($arExtensions)
+    {
         $arExistExtensions = $this->getExtension();
 
 
@@ -93,11 +98,12 @@ class Extension extends \Api\Core\Form\Validate\File\Exist {
     }
 
     /**
-     * 
+     *
      * @param type $value
      * @return boolean
      */
-    public function isValid($value) {
+    public function isValid($value)
+    {
         // Is file readable ?
         if (parent::isValid($value)) {
             //тут используем другое имя

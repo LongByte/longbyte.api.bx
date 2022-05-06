@@ -9,7 +9,8 @@ use Bitrix\Main\Context;
  * Class \Api\Core\Form\Validate\BitrixCaptcha
  *
  */
-class BitrixCaptcha extends Validate {
+class BitrixCaptcha extends Validate
+{
 
     const INVALID = 'invalid';
 
@@ -21,11 +22,12 @@ class BitrixCaptcha extends Validate {
     );
 
     /**
-     * 
+     *
      * @param string $captcha_word
      * @return boolean
      */
-    public function isValid($captcha_word) {
+    public function isValid($captcha_word)
+    {
 
         /** @var \CMain $APPLICATION */
         global $APPLICATION;

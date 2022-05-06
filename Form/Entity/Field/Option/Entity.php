@@ -5,7 +5,8 @@ namespace Api\Core\Form\Entity\Field\Option;
 /**
  * Class \Api\Core\Form\Entity\Field\Option\Entity
  */
-class Entity {
+class Entity
+{
 
     /**
      * @var array
@@ -14,7 +15,7 @@ class Entity {
 
     /**
      *
-     * @var type 
+     * @var type
      */
     protected $_value = null;
 
@@ -43,7 +44,8 @@ class Entity {
      * @return $this
      * @throws \Exception
      */
-    public function setAttribute($name, $value) {
+    public function setAttribute($name, $value)
+    {
         $name = strval($name);
         if ('_' == $name[0]) {
             throw new \Exception(sprintf('Invalid attribute "%s"; must not contain a leading underscore', $name));
@@ -69,7 +71,8 @@ class Entity {
      * @param null $default
      * @return mixed|null
      */
-    public function getAttribute($key, $default = null) {
+    public function getAttribute($key, $default = null)
+    {
         $key = (string) $key;
         if (array_key_exists($key, $this->_attributes)) {
             return $this->_attributes[$key];
@@ -80,87 +83,97 @@ class Entity {
     /**
      * @return array
      */
-    public function getAttributes() {
+    public function getAttributes()
+    {
         return $this->_attributes;
     }
 
     /**
-     * 
+     *
      * @param string $value
      * @return $this
      */
-    public function setValue($value) {
+    public function setValue($value)
+    {
         $this->_value = $value;
         return $this;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    public function getValue() {
+    public function getValue()
+    {
         return $this->_value;
     }
 
     /**
-     * 
+     *
      * @param string $label
      * @return $this
      */
-    public function setLabel($label) {
+    public function setLabel($label)
+    {
         $this->_label = $label;
         return $this;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    public function getLabel() {
+    public function getLabel()
+    {
         return $this->_label;
     }
 
     /**
-     * 
+     *
      * @param bool $bSelected
      * @return $this
      */
-    public function setSelected($bSelected = true) {
+    public function setSelected($bSelected = true)
+    {
         $this->_selected = (bool) $bSelected;
         return $this;
     }
 
     /**
-     * 
+     *
      * @return bool
      */
-    public function isSelected() {
+    public function isSelected()
+    {
         return $this->_selected;
     }
 
     /**
-     * 
+     *
      * @param string $ref
      * @return $this
      */
-    public function setRef($ref) {
+    public function setRef($ref)
+    {
         $this->_ref = $ref;
         return $this;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    public function getRef() {
+    public function getRef()
+    {
         return $this->_ref;
     }
 
     /**
-     * 
+     *
      * @return array
      */
-    public function toArray() {
+    public function toArray()
+    {
 
         $arData = $this->getAttributes();
         $arData['value'] = $this->getValue();

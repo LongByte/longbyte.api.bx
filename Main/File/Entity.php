@@ -6,7 +6,7 @@ use \Bitrix\Main\Application;
 
 /**
  * Class \Api\Core\Main\File\Entity
- * 
+ *
  * @method int getId()
  * @method $this setId(int $iId)
  * @method bool hasId()
@@ -47,34 +47,20 @@ use \Bitrix\Main\Application;
  * @method $this setExternalId(string $strExternalId)
  * @method bool hasExternalId()
  */
-class Entity extends \Api\Core\Base\Table\Entity {
+class Entity extends \Api\Core\Base\Table\Entity
+{
 
-    protected static $_sizeUnits = array('Б', 'КБ', 'МБ', 'ГБ', 'ТБ');
+    protected static array $_sizeUnits = array('Б', 'КБ', 'МБ', 'ГБ', 'ТБ');
+    protected ?string $_src = null;
+    protected ?\Bitrix\Main\IO\File $_obIOFile = null;
 
-    /**
-     * @var string
-     */
-    protected $_src = null;
-
-    /**
-     *
-     * @var \Bitrix\Main\IO\File
-     */
-    protected $_obIOFile = null;
-
-    /**
-     * 
-     * @return string
-     */
-    public static function getModel(): string {
+    public static function getModel(): string
+    {
         return Model::class;
     }
 
-    /**
-     * 
-     * @return string|null
-     */
-    public function getSrc(): ?string {
+    public function getSrc(): ?string
+    {
         if ($this->isExists() && is_null($this->_src)) {
             $uploadDirName = \Bitrix\Main\Config\Option::get('main', 'upload_dir', 'upload');
             $this->_src = '/' . $uploadDirName . '/' . $this->getSubdir() . '/' . $this->getFileName();
@@ -82,11 +68,8 @@ class Entity extends \Api\Core\Base\Table\Entity {
         return $this->_src;
     }
 
-    /**
-     * 
-     * @return string
-     */
-    public function getFileSizePrint(): string {
+    public function getFileSizePrint(): string
+    {
         $iSize = $this->getFileSize();
         $fs_type = 0;
         while ($iSize > 1024) {
@@ -96,11 +79,8 @@ class Entity extends \Api\Core\Base\Table\Entity {
         return round($iSize) . ' ' . self::$_sizeUnits[$fs_type];
     }
 
-    /**
-     * 
-     * @return \Bitrix\Main\IO\File
-     */
-    public function getIOFile(): \Bitrix\Main\IO\File {
+    public function getIOFile(): \Bitrix\Main\IO\File
+    {
         if (is_null($this->_obIOFile)) {
             $obIOFile = new \Bitrix\Main\IO\File(Application::getDocumentRoot() . $this->getSrc());
             $this->_obIOFile = $obIOFile;
@@ -108,24 +88,14 @@ class Entity extends \Api\Core\Base\Table\Entity {
         return $this->_obIOFile;
     }
 
-    /**
-     * 
-     * @param string $strSrc
-     * @return \self
-     */
-    protected function _setSrc(string $strSrc): self {
+    protected function _setSrc(string $strSrc): self
+    {
         $this->_src = $strSrc;
         return $this;
     }
 
-    /**
-     * 
-     * @param int $iWidth
-     * @param int $iHeight
-     * @param int $iMode
-     * @return \self
-     */
-    public function setResize(int $iWidth = null, int $iHeight = null, int $iMode = BX_RESIZE_IMAGE_PROPORTIONAL): self {
+    public function setResize(int $iWidth = null, int $iHeight = null, int $iMode = BX_RESIZE_IMAGE_PROPORTIONAL): self
+    {
         if ($iMode === BX_RESIZE_IMAGE_PROPORTIONAL || $iMode === BX_RESIZE_IMAGE_PROPORTIONAL_ALT) {
             if (is_null($iWidth)) {
                 $iWidth = ($iHeight * $this->getWidth()) / $this->getHeight();
@@ -151,11 +121,8 @@ class Entity extends \Api\Core\Base\Table\Entity {
         return $this;
     }
 
-    /**
-     * 
-     * @return \self
-     */
-    public function convertToWebp(): self {
+    public function convertToWebp(): self
+    {
         if (class_exists('\LongByte\Webp')) {
             $strSrc = $this->getSrc();
             if (strlen($strSrc) > 0) {

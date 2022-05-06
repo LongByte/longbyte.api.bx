@@ -4,14 +4,16 @@ namespace Api\Core\Form\Entity\Field;
 
 use Realweb\Api\Model\Utils\Helper;
 
-class File extends \Api\Core\Form\Entity\Field {
+class File extends \Api\Core\Form\Entity\Field
+{
 
     /**
-     * 
+     *
      * @param type $value
      * @return $this
      */
-    public function setValue($value) {
+    public function setValue($value)
+    {
         if ($this->isArray() && is_array($value) && is_string(current($value))) {
             $this->_value = array();
             foreach ($value as $valueItem) {
@@ -29,18 +31,19 @@ class File extends \Api\Core\Form\Entity\Field {
     }
 
     /**
-     * 
+     *
      * @param type $value
      * @return type
      */
-    private function _getFileArray($value) {
+    private function _getFileArray($value)
+    {
         $arFileName = explode('.', $value);
         $strDirName = $arFileName[0];
         $strDirPath = DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array(
                 "upload",
                 "tmp",
                 $strDirName,
-        ));
+            ));
         $obPublicFile = new \Realweb\Api\Model\FileSystem\File\PublicFile($strDirPath . DIRECTORY_SEPARATOR . $value);
 
         return array(
@@ -56,7 +59,8 @@ class File extends \Api\Core\Form\Entity\Field {
      * @return array|mixed|string
      * @throws \Exception
      */
-    public function getStructureValue() {
+    public function getStructureValue()
+    {
         $value = $this->getValue();
         if (($this->isArray() && is_array($value) && is_string(current($value))) || is_string($value)) {
             return $value;
@@ -85,7 +89,8 @@ class File extends \Api\Core\Form\Entity\Field {
      * @param \Realweb\Api\Model\FileSystem\File $obFile
      * @return array
      */
-    private function _getUploadedFile(\Realweb\Api\Model\FileSystem\File $obFile) {
+    private function _getUploadedFile(\Realweb\Api\Model\FileSystem\File $obFile)
+    {
         return array(
             'name' => $obFile->getOriginalName(),
             'size' => $obFile->getSize(),

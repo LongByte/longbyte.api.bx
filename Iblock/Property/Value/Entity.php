@@ -4,7 +4,7 @@ namespace Api\Core\Iblock\Property\Value;
 
 /**
  * Class \Api\Core\Iblock\Property\Value\Entity
- * 
+ *
  * @method mixed getValue()
  * @method $this setValue(mixed $mixedValue)
  * @method bool hasValue()
@@ -18,35 +18,39 @@ namespace Api\Core\Iblock\Property\Value;
  * @method $this setDescription(mixed $mixedDescription)
  * @method bool hasDescription()
  */
-class Entity extends \Api\Core\Base\Virtual\Entity {
+class Entity extends \Api\Core\Base\Virtual\Entity
+{
 
     /**
      *
-     * @var string 
+     * @var string
      */
     protected static $_primaryField = 'VALUE';
 
     /**
-     * 
+     *
      * @return string
      */
-    public static function getModel(): string {
+    public static function getModel(): string
+    {
         return Model::class;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    public static function getCollection(): string {
+    public static function getCollection(): string
+    {
         return Collection::class;
     }
 
     /**
-     * 
+     *
      * @return array
      */
-    public function getFields(): array {
+    public function getFields(): array
+    {
         $arFields = array(
             'VALUE',
             'VALUE_XML_ID',

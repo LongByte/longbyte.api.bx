@@ -8,7 +8,8 @@ use Bitrix\Main\Web\Uri;
 /**
  * Class \Api\Core\Main\Cache
  */
-class Cache {
+class Cache
+{
 
     const TIME = 86400;
 
@@ -76,14 +77,16 @@ class Cache {
      */
     private static $instance;
 
-    protected function __construct() {
+    protected function __construct()
+    {
         $this->setIgbinary(\extension_loaded('igbinary'));
     }
 
     /**
      * @return bool
      */
-    public function isIgbinary() {
+    public function isIgbinary()
+    {
         return $this->_igbinary;
     }
 
@@ -91,7 +94,8 @@ class Cache {
      * @param bool $bIgbinary
      * @return $this
      */
-    public function setIgbinary(bool $bIgbinary = false) {
+    public function setIgbinary(bool $bIgbinary = false)
+    {
         $this->_igbinary = $bIgbinary;
 
         return $this;
@@ -101,7 +105,8 @@ class Cache {
      *
      * @return \Api\Core\Main\Cache
      */
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (is_null(self::$instance)) {
             self::$instance = new Self();
         }
@@ -112,7 +117,8 @@ class Cache {
         return self::$instance;
     }
 
-    function getParams() {
+    function getParams()
+    {
         usort($this->_params, function ($a, $b) {
             return strcmp($a["id"], $b["id"]);
         });
@@ -125,7 +131,8 @@ class Cache {
      * @param array $params
      * @return $this
      */
-    function setParams($params) {
+    function setParams($params)
+    {
         $this->_params[] = $params;
         return $this;
     }
@@ -134,7 +141,8 @@ class Cache {
      *
      * @return boolean
      */
-    function getGlobal() {
+    function getGlobal()
+    {
         return $this->_global;
     }
 
@@ -142,7 +150,8 @@ class Cache {
      *
      * @return boolean
      */
-    function isGlobal() {
+    function isGlobal()
+    {
         return $this->_global;
     }
 
@@ -151,12 +160,14 @@ class Cache {
      * @param boolean $global
      * @return $this
      */
-    function setGlobal($global = true) {
+    function setGlobal($global = true)
+    {
         $this->_global = $global;
         return $this;
     }
 
-    private function clearParams() {
+    private function clearParams()
+    {
 
         if ($this->_start_caching === true) {
             $this->_change_params = false;
@@ -182,7 +193,8 @@ class Cache {
      * @param $id
      * @return $this
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         if ($this->_change_params) {
             $this->_id = md5($this->serialize($id));
         }
@@ -193,7 +205,8 @@ class Cache {
      * @param $dir
      * @return $this
      */
-    public function setDir($dir) {
+    public function setDir($dir)
+    {
         if ($this->_change_params) {
             $this->_dir = SITE_ID . '/' . str_replace("\\", "/", $dir);
         }
@@ -204,7 +217,8 @@ class Cache {
      * @param $tag
      * @return $this
      */
-    public function setTag($tag) {
+    public function setTag($tag)
+    {
         $this->_tag[] = $tag;
         if (!in_array($tag, $this->_global_tag)) {
             $this->_global_tag[] = $tag;
@@ -213,11 +227,12 @@ class Cache {
     }
 
     /**
-     * 
+     *
      * @param int $iIblockId
      * @return $this
      */
-    public function setIblockTag($iIblockId) {
+    public function setIblockTag($iIblockId)
+    {
         $this->setTag('iblock_id_' . $iIblockId);
         $this->setTag('iblock_id_meta_' . $iIblockId);
         return $this;
@@ -226,28 +241,32 @@ class Cache {
     /**
      * @return string
      */
-    public function getDir() {
+    public function getDir()
+    {
         return $this->_dir;
     }
 
     /**
      * @return string
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->_id;
     }
 
     /**
      * @return array
      */
-    public function getTag() {
+    public function getTag()
+    {
         return $this->_tag;
     }
 
     /**
      * @return array
      */
-    public function getGlobalTag() {
+    public function getGlobalTag()
+    {
         return $this->_global_tag;
     }
 
@@ -256,7 +275,8 @@ class Cache {
      * @param integer $iTime
      * @return $this
      */
-    public function setTime($iTime) {
+    public function setTime($iTime)
+    {
         if ($this->_change_params) {
             $this->_time = $iTime;
         }
@@ -267,14 +287,16 @@ class Cache {
      *
      * @return int
      */
-    function getTime() {
+    function getTime()
+    {
         if (is_null($this->_time)) {
             $this->_time = self::TIME;
         }
         return $this->_time;
     }
 
-    private function checkParams() {
+    private function checkParams()
+    {
         $strId = $this->getId();
         $strDir = $this->getDir();
         if (strlen($strId) == 0) {
@@ -292,7 +314,8 @@ class Cache {
      * @return array|mixed
      * @throws \Exception
      */
-    public function get($callable) {
+    public function get($callable)
+    {
         $this->checkParams();
 
         global $CACHE_MANAGER;
@@ -332,16 +355,19 @@ class Cache {
         return $arResult;
     }
 
-    public function isCaching() {
+    public function isCaching()
+    {
         return $this->_cache;
     }
 
-    public function abortCache() {
+    public function abortCache()
+    {
         $this->_cache = false;
         return $this;
     }
 
-    public function hasDeadCache() {
+    public function hasDeadCache()
+    {
         return $this->_has_dead_cache;
     }
 
@@ -349,7 +375,8 @@ class Cache {
      * @param mixed $value
      * @return string
      */
-    public function serialize($value) {
+    public function serialize($value)
+    {
         if ($this->isIgbinary()) {
             return igbinary_serialize($value);
         }

@@ -4,21 +4,17 @@ namespace Api\Core\Base;
 
 /**
  * Class \Api\Core\Base\Collection
- *
  */
-class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
+class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
+{
 
     protected static $_keyFunction = 'getId';
-    protected $_uniqueMode = false;
-    protected $_collection = array();
-    protected $_keys = array();
+    protected bool $_uniqueMode = false;
+    protected array $_collection = array();
+    protected array $_keys = array();
 
-    /**
-     * 
-     * @param \Api\Core\Base\Entity $obEntity
-     * @return \self
-     */
-    public function addItem(\Api\Core\Base\Entity $obEntity) {
+    public function addItem(\Api\Core\Base\Entity $obEntity): self
+    {
         if ($obEntity instanceof \Api\Core\Base\Virtual\Entity) {
             $strGetFunction = 'get' . \Api\Core\Utils\StringHelper::convertCodeToUpperCamelCase($obEntity->getPrimaryField());
         } else {
@@ -31,38 +27,24 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
         return $this;
     }
 
-    /**
-     * 
-     * @return array
-     */
-    public function getCollection(): array {
+    public function getCollection(): array
+    {
         return $this->_collection;
     }
 
-    /**
-     * 
-     * @param bool $bUniqueMode
-     * @return \self
-     */
-    public function setUniqueMode(bool $bUniqueMode): self {
+    public function setUniqueMode(bool $bUniqueMode): self
+    {
         $this->_uniqueMode = $bUniqueMode;
         return $this;
     }
 
-    /**
-     * 
-     * @return array
-     */
-    public function getKeys(): array {
+    public function getKeys(): array
+    {
         return array_values($this->_keys);
     }
 
-    /**
-     *
-     * @param string $strKey
-     * @return \Api\Core\Base\Entity
-     */
-    public function getByKey($strKey) {
+    public function getByKey($strKey): ?Entity
+    {
         $iCollectionKey = array_search($strKey, $this->_keys);
         if ($iCollectionKey !== false) {
             return $this->_collection[$iCollectionKey];
@@ -70,12 +52,8 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
         return null;
     }
 
-    /**
-     * 
-     * @param type $strKey
-     * @return \self
-     */
-    public function removeByKey($strKey): self {
+    public function removeByKey($strKey): self
+    {
         $iCollectionKey = array_search($strKey, $this->_keys);
         if ($iCollectionKey !== false) {
             unset($this->_collection[$iCollectionKey]);
@@ -87,21 +65,24 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
     /**
      * @return \ArrayIterator
      */
-    public function getIterator() {
+    public function getIterator()
+    {
         return new \ArrayIterator($this->_collection);
     }
 
     /**
      * Whether a offset exists
      */
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return isset($this->_collection[$offset]) || array_key_exists($offset, $this->collection);
     }
 
     /**
      * Offset to retrieve
      */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         if (isset($this->_collection[$offset]) || array_key_exists($offset, $this->collection)) {
             return $this->_collection[$offset];
         }
@@ -112,7 +93,8 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
     /**
      * Offset to set
      */
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         if ($offset === null) {
             $this->_collection[] = $value;
         } else {
@@ -123,49 +105,56 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
     /**
      * Offset to unset
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->_collection[$offset]);
     }
 
     /**
      * Count elements of an object
      */
-    public function count() {
+    public function count()
+    {
         return count($this->_collection);
     }
 
     /**
      * Return the current element
      */
-    public function current() {
+    public function current()
+    {
         return current($this->_collection);
     }
 
     /**
      * Move forward to next element
      */
-    public function next() {
+    public function next()
+    {
         return next($this->_collection);
     }
 
     /**
      * Move forward to end element
      */
-    public function end() {
+    public function end()
+    {
         return end($this->_collection);
     }
 
     /**
      * Return the key of the current element
      */
-    public function key() {
+    public function key()
+    {
         return key($this->_collection);
     }
 
     /**
      * Checks if current position is valid
      */
-    public function valid() {
+    public function valid()
+    {
         $key = $this->key();
         return $key !== null;
     }
@@ -173,7 +162,8 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
     /**
      * Rewind the Iterator to the first element
      */
-    public function rewind() {
+    public function rewind()
+    {
         return reset($this->_collection);
     }
 
@@ -182,25 +172,20 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
      *
      * @return bool
      */
-    public function isEmpty() {
+    public function isEmpty(): bool
+    {
         return empty($this->_collection);
     }
 
-    /**
-     * 
-     * @return $this
-     */
-    public function clear() {
+    public function clear(): self
+    {
         $this->_collection = array();
         $this->_keys = array();
         return $this;
     }
 
-    /**
-     *
-     * @return array
-     */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         $arArray = array();
         foreach ($this->_collection as $obItem) {
             $arItem = $obItem->toArray();

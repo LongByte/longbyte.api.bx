@@ -5,39 +5,29 @@ namespace Api\Core\Base\Virtual;
 /**
  * Class \Api\Core\Base\Virtual\Model
  */
-abstract class Model extends \Api\Core\Base\Model {
+abstract class Model extends \Api\Core\Base\Model
+{
 
-    /**
-     * 
-     * @return string
-     */
-    public static function getTable(): string {
+    public static function getTable(): string
+    {
         return '';
     }
 
-    /**
-     * 
-     * @return null
-     */
-    public static function getOne() {
+    public static function getOne()
+    {
         return null;
     }
 
-    /**
-     * 
-     * @return null
-     */
-    public static function getAll() {
-        return null;
+    public static function getAll()
+    {
+        $strCollectionClass = static::getEntity()::getCollection();
+        /** @var \Api\Core\Base\Collection $obCollection */
+        $obCollection = new $strCollectionClass();
+        return $obCollection;
     }
 
-    /**
-     * 
-     * @param array $arItems
-     * @return \Api\Core\Base\Collection
-     */
-    public static function getFromArray(array $arItems) {
-
+    public static function getFromArray(array $arItems)
+    {
         $strCollectionClass = static::getEntity()::getCollection();
         /** @var \Api\Core\Base\Collection $obCollection */
         $obCollection = new $strCollectionClass();
@@ -50,13 +40,8 @@ abstract class Model extends \Api\Core\Base\Model {
         return $obCollection;
     }
 
-    /**
-     * 
-     * @param array $arItem
-     * @return \Api\Core\Base\Virtual\Entity
-     */
-    protected static function _getEntityFromItem($arItem) {
-
+    protected static function _getEntityFromItem($arItem): Entity
+    {
         $strEntityClass = static::getEntity();
         $obEntity = new $strEntityClass($arItem);
 

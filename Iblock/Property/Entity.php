@@ -4,7 +4,7 @@ namespace Api\Core\Iblock\Property;
 
 /**
  * Class \Api\Core\Iblock\Property\Entity
- * 
+ *
  * @method int getId()
  * @method $this setId(int $iId)
  * @method bool hasId()
@@ -86,7 +86,7 @@ namespace Api\Core\Iblock\Property;
  * @method string getHint()
  * @method $this setHint(string $strHint)
  * @method bool hasHint()
- * 
+ *
  * @method mixed getValue()
  * @method $this setValue(mixed $mixedValue)
  * @method bool hasValue()
@@ -100,7 +100,8 @@ namespace Api\Core\Iblock\Property;
  * @method $this setDescription(mixed $mixedDescription)
  * @method bool hasDescription()
  */
-class Entity extends \Api\Core\Base\Entity {
+class Entity extends \Api\Core\Base\Entity
+{
 
     /**
      *
@@ -115,34 +116,38 @@ class Entity extends \Api\Core\Base\Entity {
     protected $_obValuesCollection = null;
 
     /**
-     * 
+     *
      * @return string
      */
-    public static function getModel(): string {
+    public static function getModel(): string
+    {
         return Model::class;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    public static function getCollection(): string {
+    public static function getCollection(): string
+    {
         return Collection::class;
     }
 
     /**
-     * 
+     *
      * @return array
      */
-    public static function getTableFields(): array {
+    public static function getTableFields(): array
+    {
         return array_keys(static::getModel()::getTable()::getScalarFields());
     }
 
     /**
-     * 
+     *
      * @return array
      */
-    public function getFields(): array {
+    public function getFields(): array
+    {
         $arFields = static::getTableFields();
         $arFields[] = 'VALUE';
         $arFields[] = 'VALUE_XML_ID';
@@ -152,34 +157,38 @@ class Entity extends \Api\Core\Base\Entity {
     }
 
     /**
-     * 
+     *
      * @return bool
      */
-    public function isMultiple(): bool {
+    public function isMultiple(): bool
+    {
         return $this->getMultiple() == 'Y';
     }
 
     /**
-     * 
+     *
      * @return bool
      */
-    public function isWithDescription(): bool {
+    public function isWithDescription(): bool
+    {
         return $this->getWithDescription() == 'Y';
     }
 
     /**
-     * 
+     *
      * @return bool
      */
-    public function isFileProperty(): bool {
+    public function isFileProperty(): bool
+    {
         return $this->getPropertyType() == \Bitrix\Iblock\PropertyTable::TYPE_FILE;
     }
 
     /**
-     * 
+     *
      * @return \Api\Core\Iblock\Property\Value\Entity|null
      */
-    public function getValueObject(): ?\Api\Core\Iblock\Property\Value\Entity {
+    public function getValueObject(): ?\Api\Core\Iblock\Property\Value\Entity
+    {
         if (!$this->isMultiple()) {
             if (is_null($this->_obValueObject)) {
                 $entityClass = '\Api\Core\Iblock\Property\Value\Entity';
@@ -198,10 +207,11 @@ class Entity extends \Api\Core\Base\Entity {
     }
 
     /**
-     * 
+     *
      * @return \Api\Core\Iblock\Property\Value\Collection|null
      */
-    public function getValuesCollection(): ?\Api\Core\Iblock\Property\Value\Collection {
+    public function getValuesCollection(): ?\Api\Core\Iblock\Property\Value\Collection
+    {
         if ($this->isMultiple()) {
             if (is_null($this->_obValuesCollection)) {
                 $entityClass = '\Api\Core\Iblock\Property\Value\Entity';
@@ -226,34 +236,38 @@ class Entity extends \Api\Core\Base\Entity {
     }
 
     /**
-     * 
+     *
      * @return array|null
      */
-    public function getData(): ?array {
+    public function getData(): ?array
+    {
         return null;
     }
 
     /**
-     * 
+     *
      * @return null
      */
-    public function save() {
+    public function save()
+    {
         return null;
     }
 
     /**
-     * 
+     *
      * @return null
      */
-    public function delete() {
+    public function delete()
+    {
         return null;
     }
 
     /**
-     * 
+     *
      * @return array|string
      */
-    public function toSaveFormat() {
+    public function toSaveFormat()
+    {
         $result = '';
         if ($this->isMultiple()) {
             $result = array();
@@ -297,7 +311,8 @@ class Entity extends \Api\Core\Base\Entity {
         return $result;
     }
 
-    private function _getNewIndex(array $arResult): string {
+    private function _getNewIndex(array $arResult): string
+    {
         $iNewIndex = 0;
         foreach ($arResult as $key => $value) {
             if ($key == 'n' . $iNewIndex) {

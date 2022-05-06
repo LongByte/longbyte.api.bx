@@ -4,7 +4,8 @@ namespace Api\Core\Form\Validate;
 
 use Api\Core\Form\Validate;
 
-class Notempty extends Validate {
+class Notempty extends Validate
+{
 
     const INVALID = 'invalid';
     const IS_EMPTY = 'isEmpty';
@@ -18,12 +19,12 @@ class Notempty extends Validate {
     );
 
     /**
-     * 
+     *
      * @param type $value
      * @return boolean
      */
-    public function isValid($value) {
-
+    public function isValid($value)
+    {
 
         if ($value !== null && !is_string($value) && !is_int($value) && !is_float($value) &&
             !is_bool($value) && !is_array($value)) {

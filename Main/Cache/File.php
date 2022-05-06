@@ -2,7 +2,8 @@
 
 namespace Api\Core\Main\Cache;
 
-class File implements CacheInterface {
+class File implements CacheInterface
+{
 
     const DURATION = 86400;
 
@@ -12,11 +13,13 @@ class File implements CacheInterface {
     protected $_file_mode = 0644;
     protected $_igbinary = false;
 
-    function __construct() {
+    function __construct()
+    {
         $this->setIgbinary(\extension_loaded('igbinary'));
     }
 
-    public function buildCacheId($strId) {
+    public function buildCacheId($strId)
+    {
         if (is_string($strId)) {
             return $strId;
         } else {
@@ -24,7 +27,8 @@ class File implements CacheInterface {
         }
     }
 
-    public function serialize($value) {
+    public function serialize($value)
+    {
         if ($this->isIgbinary()) {
             return igbinary_serialize($value);
         } else {
@@ -32,7 +36,8 @@ class File implements CacheInterface {
         }
     }
 
-    public function unserialize($value) {
+    public function unserialize($value)
+    {
         if ($this->isIgbinary()) {
             return igbinary_unserialize($value);
         } else {
@@ -43,7 +48,8 @@ class File implements CacheInterface {
     /**
      * @return string
      */
-    public function getCacheFileSuffix(): string {
+    public function getCacheFileSuffix(): string
+    {
         return $this->_cache_file_suffix;
     }
 
@@ -51,7 +57,8 @@ class File implements CacheInterface {
      * @param string $strCacheFileSuffix
      * @return $this
      */
-    public function setCacheFileSuffix(string $strCacheFileSuffix) {
+    public function setCacheFileSuffix(string $strCacheFileSuffix)
+    {
         $this->_cache_file_suffix = $strCacheFileSuffix;
 
         return $this;
@@ -60,7 +67,8 @@ class File implements CacheInterface {
     /**
      * @return string
      */
-    public function getCacheDir(): string {
+    public function getCacheDir(): string
+    {
         return $this->_cache_dir;
     }
 
@@ -68,7 +76,8 @@ class File implements CacheInterface {
      * @param string $strCacheDir
      * @return $this
      */
-    public function setCacheDir(string $strCacheDir) {
+    public function setCacheDir(string $strCacheDir)
+    {
         $this->_cache_dir = $strCacheDir;
 
         return $this;
@@ -77,7 +86,8 @@ class File implements CacheInterface {
     /**
      * @return int
      */
-    public function getDirMode(): int {
+    public function getDirMode(): int
+    {
         return $this->_dir_mode;
     }
 
@@ -85,7 +95,8 @@ class File implements CacheInterface {
      * @param int $iDirMode
      * @return $this
      */
-    public function setDirMode(int $iDirMode) {
+    public function setDirMode(int $iDirMode)
+    {
         $this->_dir_mode = $iDirMode;
 
         return $this;
@@ -94,7 +105,8 @@ class File implements CacheInterface {
     /**
      * @return int
      */
-    public function getFileMode(): int {
+    public function getFileMode(): int
+    {
         return $this->_file_mode;
     }
 
@@ -102,7 +114,8 @@ class File implements CacheInterface {
      * @param int $iFileMode
      * @return $this
      */
-    public function setFileMode(int $iFileMode) {
+    public function setFileMode(int $iFileMode)
+    {
         $this->_file_mode = $iFileMode;
 
         return $this;
@@ -111,7 +124,8 @@ class File implements CacheInterface {
     /**
      * @return bool
      */
-    public function isIgbinary(): bool {
+    public function isIgbinary(): bool
+    {
         return $this->_igbinary;
     }
 
@@ -119,17 +133,20 @@ class File implements CacheInterface {
      * @param bool $bIgbinary
      * @return $this
      */
-    public function setIgbinary(bool $bIgbinary = false) {
+    public function setIgbinary(bool $bIgbinary = false)
+    {
         $this->_igbinary = $bIgbinary;
 
         return $this;
     }
 
-    public function getDocumentRoot() {
+    public function getDocumentRoot()
+    {
         return $_SERVER['DOCUMENT_ROOT'];
     }
 
-    protected function getCacheFile(string $strId, string $strPath) {
+    protected function getCacheFile(string $strId, string $strPath)
+    {
         $arPath = array(
             $this->getDocumentRoot(),
             trim($this->getCacheDir(), DIRECTORY_SEPARATOR),
@@ -141,13 +158,15 @@ class File implements CacheInterface {
         return implode(DIRECTORY_SEPARATOR, $arPath);
     }
 
-    public function exists($id, $path) {
+    public function exists($id, $path)
+    {
         $cacheFile = $this->getCacheFile($this->buildCacheId($id), $path);
 
         return @filemtime($cacheFile) > time();
     }
 
-    public function createDirectory($path) {
+    public function createDirectory($path)
+    {
         $strDir = dirname($path);
         if (is_dir($strDir)) {
             return true;
@@ -159,7 +178,8 @@ class File implements CacheInterface {
         return true;
     }
 
-    public function set($id, $path, $value, int $duration = null) {
+    public function set($id, $path, $value, int $duration = null)
+    {
         $strId = $this->buildCacheId($id);
         $strCacheFile = $this->getCacheFile($strId, $path);
         if ($this->createDirectory($strCacheFile)) {
@@ -179,7 +199,8 @@ class File implements CacheInterface {
         return false;
     }
 
-    public function get($id, $path) {
+    public function get($id, $path)
+    {
         $strId = $this->buildCacheId($id);
         $strCacheFile = $this->getCacheFile($strId, $path);
         if (@filemtime($strCacheFile) > time()) {
@@ -201,24 +222,28 @@ class File implements CacheInterface {
         return false;
     }
 
-    public function delete($id, $path) {
+    public function delete($id, $path)
+    {
         $strId = $this->buildCacheId($id);
         $strCacheFile = $this->getCacheFile($strId, $path);
 
         return @unlink($strCacheFile);
     }
 
-    public function clean() {
+    public function clean()
+    {
         $strPath = $this->getDocumentRoot() . DIRECTORY_SEPARATOR . trim($this->getCacheDir(), DIRECTORY_SEPARATOR);
         $this->_cleanPath($strPath, false);
     }
 
-    public function cleanExpired() {
+    public function cleanExpired()
+    {
         $strPath = $this->getDocumentRoot() . DIRECTORY_SEPARATOR . trim($this->getCacheDir(), DIRECTORY_SEPARATOR);
         $this->_cleanPath($strPath, true);
     }
 
-    protected function _cleanPath($path, $expiredOnly) {
+    protected function _cleanPath($path, $expiredOnly)
+    {
         if (($handle = opendir($path)) !== false) {
             while (($file = readdir($handle)) !== false) {
                 if ($file[0] === '.') {
@@ -241,7 +266,8 @@ class File implements CacheInterface {
         }
     }
 
-    private function _isEmptyDir($dir) {
+    private function _isEmptyDir($dir)
+    {
         if (is_readable($dir) && (count(scandir($dir)) == 2)) {
             return true;
         } else {

@@ -6,25 +6,28 @@ use Bitrix\Main\Application;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\Web\HttpClient;
 
-class Request {
+class Request
+{
 
     private $gRecaptchaResponse = '';
     private $secretkey = '';
 
     /**
-     * 
+     *
      * @param type $gRecaptchaResponse
      */
-    public function __construct($gRecaptchaResponse) {
+    public function __construct($gRecaptchaResponse)
+    {
         $this->gRecaptchaResponse = $gRecaptchaResponse;
         $this->secretkey = Option::get('realweb.api', 'recaptcha-secretkey');
     }
 
     /**
-     * 
+     *
      * @return boolean
      */
-    public function check() {
+    public function check()
+    {
 
         if (strlen($this->gRecaptchaResponse) <= 0) {
             return false;

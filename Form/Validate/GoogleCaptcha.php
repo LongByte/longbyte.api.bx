@@ -8,7 +8,8 @@ use Api\Core\Form\Validate;
  * Class \Api\Core\Form\Validate\GoogleCaptcha
  *
  */
-class GoogleCaptcha extends Validate {
+class GoogleCaptcha extends Validate
+{
 
     const INVALID = 'invalid';
 
@@ -20,11 +21,12 @@ class GoogleCaptcha extends Validate {
     );
 
     /**
-     * 
+     *
      * @param type $value
      * @return boolean
      */
-    public function isValid($value) {
+    public function isValid($value)
+    {
         $obReCaptcha = new \Api\Core\Form\Validate\GoogleCaptcha\Request($value);
         if (!$obReCaptcha->check()) {
             $this->_error(self::INVALID);

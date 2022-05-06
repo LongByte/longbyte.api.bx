@@ -4,7 +4,8 @@ namespace Api\Core\Form\Entity;
 
 use Api\Core\Form\Entity;
 
-class Group extends Entity {
+class Group extends Entity
+{
 
     /**
      * @var Entity
@@ -17,22 +18,25 @@ class Group extends Entity {
     protected $_order;
 
     /**
-     * 
+     *
      * @param type $strName
      */
-    public function __construct($strName) {
+    public function __construct($strName)
+    {
         $this->setName($strName);
     }
 
-    public function isGroup() {
+    public function isGroup()
+    {
         return true;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return 'group';
     }
 
@@ -40,7 +44,8 @@ class Group extends Entity {
      * @param Entity $obForm
      * @return $this
      */
-    public function setParent(Entity $obForm) {
+    public function setParent(Entity $obForm)
+    {
         $this->_form = $obForm;
         return $this;
     }
@@ -48,7 +53,8 @@ class Group extends Entity {
     /**
      * @return Entity
      */
-    public function getParent() {
+    public function getParent()
+    {
         return $this->_form;
     }
 
@@ -58,7 +64,8 @@ class Group extends Entity {
      * @return $this
      * @throws \Exception
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $name = $this->filterName($name);
         if ('' === $name) {
             throw new \Exception('Invalid name provided; must contain only valid variable characters and be non-empty');
@@ -68,7 +75,8 @@ class Group extends Entity {
         return $this;
     }
 
-    public function filterName($value, $allowBrackets = false) {
+    public function filterName($value, $allowBrackets = false)
+    {
         $charset = '^a-zA-Z0-9_\x7f-\xff';
         if ($allowBrackets) {
             $charset .= '\[\]';
@@ -77,10 +85,11 @@ class Group extends Entity {
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->_name;
     }
 
@@ -90,7 +99,8 @@ class Group extends Entity {
      * @return $this|Entity
      * @throws \Exception
      */
-    public function setAttribute($name, $value) {
+    public function setAttribute($name, $value)
+    {
         $name = strval($name);
         if ('_' == $name[0]) {
             throw new \Exception(sprintf('Invalid attribute "%s"; must not contain a leading underscore', $name));
@@ -111,7 +121,8 @@ class Group extends Entity {
         return $this;
     }
 
-    public function getAttributes() {
+    public function getAttributes()
+    {
         return $this->_attributes;
     }
 
@@ -120,12 +131,14 @@ class Group extends Entity {
      * @param string $label
      * @return $this
      */
-    public function setLabel($label) {
+    public function setLabel($label)
+    {
         $this->_label = strval($label);
         return $this;
     }
 
-    public function getLabel() {
+    public function getLabel()
+    {
         return $this->_label;
     }
 
@@ -134,40 +147,45 @@ class Group extends Entity {
      * @param int $order
      * @return $this
      */
-    public function setOrder($order) {
+    public function setOrder($order)
+    {
         $this->_order = intval($order);
         return $this;
     }
 
     /**
-     * 
+     *
      * @return int
      */
-    public function getOrder() {
+    public function getOrder()
+    {
         return $this->_order;
     }
 
     /**
-     * 
+     *
      * @return null
      */
-    public function getValue() {
+    public function getValue()
+    {
         return null;
     }
 
     /**
-     * 
+     *
      * @return array
      */
-    public function getErrors() {
+    public function getErrors()
+    {
         return $this->_errors;
     }
 
     /**
-     * 
+     *
      * @return array
      */
-    public function getStructure() {
+    public function getStructure()
+    {
         $arData = parent::getStructure();
         $arData['is_group'] = $this->isGroup();
         $arData['order'] = $this->getOrder();

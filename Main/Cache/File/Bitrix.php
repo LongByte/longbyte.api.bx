@@ -8,14 +8,16 @@ use Api\Core\Main\Cache;
 require_once __DIR__ . '/../CacheInterface.php';
 require_once __DIR__ . '/../File.php';
 
-class Bitrix extends CacheEngineFiles {
+class Bitrix extends CacheEngineFiles
+{
 
     /**
      * @var Cache\File
      */
     private $_cache = null;
 
-    public function __construct($options = []) {
+    public function __construct($options = [])
+    {
         parent::__construct($options);
         $this->getCache()->setDirMode(BX_DIR_PERMISSIONS);
         $this->getCache()->setFileMode(BX_FILE_PERMISSIONS);
@@ -24,7 +26,8 @@ class Bitrix extends CacheEngineFiles {
     /**
      * @return Cache\File
      */
-    public function getCache() {
+    public function getCache()
+    {
         if ($this->_cache === null) {
             $this->_cache = new Cache\File();
         }
@@ -32,13 +35,15 @@ class Bitrix extends CacheEngineFiles {
         return $this->_cache;
     }
 
-    public function isCacheExpired($path) {
+    public function isCacheExpired($path)
+    {
         if (!file_exists($path) || @filemtime($path) < time()) {
             return true;
         }
     }
 
-    public function read(&$allVars, $baseDir, $initDir, $filename, $TTL) {
+    public function read(&$allVars, $baseDir, $initDir, $filename, $TTL)
+    {
         $strId = pathinfo($filename, PATHINFO_FILENAME);
         $this->getCache()->setCacheDir($baseDir);
         $this->getCache()->setCacheFileSuffix('.php');
@@ -47,7 +52,8 @@ class Bitrix extends CacheEngineFiles {
         return $allVars !== false;
     }
 
-    public function write($allVars, $baseDir, $initDir, $filename, $TTL) {
+    public function write($allVars, $baseDir, $initDir, $filename, $TTL)
+    {
         $strId = pathinfo($filename, PATHINFO_FILENAME);
         $this->getCache()->setCacheFileSuffix('.php');
         $this->getCache()->setCacheDir($baseDir);

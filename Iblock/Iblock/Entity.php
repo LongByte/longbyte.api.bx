@@ -4,15 +4,11 @@ namespace Api\Core\Iblock\Iblock;
 
 /**
  * Class \Api\Core\Iblock\Iblock\Entity
- *
  */
-class Entity extends \Api\Core\Base\Entity {
+class Entity extends \Api\Core\Base\Entity
+{
 
-    /**
-     *
-     * @var array
-     */
-    protected static $arFields = array(
+    protected static array $arFields = array(
         'ID',
         'XML_ID',
         'IBLOCK_TYPE_ID',
@@ -26,25 +22,15 @@ class Entity extends \Api\Core\Base\Entity {
         'SECTION_PAGE_URL'
     );
 
-    /**
-     *
-     * @var array
-     */
-    protected $_arIProperty = null;
+    protected ?array $_arIProperty = null;
 
-    /**
-     * 
-     * @return string
-     */
-    public static function getModel(): string {
+    public static function getModel(): string
+    {
         return Model::class;
     }
 
-    /**
-     * 
-     * @return array
-     */
-    public function getMeta(): array {
+    public function getMeta(): array
+    {
         if (is_null($this->_arIProperty)) {
             $obIProperty = new \Bitrix\Iblock\InheritedProperty\IblockValues($this->getId());
             $this->_arIProperty = $obIProperty->getValues();
@@ -52,11 +38,8 @@ class Entity extends \Api\Core\Base\Entity {
         return $this->_arIProperty;
     }
 
-    /**
-     * 
-     * @return \self
-     */
-    public function setMeta(): self {
+    public function setMeta(): self
+    {
         $this->getMeta();
 
         \Api\Core\Main\Seo::getInstance()->setMeta(array(
@@ -68,11 +51,8 @@ class Entity extends \Api\Core\Base\Entity {
         return $this;
     }
 
-    /**
-     * 
-     * @return \self
-     */
-    public function addToBreadcrumbs(): self {
+    public function addToBreadcrumbs(): self
+    {
         $this->getMeta();
 
         $strName = $this->_arIProperty['IBLOCK_PAGE_TITLE'] ?: $this->getName();

@@ -6,7 +6,8 @@ namespace Api\Core\Iblock\Property;
  * Class \Api\Core\Iblock\Property\Collection
  *
  */
-class Collection extends \Api\Core\Base\Collection {
+class Collection extends \Api\Core\Base\Collection
+{
 
     /**
      *
@@ -19,7 +20,8 @@ class Collection extends \Api\Core\Base\Collection {
      * @param $arguments
      * @return $this|mixed
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         if ((strpos($name, "get") === 0)) {
 
             $strKey = substr_replace($name, "", 0, 3);
@@ -58,7 +60,8 @@ class Collection extends \Api\Core\Base\Collection {
      * @param $strString
      * @return string
      */
-    protected static function toLower(string $strString): string {
+    protected static function toLower(string $strString): string
+    {
         return ToLower($strString);
     }
 
@@ -67,7 +70,8 @@ class Collection extends \Api\Core\Base\Collection {
      *
      * @return string
      */
-    protected static function toUpper(string $strString): string {
+    protected static function toUpper(string $strString): string
+    {
         return ToUpper($strString);
     }
 

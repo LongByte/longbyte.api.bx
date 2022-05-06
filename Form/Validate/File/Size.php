@@ -6,7 +6,8 @@ namespace Api\Core\Form\Validate\File;
  * Class \Api\Core\Form\Validate\File\Size
  *
  */
-class Size extends \Api\Core\Form\Validate\File\Exist {
+class Size extends \Api\Core\Form\Validate\File\Exist
+{
 
     /**
      * @const string Error constants
@@ -42,15 +43,17 @@ class Size extends \Api\Core\Form\Validate\File\Exist {
      * @param int $iMaxSize
      * @return void
      */
-    public function __construct(int $iMaxSize) {
+    public function __construct(int $iMaxSize)
+    {
         $this->setMax($iMaxSize);
     }
 
     /**
-     * 
+     *
      * @return int
      */
-    public function getSize() {
+    public function getSize()
+    {
         return $this->_max;
     }
 
@@ -59,12 +62,14 @@ class Size extends \Api\Core\Form\Validate\File\Exist {
      * @param int $iMaxSize
      * @return $this
      */
-    public function setMax(int $iMaxSize) {
+    public function setMax(int $iMaxSize)
+    {
         $this->_max = $iMaxSize;
         return $this;
     }
 
-    public function isValid($value) {
+    public function isValid($value)
+    {
         // Is file readable ?
         if (parent::isValid($value)) {
             $obFile = new \Realweb\Api\Model\FileSystem\File($value['tmp_name']);

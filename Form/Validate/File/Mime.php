@@ -6,7 +6,8 @@ namespace Api\Core\Form\Validate\File;
  * Class \Api\Core\Form\Validate\File\Mime
  *
  */
-class Mime extends \Api\Core\Form\Validate\File\Exist {
+class Mime extends \Api\Core\Form\Validate\File\Exist
+{
 
     /**
      * @const string Error constants
@@ -42,11 +43,13 @@ class Mime extends \Api\Core\Form\Validate\File\Exist {
      * @param array $arOptions
      * @return void
      */
-    public function __construct(array $arOptions) {
+    public function __construct(array $arOptions)
+    {
         $this->setMimeType($arOptions);
     }
 
-    public function getMimeType() {
+    public function getMimeType()
+    {
         return $this->_mimetype;
     }
 
@@ -55,7 +58,8 @@ class Mime extends \Api\Core\Form\Validate\File\Exist {
      * @param array $arTypes
      * @return $this
      */
-    public function setMimeType(array $arTypes) {
+    public function setMimeType(array $arTypes)
+    {
         $this->_mimetype = null;
         $this->addMimeType($arTypes);
         return $this;
@@ -66,7 +70,8 @@ class Mime extends \Api\Core\Form\Validate\File\Exist {
      * @param array $arTypes
      * @return $this
      */
-    public function addMimeType($arTypes) {
+    public function addMimeType($arTypes)
+    {
         $arExist = $this->getMimeType();
         if (!is_array($arExist)) {
             $arExist = array();
@@ -90,11 +95,12 @@ class Mime extends \Api\Core\Form\Validate\File\Exist {
     }
 
     /**
-     * 
+     *
      * @param type $value
      * @return boolean
      */
-    public function isValid($value) {
+    public function isValid($value)
+    {
         // Is file readable ?
         if (parent::isValid($value)) {
             $obFile = new \Realweb\Api\Model\FileSystem\File($value['tmp_name']);

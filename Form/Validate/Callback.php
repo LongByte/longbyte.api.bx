@@ -6,9 +6,10 @@ use Api\Core\Form\Validate;
 
 /**
  * Class \Api\Core\Form\Validate\Callback
- * 
+ *
  */
-class Callback extends Validate {
+class Callback extends Validate
+{
 
     const INVALID_CALLBACK = 'callbackInvalid';
     const INVALID_VALUE = 'callbackValue';
@@ -24,11 +25,12 @@ class Callback extends Validate {
     protected $_options = array();
 
     /**
-     * 
+     *
      * @param type $callback
      * @throws \Exception
      */
-    public function __construct($callback = null) {
+    public function __construct($callback = null)
+    {
         parent::__construct();
 
         if (is_callable($callback)) {
@@ -48,38 +50,42 @@ class Callback extends Validate {
     }
 
     /**
-     * 
+     *
      * @return array
      */
-    public function getOptions() {
+    public function getOptions()
+    {
         return $this->_options;
     }
 
     /**
-     * 
+     *
      * @param array $options
      * @return $this
      */
-    public function setOptions($options) {
+    public function setOptions($options)
+    {
         $this->_options = (array) $options;
         return $this;
     }
 
     /**
-     * 
+     *
      * @return mixed
      */
-    public function getCallback() {
+    public function getCallback()
+    {
         return $this->_callback;
     }
 
     /**
-     * 
+     *
      * @param type $callback
      * @return $this
      * @throws \Exception
      */
-    public function setCallback($callback) {
+    public function setCallback($callback)
+    {
         if (!is_callable($callback)) {
             throw new \Exception('Invalid callback given');
         }
@@ -88,11 +94,12 @@ class Callback extends Validate {
     }
 
     /**
-     * 
+     *
      * @param type $value
      * @return boolean
      */
-    public function isValid($value) {
+    public function isValid($value)
+    {
         $this->_setValue($value);
 
         $options = $this->getOptions();

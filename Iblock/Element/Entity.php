@@ -4,56 +4,19 @@ namespace Api\Core\Iblock\Element;
 
 /**
  * Class \Api\Core\Iblock\Element\Entity
- * 
  */
-abstract class Entity extends \Api\Core\Base\Entity {
+abstract class Entity extends \Api\Core\Base\Entity
+{
 
-    /**
-     *
-     * @var \Api\Core\Main\File\Entity
-     */
-    protected $_obPreviewPicture = null;
+    protected ?\Api\Core\Main\File\Entity $_obPreviewPicture = null;
+    protected ?\Api\Core\Main\File\Entity $_obDetailPicture = null;
+    protected ?\Api\Core\Iblock\Property\Collection $_obPropertyCollection = null;
+    protected ?array $_arIProperty = null;
+    protected static array $arProps = array();
+    protected ?\CIBlockElement $_CIBlockElement = null;
 
-    /**
-     *
-     * @var \Api\Core\Main\File\Entity 
-     */
-    protected $_obDetailPicture = null;
-
-    /**
-     *
-     * @var \Api\Core\Iblock\Property\Collection
-     */
-    protected $_obPropertyCollection = null;
-
-    /**
-     *
-     * @var \Api\Core\Base\Collection
-     */
-    protected $_obTagCollection = null;
-
-    /**
-     *
-     * @var array
-     */
-    protected $_arIProperty = null;
-
-    /**
-     * @var array
-     */
-    protected static $arProps = array();
-
-    /**
-     *
-     * @var \CIBlockElement
-     */
-    protected $_CIBlockElement = null;
-
-    /**
-     * 
-     * @return \Api\Core\Main\File\Entity
-     */
-    public function getPreviewPictureFile(): ?\Api\Core\Main\File\Entity {
+    public function getPreviewPictureFile(): ?\Api\Core\Main\File\Entity
+    {
         $iFile = 0;
         if (is_null($this->_obPreviewPicture)) {
             if ($this->hasPreviewPicture()) {
@@ -64,11 +27,8 @@ abstract class Entity extends \Api\Core\Base\Entity {
         return $this->_obPreviewPicture;
     }
 
-    /**
-     * 
-     * @return \Api\Core\Main\File\Entity
-     */
-    public function getDetailPictureFile(): ?\Api\Core\Main\File\Entity {
+    public function getDetailPictureFile(): ?\Api\Core\Main\File\Entity
+    {
         $iFile = 0;
         if (is_null($this->_obDetailPicture)) {
             if ($this->hasDetailPicture()) {
@@ -79,61 +39,27 @@ abstract class Entity extends \Api\Core\Base\Entity {
         return $this->_obDetailPicture;
     }
 
-    /**
-     * 
-     * @return \Api\Core\Base\Collection
-     */
-    public function getTags(): \Api\Core\Base\Collection {
-        if (is_null($this->_obTagCollection)) {
-            $this->_obTagCollection = new \Api\Core\Base\Collection();
-            $strTags = parent::getTags();
-            $arTags = explode(',', $strTags);
-            foreach ($arTags as $strTag) {
-                $strTag = trim($strTag);
-                if (strlen($strTag) <= 0) {
-                    continue;
-                }
-                $obEntity = new \Api\Core\Iblock\Element\Tag\Entity($strTag, array('ID' => $strTag));
-                $this->_obTagCollection->addItem($obEntity);
-            }
-        }
-        return $this->_obTagCollection;
-    }
-
-    /**
-     * 
-     * @return \Api\Core\Iblock\Property\Collection
-     */
-    public function getPropertyCollection(): \Api\Core\Iblock\Property\Collection {
+    public function getPropertyCollection(): \Api\Core\Iblock\Property\Collection
+    {
         if (is_null($this->_obPropertyCollection)) {
             $this->_obPropertyCollection = new \Api\Core\Iblock\Property\Collection();
         }
         return $this->_obPropertyCollection;
     }
 
-    /**
-     * 
-     * @param \Api\Core\Iblock\Property\Collection $obPropertyCollection
-     * @return $this
-     */
-    private function setPropertyCollection(\Api\Core\Iblock\Property\Collection $obPropertyCollection): self {
+    private function setPropertyCollection(\Api\Core\Iblock\Property\Collection $obPropertyCollection): self
+    {
         $this->_obPropertyCollection = $obPropertyCollection;
         return $this;
     }
 
-    /**
-     * 
-     * @return array
-     */
-    public function getProps(): array {
+    public function getProps(): array
+    {
         return static::$arProps;
     }
 
-    /**
-     * 
-     * @return array
-     */
-    public function getMeta(): ?array {
+    public function getMeta(): ?array
+    {
         if (is_null($this->_arIProperty)) {
             $obIProperty = new \Bitrix\Iblock\InheritedProperty\ElementValues(static::getModel()::getIblockId(), $this->getId());
             $this->_arIProperty = $obIProperty->getValues();
@@ -141,11 +67,8 @@ abstract class Entity extends \Api\Core\Base\Entity {
         return $this->_arIProperty;
     }
 
-    /**
-     * 
-     * @return \self
-     */
-    public function setMeta(): self {
+    public function setMeta(): self
+    {
         $this->getMeta();
 
         \Api\Core\Main\Seo::getInstance()->setMeta(array(
@@ -157,11 +80,8 @@ abstract class Entity extends \Api\Core\Base\Entity {
         return $this;
     }
 
-    /**
-     * 
-     * @return \self
-     */
-    public function addToBreadcrumbs(): self {
+    public function addToBreadcrumbs(): self
+    {
         $this->getMeta();
 
         $strName = $this->_arIProperty['ELEMENT_PAGE_TITLE'] ?: $this->getName();
@@ -170,11 +90,8 @@ abstract class Entity extends \Api\Core\Base\Entity {
         return $this;
     }
 
-    /**
-     * 
-     * @return null|array
-     */
-    public function getData(): ?array {
+    public function getData(): ?array
+    {
         if (is_null($this->_data)) {
             $this->_data = array_fill_keys($this->getFields(), '');
             if (!is_null($this->_primary)) {
@@ -195,28 +112,25 @@ abstract class Entity extends \Api\Core\Base\Entity {
                     $this->_exists = true;
                 }
             } else {
-                $this->setPropertyCollection(
-                    \Api\Core\Iblock\Property\Model::getAll(array(
-                        '=CODE' => $this->getProps(),
-                        'IBLOCK_ID' => $this->getModel()::getIblockId()
-                        ),
-                        0,
-                        0,
-                        array(
-                            'select' => \Api\Core\Iblock\Property\Entity::getTableFields()
-                        )
+                /** @var \Api\Core\Iblock\Property\Collection $obCollection */
+                $obCollection = \Api\Core\Iblock\Property\Model::getAll(array(
+                    '=CODE' => $this->getProps(),
+                    'IBLOCK_ID' => $this->getModel()::getIblockId()
+                ),
+                    0,
+                    0,
+                    array(
+                        'select' => \Api\Core\Iblock\Property\Entity::getTableFields()
                     )
                 );
+                $this->setPropertyCollection($obCollection);
             }
         }
         return $this->_data;
     }
 
-    /**
-     * 
-     * @return array
-     */
-    public function getAllFields(): array {
+    public function getAllFields(): array
+    {
         $arFields = array();
         if (is_array($this->getFields())) {
             $arFields = array_merge($arFields, $this->getFields());
@@ -232,7 +146,8 @@ abstract class Entity extends \Api\Core\Base\Entity {
      * @param $arguments
      * @return $this|mixed
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         if ((strpos($name, "get") === 0)) {
 
             $strKey = substr_replace($name, "", 0, 3);
@@ -304,11 +219,8 @@ abstract class Entity extends \Api\Core\Base\Entity {
         }
     }
 
-    /**
-     * 
-     * @return $this
-     */
-    public function save() {
+    public function save(): self
+    {
 
         $arData = array();
         foreach ($this->getFields() as $strField) {
@@ -349,11 +261,8 @@ abstract class Entity extends \Api\Core\Base\Entity {
         return $this;
     }
 
-    /**
-     * 
-     * @return $this
-     */
-    public function delete() {
+    public function delete(): self
+    {
         if ($this->isExists()) {
             $iId = $this->getId();
             \CIBlockElement::Delete($iId);
@@ -365,11 +274,8 @@ abstract class Entity extends \Api\Core\Base\Entity {
         return $this;
     }
 
-    /**
-     * 
-     * @return $this
-     */
-    public function counterInc(): self {
+    public function counterInc(): self
+    {
         $iId = $this->getId();
         if (intval($iId) > 0) {
             \CIBlockElement::CounterInc($iId);
@@ -378,11 +284,8 @@ abstract class Entity extends \Api\Core\Base\Entity {
         return $this;
     }
 
-    /**
-     * 
-     * @return \CIBlockElement
-     */
-    public function getCIBlockElement(): \CIBlockElement {
+    public function getCIBlockElement(): \CIBlockElement
+    {
         if (is_null($this->_CIBlockElement)) {
             $this->_CIBlockElement = new \CIBlockElement();
         }

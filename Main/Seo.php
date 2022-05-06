@@ -8,7 +8,8 @@ use Bitrix\Main\Page\Asset;
  * Class \Api\Core\Main\Seo
  *
  */
-class Seo {
+class Seo
+{
 
     /**
      * @var \Api\Core\Main\Seo
@@ -56,15 +57,13 @@ class Seo {
      */
     private $_breadcrumbs = array();
 
-    protected function __construct() {
-        
+    protected function __construct()
+    {
+
     }
 
-    /**
-     * 
-     * @return \Api\Core\Main\Seo
-     */
-    public static function getInstance(): self {
+    public static function getInstance(): self
+    {
         if (is_null(self::$instance)) {
             self::$instance = new Self();
         }
@@ -72,11 +71,8 @@ class Seo {
         return self::$instance;
     }
 
-    /**
-     * @param null $arParams
-     * @return \self
-     */
-    public function setMeta($arParams = null): self {
+    public function setMeta($arParams = null): self
+    {
         if (is_null($arParams)) {
             return $this;
         }
@@ -105,12 +101,8 @@ class Seo {
         return $this;
     }
 
-    /**
-     * 
-     * @global \CMain $APPLICATION
-     * @return \self
-     */
-    public function setMetaPage(): self {
+    public function setMetaPage(): self
+    {
         global $APPLICATION;
         if ($this->_title !== null) {
             $APPLICATION->SetPageProperty('title', $this->_title);
@@ -140,27 +132,19 @@ class Seo {
         return $this;
     }
 
-    public function getPageTitle(): string {
+    public function getPageTitle(): string
+    {
         return $this->_h1;
     }
 
-    /**
-     * 
-     * @param string $strTitle
-     * @return $this
-     */
-    public function setPageTitle($strTitle): self {
+    public function setPageTitle(string $strTitle): self
+    {
         $this->_h1 = $strTitle;
         return $this;
     }
 
-    /**
-     * 
-     * @param string $strName
-     * @param string $strUrl
-     * @return $this
-     */
-    public function addBreadcrumb($strName, $strUrl = ''): self {
+    public function addBreadcrumb(string $strName, string $strUrl = ''): self
+    {
         $this->_breadcrumbs[] = array(
             'name' => $strName,
             'url' => $strUrl,
@@ -168,11 +152,8 @@ class Seo {
         return $this;
     }
 
-    /**
-     * @param array $arItems
-     * @return $this
-     */
-    public function setBreadcrumbs(array $arItems): self {
+    public function setBreadcrumbs(array $arItems): self
+    {
         $this->_breadcrumbs = $arItems;
 
         return $this;

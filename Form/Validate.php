@@ -4,7 +4,8 @@ namespace Api\Core\Form;
 
 use Api\Core\Form\Entity\Field;
 
-abstract class Validate {
+abstract class Validate
+{
 
     const INTEGER = 1;
     const STRING = 2;
@@ -42,8 +43,9 @@ abstract class Validate {
     protected $_field;
     protected $_messages;
 
-    public function __construct() {
-        
+    public function __construct()
+    {
+
     }
 
     abstract public function isValid($value);
@@ -51,7 +53,8 @@ abstract class Validate {
     /**
      * @return int
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->_type;
     }
 
@@ -60,7 +63,8 @@ abstract class Validate {
      * @return $this
      * @throws \Exception
      */
-    protected function setType($type = null) {
+    protected function setType($type = null)
+    {
 
         if (is_string($type) && isset($this->_constants[$type])) {
             $iType = $this->_constants[$type];
@@ -79,7 +83,8 @@ abstract class Validate {
      * @return $this
      * @throws \Exception
      */
-    public function setField(Field $obField) {
+    public function setField(Field $obField)
+    {
         $this->_field = $obField;
         $this->setType($obField->getType());
         return $this;
@@ -88,16 +93,18 @@ abstract class Validate {
     /**
      * @return Field
      */
-    public function getField() {
+    public function getField()
+    {
         return $this->_field;
     }
 
     /**
-     * 
+     *
      * @param type $value
      * @return $this
      */
-    protected function _setValue($value) {
+    protected function _setValue($value)
+    {
         $this->_value = $value;
         $this->_messages = array();
         $this->_errors = array();
@@ -105,10 +112,11 @@ abstract class Validate {
     }
 
     /**
-     * 
+     *
      * @return boolean
      */
-    public function isFieldSet() {
+    public function isFieldSet()
+    {
         if ($this->_field instanceof Field) {
             return true;
         }
@@ -116,12 +124,13 @@ abstract class Validate {
     }
 
     /**
-     * 
+     *
      * @param type $messageKey
      * @param type $value
      * @param type $arOptions
      */
-    protected function _error($messageKey, $value = null, $arOptions = array()) {
+    protected function _error($messageKey, $value = null, $arOptions = array())
+    {
         if ($messageKey === null) {
             $keys = array_keys($this->_messageTemplates);
             $messageKey = current($keys);
@@ -133,13 +142,14 @@ abstract class Validate {
     }
 
     /**
-     * 
+     *
      * @param type $messageKey
      * @param type $value
      * @param type $arOptions
      * @return string
      */
-    protected function _createMessage($messageKey, $value, $arOptions = array()) {
+    protected function _createMessage($messageKey, $value, $arOptions = array())
+    {
         //$messageKey
         $strFormMessage = $this->getField()->getParent()->getMessage($messageKey);
         if (is_null($strFormMessage)) {
@@ -158,20 +168,22 @@ abstract class Validate {
     }
 
     /**
-     * 
+     *
      * @return array
      */
-    public function getErrors() {
+    public function getErrors()
+    {
         return $this->_errors;
     }
 
     /**
-     * 
+     *
      * @param type $messageKey
      * @param type $strMessage
      * @return $this
      */
-    public function setMessage($messageKey, $strMessage) {
+    public function setMessage($messageKey, $strMessage)
+    {
         $this->_messageTemplates[$messageKey] = $strMessage;
         return $this;
     }

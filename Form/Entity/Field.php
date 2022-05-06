@@ -10,7 +10,8 @@ use Api\Core\Form\Validate\Notempty;
  * Class Field
  * @package Api\Core\Form\Entity
  */
-class Field {
+class Field
+{
 
     /**
      *
@@ -109,21 +110,24 @@ class Field {
      * @param $strName
      * @throws \Exception
      */
-    public function __construct($strName) {
+    public function __construct($strName)
+    {
         $this->setName($strName);
     }
 
     /**
      * @return bool
      */
-    public function isGroup() {
+    public function isGroup()
+    {
         return false;
     }
 
     /**
      * @return bool
      */
-    public function isOptionField() {
+    public function isOptionField()
+    {
         if (in_array($this->getType(), self::OPTION_FIELDS)) {
             return true;
         }
@@ -133,7 +137,8 @@ class Field {
     /**
      * @return bool
      */
-    public function isCheckbox() {
+    public function isCheckbox()
+    {
         if ($this->getType() == "checkbox") {
             return true;
         }
@@ -143,7 +148,8 @@ class Field {
     /**
      * @return bool
      */
-    public function isRadio() {
+    public function isRadio()
+    {
         if ($this->getType() == "radio") {
             return true;
         }
@@ -153,7 +159,8 @@ class Field {
     /**
      * @return bool
      */
-    public function isHidden() {
+    public function isHidden()
+    {
         if ($this->getType() == "hidden") {
             return true;
         }
@@ -163,7 +170,8 @@ class Field {
     /**
      * @return bool
      */
-    public function isSelect() {
+    public function isSelect()
+    {
         if ($this->getType() == "select") {
             return true;
         }
@@ -173,7 +181,8 @@ class Field {
     /**
      * @return bool
      */
-    public function isLogic() {
+    public function isLogic()
+    {
         if ($this->isCheckbox()) {
             return true;
         }
@@ -183,7 +192,8 @@ class Field {
     /**
      * @return bool
      */
-    public function isFile() {
+    public function isFile()
+    {
         if ($this->getType() == "file") {
             return true;
         }
@@ -195,7 +205,8 @@ class Field {
      * @param $flag
      * @return $this
      */
-    public function setIsArray($flag) {
+    public function setIsArray($flag)
+    {
         $this->_isArray = (bool) $flag;
         return $this;
     }
@@ -205,7 +216,8 @@ class Field {
      *
      * @return bool
      */
-    public function isArray() {
+    public function isArray()
+    {
         return $this->_isArray;
     }
 
@@ -213,7 +225,8 @@ class Field {
      * @param Entity $obForm
      * @return $this
      */
-    public function setParent(Entity $obForm) {
+    public function setParent(Entity $obForm)
+    {
         $this->_form = $obForm;
         return $this;
     }
@@ -221,7 +234,8 @@ class Field {
     /**
      * @return Entity
      */
-    public function getParent() {
+    public function getParent()
+    {
         return $this->_form;
     }
 
@@ -231,7 +245,8 @@ class Field {
      * @return $this
      * @throws \Exception
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $name = $this->filterName($name);
         if ('' === $name) {
             throw new \Exception('Invalid name provided; must contain only valid variable characters and be non-empty');
@@ -246,7 +261,8 @@ class Field {
      * @param bool $allowBrackets
      * @return string|string[]|null
      */
-    public function filterName($value, $allowBrackets = false) {
+    public function filterName($value, $allowBrackets = false)
+    {
         $charset = '^a-zA-Z0-9_\x7f-\xff-';
         if ($allowBrackets) {
             $charset .= '\[\]';
@@ -257,7 +273,8 @@ class Field {
     /**
      * @return mixed
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->_name;
     }
 
@@ -268,7 +285,8 @@ class Field {
      * @return $this
      * @throws \Exception
      */
-    public function setAttribute($name, $value) {
+    public function setAttribute($name, $value)
+    {
         $name = strval($name);
         if ('_' == $name[0]) {
             throw new \Exception(sprintf('Invalid attribute "%s"; must not contain a leading underscore', $name));
@@ -299,7 +317,8 @@ class Field {
      * @param null $default
      * @return mixed|null
      */
-    public function getAttribute($key, $default = null) {
+    public function getAttribute($key, $default = null)
+    {
         $key = (string) $key;
         if (array_key_exists($key, $this->_attributes)) {
             return $this->_attributes[$key];
@@ -310,7 +329,8 @@ class Field {
     /**
      * @return array
      */
-    public function getAttributes() {
+    public function getAttributes()
+    {
         return $this->_attributes;
     }
 
@@ -319,7 +339,8 @@ class Field {
      * @param string $label
      * @return $this
      */
-    public function setLabel($label) {
+    public function setLabel($label)
+    {
         $this->_label = strval($label);
         return $this;
     }
@@ -327,7 +348,8 @@ class Field {
     /**
      * @return mixed
      */
-    public function getLabel() {
+    public function getLabel()
+    {
         return $this->_label;
     }
 
@@ -336,7 +358,8 @@ class Field {
      * @param bool $flag
      * @return $this
      */
-    public function setRequired($flag = true) {
+    public function setRequired($flag = true)
+    {
         $this->_required = (bool) $flag;
         return $this;
     }
@@ -344,7 +367,8 @@ class Field {
     /**
      * @return bool
      */
-    public function isRequired() {
+    public function isRequired()
+    {
         return $this->_required;
     }
 
@@ -353,7 +377,8 @@ class Field {
      * @param bool $flag
      * @return $this
      */
-    public function setChecked($flag = true) {
+    public function setChecked($flag = true)
+    {
         $this->_checked = (bool) $flag;
         return $this;
     }
@@ -361,7 +386,8 @@ class Field {
     /**
      * @return bool
      */
-    public function isChecked() {
+    public function isChecked()
+    {
         return $this->_checked;
     }
 
@@ -370,7 +396,8 @@ class Field {
      * @param mixed $value
      * @return $this
      */
-    public function setValue($value) {
+    public function setValue($value)
+    {
         if (is_callable($this->getValueCallback())) {
             $value = call_user_func_array($this->getValueCallback(), array($value));
         }
@@ -384,7 +411,8 @@ class Field {
     /**
      * @return $this
      */
-    public function cleanValue() {
+    public function cleanValue()
+    {
         $this->_value = null;
         return $this;
     }
@@ -392,7 +420,8 @@ class Field {
     /**
      * @return array|string
      */
-    public function getValue() {
+    public function getValue()
+    {
         return is_array($this->_value) ? $this->_value : strval($this->_value);
     }
 
@@ -401,7 +430,8 @@ class Field {
      * @param mixed $value
      * @return $this
      */
-    public function setDefault($value) {
+    public function setDefault($value)
+    {
         $this->_default = $value;
         return $this;
     }
@@ -409,7 +439,8 @@ class Field {
     /**
      * @return string
      */
-    public function getDefault() {
+    public function getDefault()
+    {
         return strval($this->_default);
     }
 
@@ -418,7 +449,8 @@ class Field {
      * @param int $order
      * @return $this
      */
-    public function setOrder($order) {
+    public function setOrder($order)
+    {
         $this->_order = intval($order);
         return $this;
     }
@@ -426,7 +458,8 @@ class Field {
     /**
      * @return mixed
      */
-    public function getOrder() {
+    public function getOrder()
+    {
         return $this->_order;
     }
 
@@ -435,7 +468,8 @@ class Field {
      * @param mixed $value
      * @return $this
      */
-    public function setType($value) {
+    public function setType($value)
+    {
         $this->_type = $value;
         return $this;
     }
@@ -443,7 +477,8 @@ class Field {
     /**
      * @return mixed
      */
-    public function getType() {
+    public function getType()
+    {
 
         return $this->_type;
     }
@@ -454,7 +489,8 @@ class Field {
      * @param bool $isEmpty depticated
      * @return $this
      */
-    public function addOption($obValue, $label = '', $isEmpty = false) {
+    public function addOption($obValue, $label = '', $isEmpty = false)
+    {
         if (!($obValue instanceof \Api\Core\Form\Entity\Field\Option\Entity)) {
             $value = (string) $obValue;
             $obValue = new \Api\Core\Form\Entity\Field\Option\Entity();
@@ -471,7 +507,8 @@ class Field {
     /**
      * @return \Api\Core\Form\Entity\Field\Option\Collection
      */
-    public function getOptions() {
+    public function getOptions()
+    {
         if (is_null($this->_options)) {
             $this->_options = new \Api\Core\Form\Entity\Field\Option\Collection();
         }
@@ -480,10 +517,11 @@ class Field {
     }
 
     /**
-     * 
+     *
      * @return \Api\Core\Form\Entity\Field\Option\Collection
      */
-    public function getSelectedOptions() {
+    public function getSelectedOptions()
+    {
         return $this->getOptions()->getSelectedOptions();
     }
 
@@ -491,7 +529,8 @@ class Field {
      *
      * @return boolean
      */
-    public function hasOptions() {
+    public function hasOptions()
+    {
         return $this->getOptions()->count() > 0;
     }
 
@@ -501,7 +540,8 @@ class Field {
      * @return bool
      * @throws \Exception
      */
-    public function isValid($value = null, $context = null) {
+    public function isValid($value = null, $context = null)
+    {
         if ($value !== null) {
             $this->setValue($value);
         }
@@ -553,7 +593,8 @@ class Field {
      * @param string $strName
      * @return Validate
      */
-    public function getValidator($strName) {
+    public function getValidator($strName)
+    {
         if (!isset($this->_validators[$strName])) {
             $strLen = strlen($strName);
             foreach ($this->_validators as $key => $obValidator) {
@@ -583,7 +624,8 @@ class Field {
      * @param string $strValidator
      * @return bool
      */
-    protected function _loadValidator(string $strValidator) {
+    protected function _loadValidator(string $strValidator)
+    {
         $strClassName = "\\Realweb\\Api\\Module\\Form\\Model\\Validate\\" . \Realweb\Helper::upFirst($strValidator);
         if (class_exists($strClassName)) {
             $obValidator = new $strClassName();
@@ -597,7 +639,8 @@ class Field {
     /**
      * @return array
      */
-    public function getValidators() {
+    public function getValidators()
+    {
         $arValidators = array();
         foreach ($this->_validators as $key => $value) {
             if ($value instanceof Validate) {
@@ -619,7 +662,8 @@ class Field {
      * @return Field
      * @throws \Exception
      */
-    public function setValidators(array $arValidators) {
+    public function setValidators(array $arValidators)
+    {
         $this->clearValidators();
         return $this->addValidators($arValidators);
     }
@@ -628,7 +672,8 @@ class Field {
      *
      * @return $this
      */
-    public function clearValidators() {
+    public function clearValidators()
+    {
         $this->_validators = array();
         return $this;
     }
@@ -639,7 +684,8 @@ class Field {
      * @return $this
      * @throws \Exception
      */
-    public function addValidators(array $arValidators) {
+    public function addValidators(array $arValidators)
+    {
         foreach ($arValidators as $validatorInfo) {
             if (is_string($validatorInfo)) {
                 $this->addValidator($validatorInfo);
@@ -658,7 +704,8 @@ class Field {
      * @return $this
      * @throws \Exception
      */
-    public function addValidator($validator) {
+    public function addValidator($validator)
+    {
         if ($validator instanceof Validate) {
             $name = get_class($validator);
         } elseif (is_string($validator)) {
@@ -674,7 +721,8 @@ class Field {
     /**
      * @return callable
      */
-    public function getValueCallback() {
+    public function getValueCallback()
+    {
         return $this->_value_callback;
     }
 
@@ -682,7 +730,8 @@ class Field {
      * @param callable $value_callback
      * @return $this
      */
-    public function setValueCallback(callable $value_callback) {
+    public function setValueCallback(callable $value_callback)
+    {
         $this->_value_callback = $value_callback;
         return $this;
     }
@@ -690,7 +739,8 @@ class Field {
     /**
      * @return callable
      */
-    public function getStructureValueCallback() {
+    public function getStructureValueCallback()
+    {
         return $this->_structure_value_callback;
     }
 
@@ -698,7 +748,8 @@ class Field {
      * @param callable $structure_value_callback
      * @return $this
      */
-    public function setStructureValueCallback(callable $structure_value_callback) {
+    public function setStructureValueCallback(callable $structure_value_callback)
+    {
         $this->_structure_value_callback = $structure_value_callback;
         return $this;
     }
@@ -706,14 +757,16 @@ class Field {
     /**
      * @return bool
      */
-    protected function _hasErrors() {
+    protected function _hasErrors()
+    {
         return !empty($this->_errors);
     }
 
     /**
      * @return array
      */
-    public function getErrors() {
+    public function getErrors()
+    {
         return $this->_errors;
     }
 
@@ -722,7 +775,8 @@ class Field {
      * @param array $arErrors
      * @return $this
      */
-    public function setErrors($arErrors) {
+    public function setErrors($arErrors)
+    {
         $this->_errors = $arErrors;
         return $this;
     }
@@ -732,7 +786,8 @@ class Field {
      * @param string $strError
      * @return $this
      */
-    public function addError($strError) {
+    public function addError($strError)
+    {
         $this->_errors[] = $strError;
         return $this;
     }
@@ -740,14 +795,16 @@ class Field {
     /**
      * @return string
      */
-    public function getHash() {
+    public function getHash()
+    {
         return md5(serialize($this));
     }
 
     /**
      * @return array|mixed|string
      */
-    public function getStructureValue() {
+    public function getStructureValue()
+    {
         if (is_callable($this->getStructureValueCallback())) {
             return call_user_func_array($this->getStructureValueCallback(), array($this->getValue(), $this));
         } else {
@@ -758,7 +815,8 @@ class Field {
     /**
      * @return array
      */
-    public function getStructure() {
+    public function getStructure()
+    {
         $arField = array(
             'name' => $this->getName(),
             'order' => $this->getOrder(),

@@ -7,36 +7,23 @@ use Bitrix\Main\Loader;
 /**
  * Class \Api\Core\Iblock\Section\Model
  */
-abstract class Model extends \Api\Core\Base\Model {
+abstract class Model extends \Api\Core\Base\Model
+{
 
-    /**
-     * @var int
-     */
-    protected static $_iblockId = 0;
+    protected static int $_iblockId = 0;
 
-    /**
-     * 
-     * @return string
-     */
-    public static function getTable(): string {
+    public static function getTable(): string
+    {
         return '';
     }
 
-    /**
-     * 
-     * @return int
-     */
-    public static function getIblockId(): int {
+    public static function getIblockId(): int
+    {
         return static::$_iblockId;
     }
 
-    /**
-     * 
-     * @param array $arFilter
-     * @return \Api\Core\Entity\Base
-     */
-    public static function getOne(array $arFilter = array()) {
-
+    public static function getOne(array $arFilter = array())
+    {
         Loader::includeModule('iblock');
 
         $arFilter['IBLOCK_ID'] = static::getIblockId();
@@ -57,26 +44,15 @@ abstract class Model extends \Api\Core\Base\Model {
         $arSection = $dbSectionTable::getRow($arParams);
 
         if ($arSection) {
-
             $obEntity = static::_getEntityFromSection($arSection);
             return $obEntity;
         } else {
             return static::_getEntityFromSection(array());
         }
-
-        return null;
     }
 
-    /**
-     * 
-     * @param array $arFilter
-     * @param int $iLimit
-     * @param int $iOffset
-     * @param array $arParams
-     * @return \Api\Core\Base\Collection
-     */
-    public static function getAll(array $arFilter = array(), $iLimit = null, $iOffset = null, array $arParams = array()) {
-
+    public static function getAll(array $arFilter = array(), $iLimit = null, $iOffset = null, array $arParams = array()): \Api\Core\Base\Collection
+    {
         Loader::includeModule('iblock');
 
         $arFunctionParams = func_get_args();
@@ -149,13 +125,8 @@ abstract class Model extends \Api\Core\Base\Model {
         return $obCollection;
     }
 
-    /**
-     * 
-     * @param array $arSections
-     * @return \Api\Core\Base\Collection
-     */
-    public static function getFromArray(array $arSections) {
-
+    public static function getFromArray(array $arSections)
+    {
         $strCollectionClass = static::getEntity()::getCollection();
         $obCollection = new $strCollectionClass();
 
@@ -167,19 +138,13 @@ abstract class Model extends \Api\Core\Base\Model {
         return $obCollection;
     }
 
-    /**
-     * 
-     * @return \Bitrix\Main\ORM\Data\DataManager
-     */
-    protected static function _getTableEntity() {
+    protected static function _getTableEntity(): string
+    {
         return \Bitrix\Iblock\Model\Section::compileEntityByIblock(self::getIblockId());
     }
 
-    /**
-     * 
-     * @param array $arParams
-     */
-    protected static function _appendSectionCodePath(array &$arParams) {
+    protected static function _appendSectionCodePath(array &$arParams): void
+    {
         $arParams['runtime']['SubSectionTable'] = array(
             'data_type' => \Bitrix\Iblock\SectionTable::getEntity(),
             'join_type' => 'inner',
@@ -194,13 +159,8 @@ abstract class Model extends \Api\Core\Base\Model {
         );
     }
 
-    /**
-     * 
-     * @param array $arSection
-     * @return \Api\Core\Iblock\Section\Entity
-     */
-    protected static function _getEntityFromSection($arSection) {
-
+    protected static function _getEntityFromSection(array $arSection): Entity
+    {
         $strEntityClass = static::getEntity();
         /** @var \Api\Core\Iblock\Section\Entity $obEntity */
         $obEntity = new $strEntityClass($arSection['ID'], $arSection);
