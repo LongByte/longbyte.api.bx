@@ -26,11 +26,11 @@ namespace Api\Core\Iblock\Property;
  * @method string getCode()
  * @method $this setCode(string $strCode)
  * @method bool hasCode()
- * @method text getDefaultValue()
- * @method $this setDefaultValue(text $mixedDefaultValue)
+ * @method string getDefaultValue()
+ * @method $this setDefaultValue(string $mixedDefaultValue)
  * @method bool hasDefaultValue()
- * @method enum getPropertyType()
- * @method $this setPropertyType(enum $mixedPropertyType)
+ * @method string getPropertyType()
+ * @method $this setPropertyType(string $mixedPropertyType)
  * @method bool hasPropertyType()
  * @method int getRowCount()
  * @method $this setRowCount(int $iRowCount)
@@ -38,8 +38,8 @@ namespace Api\Core\Iblock\Property;
  * @method int getColCount()
  * @method $this setColCount(int $iColCount)
  * @method bool hasColCount()
- * @method enum getListType()
- * @method $this setListType(enum $mixedListType)
+ * @method string getListType()
+ * @method $this setListType(string $mixedListType)
  * @method bool hasListType()
  * @method boolean getMultiple()
  * @method $this setMultiple(boolean $bMultiple)
@@ -72,16 +72,16 @@ namespace Api\Core\Iblock\Property;
  * @method $this setIsRequired(boolean $bIsRequired)
  * @method bool hasIsRequired()
  * @method enum getVersion()
- * @method $this setVersion(enum $mixedVersion)
+ * @method $this setVersion(string $mixedVersion)
  * @method bool hasVersion()
  * @method string getUserType()
  * @method $this setUserType(string $strUserType)
  * @method bool hasUserType()
- * @method text getUserTypeSettingsList()
- * @method $this setUserTypeSettingsList(text $mixedUserTypeSettingsList)
+ * @method string getUserTypeSettingsList()
+ * @method $this setUserTypeSettingsList(string $mixedUserTypeSettingsList)
  * @method bool hasUserTypeSettingsList()
- * @method text getUserTypeSettings()
- * @method $this setUserTypeSettings(text $mixedUserTypeSettings)
+ * @method string getUserTypeSettings()
+ * @method $this setUserTypeSettings(string $mixedUserTypeSettings)
  * @method bool hasUserTypeSettings()
  * @method string getHint()
  * @method $this setHint(string $strHint)
@@ -103,49 +103,25 @@ namespace Api\Core\Iblock\Property;
 class Entity extends \Api\Core\Base\Entity
 {
 
-    /**
-     *
-     * @var \Api\Core\Iblock\Property\Value\Entity
-     */
-    protected $_obValueObject = null;
+    protected ?\Api\Core\Iblock\Property\Value\Entity $_obValueObject = null;
 
-    /**
-     *
-     * @var \Api\Core\Iblock\Property\Value\Collection
-     */
-    protected $_obValuesCollection = null;
+    protected ?\Api\Core\Iblock\Property\Value\Collection $_obValuesCollection = null;
 
-    /**
-     *
-     * @return string
-     */
     public static function getModel(): string
     {
         return Model::class;
     }
 
-    /**
-     *
-     * @return string
-     */
     public static function getCollection(): string
     {
         return Collection::class;
     }
 
-    /**
-     *
-     * @return array
-     */
     public static function getTableFields(): array
     {
         return array_keys(static::getModel()::getTable()::getScalarFields());
     }
 
-    /**
-     *
-     * @return array
-     */
     public function getFields(): array
     {
         $arFields = static::getTableFields();
@@ -156,37 +132,21 @@ class Entity extends \Api\Core\Base\Entity
         return $arFields;
     }
 
-    /**
-     *
-     * @return bool
-     */
     public function isMultiple(): bool
     {
         return $this->getMultiple() == 'Y';
     }
 
-    /**
-     *
-     * @return bool
-     */
     public function isWithDescription(): bool
     {
         return $this->getWithDescription() == 'Y';
     }
 
-    /**
-     *
-     * @return bool
-     */
     public function isFileProperty(): bool
     {
         return $this->getPropertyType() == \Bitrix\Iblock\PropertyTable::TYPE_FILE;
     }
 
-    /**
-     *
-     * @return \Api\Core\Iblock\Property\Value\Entity|null
-     */
     public function getValueObject(): ?\Api\Core\Iblock\Property\Value\Entity
     {
         if (!$this->isMultiple()) {
@@ -206,10 +166,6 @@ class Entity extends \Api\Core\Base\Entity
         return $this->_obValueObject;
     }
 
-    /**
-     *
-     * @return \Api\Core\Iblock\Property\Value\Collection|null
-     */
     public function getValuesCollection(): ?\Api\Core\Iblock\Property\Value\Collection
     {
         if ($this->isMultiple()) {
@@ -235,36 +191,23 @@ class Entity extends \Api\Core\Base\Entity
         return $this->_obValuesCollection;
     }
 
-    /**
-     *
-     * @return array|null
-     */
     public function getData(): ?array
     {
         return null;
     }
 
-    /**
-     *
-     * @return null
-     */
-    public function save()
+    public function save(): self
     {
-        return null;
+        return $this;
+    }
+
+    public function delete(): self
+    {
+        return $this;
     }
 
     /**
-     *
-     * @return null
-     */
-    public function delete()
-    {
-        return null;
-    }
-
-    /**
-     *
-     * @return array|string
+     * @return array|mixed
      */
     public function toSaveFormat()
     {

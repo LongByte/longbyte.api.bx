@@ -21,34 +21,18 @@ namespace Api\Core\Iblock\Property\Value;
 class Entity extends \Api\Core\Base\Virtual\Entity
 {
 
-    /**
-     *
-     * @var string
-     */
-    protected static $_primaryField = 'VALUE';
+    protected static string $_primaryField = 'VALUE';
 
-    /**
-     *
-     * @return string
-     */
     public static function getModel(): string
     {
         return Model::class;
     }
 
-    /**
-     *
-     * @return string
-     */
     public static function getCollection(): string
     {
         return Collection::class;
     }
 
-    /**
-     *
-     * @return array
-     */
     public function getFields(): array
     {
         $arFields = array(

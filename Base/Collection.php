@@ -8,7 +8,7 @@ namespace Api\Core\Base;
 class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 
-    protected static $_keyFunction = 'getId';
+    protected static string $_keyFunction = 'getId';
     protected bool $_uniqueMode = false;
     protected array $_collection = array();
     protected array $_keys = array();

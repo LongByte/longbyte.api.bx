@@ -9,7 +9,7 @@ abstract class Entity extends \Api\Core\Base\Entity
 {
 
     protected ?\Api\Core\Main\File\Entity $_obPicture = null;
-    protected ?Api\Core\Main\File\Entity $_obDetailPicture = null;
+    protected ?\Api\Core\Main\File\Entity $_obDetailPicture = null;
     protected ?array $_arIProperty = null;
 
     public function getPictureFile(): ?\Api\Core\Main\File\Entity

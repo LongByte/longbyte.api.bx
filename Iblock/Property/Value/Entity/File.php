@@ -8,22 +8,9 @@ namespace Api\Core\Iblock\Property\Value\Entity;
 class File extends \Api\Core\Iblock\Property\Value\Entity
 {
 
-    /**
-     *
-     * @var bool
-     */
-    protected $bMarkToDelele = false;
+    protected bool $bMarkToDelele = false;
+    protected ?\Api\Core\Main\File\Entity $obFile = null;
 
-    /**
-     *
-     * @var \Api\Core\Main\File\Entity
-     */
-    protected $obFile = null;
-
-    /**
-     *
-     * @param array $data
-     */
     public function __construct(array $data = array())
     {
         parent::__construct($data);
@@ -32,12 +19,7 @@ class File extends \Api\Core\Iblock\Property\Value\Entity
         }
     }
 
-    /**
-     *
-     * @param mixed $value
-     * @return $this
-     */
-    public function setValue($value)
+    public function setValue($value): self
     {
         parent::setValue($value);
         if (is_numeric($value)) {
@@ -46,21 +28,12 @@ class File extends \Api\Core\Iblock\Property\Value\Entity
         return $this;
     }
 
-    /**
-     *
-     * @param bool $bMarkToDelele
-     * @return $this
-     */
     public function markDelete(bool $bMarkToDelele = true): self
     {
         $this->bMarkToDelele = $bMarkToDelele;
         return $this;
     }
 
-    /**
-     *
-     * @return \Api\Core\Main\File\Entity|null
-     */
     public function getFile(): ?\Api\Core\Main\File\Entity
     {
         if (is_null($this->obFile) && is_numeric($this->getValue())) {
@@ -69,11 +42,6 @@ class File extends \Api\Core\Iblock\Property\Value\Entity
         return $this->obFile;
     }
 
-    /**
-     *
-     * @param \Api\Core\Main\File\Entity $obFile
-     * @return $this
-     */
     public function setFile(\Api\Core\Main\File\Entity $obFile): self
     {
         $this->obFile = $obFile;
@@ -81,7 +49,6 @@ class File extends \Api\Core\Iblock\Property\Value\Entity
     }
 
     /**
-     *
      * @return array|int
      */
     public function getSaveValue()

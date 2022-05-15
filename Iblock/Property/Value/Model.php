@@ -8,10 +8,6 @@ namespace Api\Core\Iblock\Property\Value;
 class Model extends \Api\Core\Base\Virtual\Model
 {
 
-    /**
-     *
-     * @return string
-     */
     public static function getEntity(): string
     {
         return Entity::class;

@@ -4,16 +4,11 @@ namespace Api\Core\Iblock\Property;
 
 /**
  * Class \Api\Core\Iblock\Property\Collection
- *
  */
 class Collection extends \Api\Core\Base\Collection
 {
 
-    /**
-     *
-     * @var string
-     */
-    protected static $_keyFunction = 'getCode';
+    protected static string $_keyFunction = 'getCode';
 
     /**
      * @param $name
@@ -56,20 +51,11 @@ class Collection extends \Api\Core\Base\Collection
         }
     }
 
-    /**
-     * @param $strString
-     * @return string
-     */
     protected static function toLower(string $strString): string
     {
         return ToLower($strString);
     }
 
-    /**
-     * @param $strString
-     *
-     * @return string
-     */
     protected static function toUpper(string $strString): string
     {
         return ToUpper($strString);
