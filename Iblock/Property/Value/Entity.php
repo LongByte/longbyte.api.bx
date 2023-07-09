@@ -20,7 +20,6 @@ namespace Api\Core\Iblock\Property\Value;
  */
 class Entity extends \Api\Core\Base\Virtual\Entity
 {
-
     protected static string $_primaryField = 'VALUE';
 
     public static function getModel(): string
@@ -33,7 +32,7 @@ class Entity extends \Api\Core\Base\Virtual\Entity
         return Collection::class;
     }
 
-    public function getFields(): array
+    public static function getFields(): array
     {
         $arFields = array(
             'VALUE',
@@ -43,5 +42,4 @@ class Entity extends \Api\Core\Base\Virtual\Entity
         );
         return $arFields;
     }
-
 }

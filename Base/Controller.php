@@ -41,6 +41,7 @@ class Controller
     public function __construct()
     {
         $this->obRequest = Context::getCurrent()->getRequest();
+        $this->rawPost = file_get_contents('php://input');
     }
 
     protected function getRequest(): \Bitrix\Main\HttpRequest

@@ -19,7 +19,7 @@ class Collection extends \Api\Core\Base\Collection
      * @param \Api\Core\Form\Entity\Field\Option\Entity $obOption
      * @return $this
      */
-    public function addItem($obOption)
+    public function addItem($obOption): self
     {
         $this->_collection[] = $obOption;
         $this->_keys[] = $obOption->getValue();

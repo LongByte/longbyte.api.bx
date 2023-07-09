@@ -9,12 +9,11 @@ use Api\Core\Utils\ArrayHelper;
  */
 abstract class Model
 {
-
     abstract public static function getTable(): string;
 
     abstract public static function getEntity(): string;
 
-    public static function getOne(array $arFilter = array(), array $arParams = array())
+    public static function getOne(array $arFilter = array(), array $arParams = array()): ?Entity
     {
 
         $arRow = static::getOneAsArray($arFilter, $arParams);

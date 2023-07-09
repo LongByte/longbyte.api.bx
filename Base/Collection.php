@@ -43,7 +43,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
         return array_values($this->_keys);
     }
 
-    public function getByKey($strKey): ?Entity
+    public function getByKey(mixed $strKey): ?Entity
     {
         $iCollectionKey = array_search($strKey, $this->_keys);
         if ($iCollectionKey !== false) {
@@ -52,7 +52,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
         return null;
     }
 
-    public function removeByKey($strKey): self
+    public function removeByKey(mixed $strKey): self
     {
         $iCollectionKey = array_search($strKey, $this->_keys);
         if ($iCollectionKey !== false) {

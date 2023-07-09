@@ -7,8 +7,7 @@ namespace Api\Core\Base\Table;
  */
 abstract class Entity extends \Api\Core\Base\Entity
 {
-
-    public function getFields(): array
+    public static function getFields(): array
     {
         $arFields = array();
         /** @var \Bitrix\Main\ORM\Fields\Field $obField */
@@ -23,5 +22,4 @@ abstract class Entity extends \Api\Core\Base\Entity
         }
         return $arFields;
     }
-
 }

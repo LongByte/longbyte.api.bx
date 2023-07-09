@@ -7,7 +7,5 @@ namespace Api\Core\Iblock\Property\Value;
  */
 class Collection extends \Api\Core\Base\Collection
 {
-
     protected static string $_keyFunction = 'getValue';
-
 }

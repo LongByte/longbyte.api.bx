@@ -31,7 +31,7 @@ class Extension extends \Api\Core\Form\Validate\File\Exist
      * @var array Error message template variables
      */
     protected $_messageVariables = array(
-        'extension' => '_extension'
+        'extension' => '_extension',
     );
 
     /**

@@ -857,7 +857,7 @@ class Entity
                     "EVENT_NAME" => $this->getMailEvent(),
                     "LID" => SITE_ID,
                     "C_FIELDS" => $arEventFields,
-                    "FILE" => $arFiles
+                    "FILE" => $arFiles,
                 ));
             } else {
                 Event::sendImmediate(array(
@@ -939,7 +939,7 @@ class Entity
         } else {
             $this->_captcha = array(
                 'code' => $APPLICATION->CaptchaGetCode(),
-                'google' => false
+                'google' => false,
             );
         }
 

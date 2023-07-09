@@ -7,7 +7,6 @@ namespace Api\Core\Iblock\Element;
  */
 abstract class Entity extends \Api\Core\Base\Entity
 {
-
     protected ?\Api\Core\Main\File\Entity $_obPreviewPicture = null;
     protected ?\Api\Core\Main\File\Entity $_obDetailPicture = null;
     protected ?\Api\Core\Iblock\Property\Collection $_obPropertyCollection = null;
@@ -141,12 +140,7 @@ abstract class Entity extends \Api\Core\Base\Entity
         return $arFields;
     }
 
-    /**
-     * @param $name
-     * @param $arguments
-     * @return $this|mixed
-     */
-    public function __call($name, $arguments)
+    public function __call(string $name, mixed $arguments)
     {
         if ((strpos($name, "get") === 0)) {
 
@@ -221,7 +215,6 @@ abstract class Entity extends \Api\Core\Base\Entity
 
     public function save(): self
     {
-
         $arData = array();
         foreach ($this->getFields() as $strField) {
             $arData[$strField] = $this->_data[$strField];
@@ -291,5 +284,4 @@ abstract class Entity extends \Api\Core\Base\Entity
         }
         return $this->_CIBlockElement;
     }
-
 }

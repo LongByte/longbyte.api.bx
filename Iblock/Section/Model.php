@@ -9,7 +9,6 @@ use Bitrix\Main\Loader;
  */
 abstract class Model extends \Api\Core\Base\Model
 {
-
     protected static int $_iblockId = 0;
 
     public static function getTable(): string
@@ -22,7 +21,12 @@ abstract class Model extends \Api\Core\Base\Model
         return static::$_iblockId;
     }
 
-    public static function getOne(array $arFilter = array())
+    public static function getOne(array $arFilter = array(), array $arParams = array()): ?\Api\Core\Base\Entity
+    {
+        throw new \Exception('Use getOneElement method');
+    }
+
+    public static function getOneSection(array $arFilter = array()): Entity
     {
         Loader::includeModule('iblock');
 
@@ -44,6 +48,7 @@ abstract class Model extends \Api\Core\Base\Model
         $arSection = $dbSectionTable::getRow($arParams);
 
         if ($arSection) {
+
             $obEntity = static::_getEntityFromSection($arSection);
             return $obEntity;
         } else {
@@ -51,8 +56,14 @@ abstract class Model extends \Api\Core\Base\Model
         }
     }
 
-    public static function getAll(array $arFilter = array(), $iLimit = null, $iOffset = null, array $arParams = array()): \Api\Core\Base\Collection
+    public static function getAll(array $arFilter = array(), int $iLimit = 0, int $iOffset = 0, array $arParams = array()): \Api\Core\Base\Collection
     {
+        throw new \Exception('Use getAllSections method');
+    }
+
+    public static function getAllSections(array $arFilter = array(), $iLimit = null, $iOffset = null, array $arParams = array()): \Api\Core\Base\Collection
+    {
+
         Loader::includeModule('iblock');
 
         $arFunctionParams = func_get_args();
@@ -125,7 +136,7 @@ abstract class Model extends \Api\Core\Base\Model
         return $obCollection;
     }
 
-    public static function getFromArray(array $arSections)
+    public static function getFromArray(array $arSections): \Api\Core\Base\Collection
     {
         $strCollectionClass = static::getEntity()::getCollection();
         $obCollection = new $strCollectionClass();
@@ -151,7 +162,7 @@ abstract class Model extends \Api\Core\Base\Model
             'reference' => array(
                 '<=ref.LEFT_MARGIN' => 'this.LEFT_MARGIN',
                 '>=ref.RIGHT_MARGIN' => 'this.RIGHT_MARGIN',
-                '=ref.IBLOCK_ID' => 'this.IBLOCK_ID'
+                '=ref.IBLOCK_ID' => 'this.IBLOCK_ID',
             ),
         );
         $arParams['runtime']['SECTION_CODE_PATH'] = array(
@@ -167,5 +178,4 @@ abstract class Model extends \Api\Core\Base\Model
 
         return $obEntity;
     }
-
 }

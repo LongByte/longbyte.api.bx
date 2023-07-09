@@ -7,7 +7,6 @@ namespace Api\Core\Iblock\Iblock;
  */
 class Model extends \Api\Core\Base\Model
 {
-
     protected static int $_iblockId = 0;
 
     public static function getTable(): string
@@ -19,5 +18,4 @@ class Model extends \Api\Core\Base\Model
     {
         return Entity::class;
     }
-
 }

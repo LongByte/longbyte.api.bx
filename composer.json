@@ -3,7 +3,7 @@
     "description": "longbyte.api core",
     "type": "cakephp-plugin",
     "require": {
-        "php": ">=7.2",
+        "php": ">=8.2",
         "composer/installers": "~1.0"
     },
     "extra": {

@@ -7,7 +7,6 @@ namespace Api\Core\Iblock\Property;
  */
 class Model extends \Api\Core\Base\Model
 {
-
     public static function getTable(): string
     {
         return Table::class;
@@ -17,5 +16,4 @@ class Model extends \Api\Core\Base\Model
     {
         return Entity::class;
     }
-
 }

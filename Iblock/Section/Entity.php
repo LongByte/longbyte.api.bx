@@ -7,9 +7,9 @@ namespace Api\Core\Iblock\Section;
  */
 abstract class Entity extends \Api\Core\Base\Entity
 {
-
     protected ?\Api\Core\Main\File\Entity $_obPicture = null;
     protected ?\Api\Core\Main\File\Entity $_obDetailPicture = null;
+    protected ?\Api\Core\Iblock\Iblock\Entity $_iblock = null;
     protected ?array $_arIProperty = null;
 
     public function getPictureFile(): ?\Api\Core\Main\File\Entity
@@ -149,5 +149,4 @@ abstract class Entity extends \Api\Core\Base\Entity
         }
         return $this;
     }
-
 }

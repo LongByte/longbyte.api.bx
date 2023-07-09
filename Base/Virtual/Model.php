@@ -7,18 +7,17 @@ namespace Api\Core\Base\Virtual;
  */
 abstract class Model extends \Api\Core\Base\Model
 {
-
     public static function getTable(): string
     {
         return '';
     }
 
-    public static function getOne()
+    public static function getOne(array $arFilter = array(), array $arParams = array()): ?Entity
     {
         return null;
     }
 
-    public static function getAll()
+    public static function getAll(array $arFilter = array(), int $iLimit = 0, int $iOffset = 0, array $arParams = array()): \Api\Core\Base\Collection
     {
         $strCollectionClass = static::getEntity()::getCollection();
         /** @var \Api\Core\Base\Collection $obCollection */
@@ -26,7 +25,7 @@ abstract class Model extends \Api\Core\Base\Model
         return $obCollection;
     }
 
-    public static function getFromArray(array $arItems)
+    public static function getFromArray(array $arItems): \Api\Core\Base\Collection
     {
         $strCollectionClass = static::getEntity()::getCollection();
         /** @var \Api\Core\Base\Collection $obCollection */
@@ -40,12 +39,11 @@ abstract class Model extends \Api\Core\Base\Model
         return $obCollection;
     }
 
-    protected static function _getEntityFromItem($arItem): Entity
+    protected static function _getEntityFromItem(array $arItem): Entity
     {
         $strEntityClass = static::getEntity();
         $obEntity = new $strEntityClass($arItem);
 
         return $obEntity;
     }
-
 }

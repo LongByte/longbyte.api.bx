@@ -25,7 +25,7 @@ class Mime extends \Api\Core\Form\Validate\File\Exist
      * @var array
      */
     protected $_messageVariables = array(
-        'type' => '_type'
+        'type' => '_type',
     );
 
     /**

@@ -95,7 +95,7 @@ class File extends \Api\Core\Form\Entity\Field
             'name' => $obFile->getOriginalName(),
             'size' => $obFile->getSize(),
             'public_path' => $obFile->getPublicPath(),
-            'hash' => $obFile->getHash()
+            'hash' => $obFile->getHash(),
         );
     }
 

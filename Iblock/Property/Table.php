@@ -7,7 +7,6 @@ namespace Api\Core\Iblock\Property;
  */
 class Table extends \Bitrix\Iblock\PropertyTable
 {
-
     public static function getScalarFields(): array
     {
         $arFields = array();
@@ -18,5 +17,4 @@ class Table extends \Bitrix\Iblock\PropertyTable
         }
         return $arFields;
     }
-
 }

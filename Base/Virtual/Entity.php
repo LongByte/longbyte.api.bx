@@ -7,7 +7,6 @@ namespace Api\Core\Base\Virtual;
  */
 abstract class Entity extends \Api\Core\Base\Entity
 {
-
     protected static string $_primaryField = 'ID';
 
     public function __construct(array $data = array())
@@ -46,5 +45,4 @@ abstract class Entity extends \Api\Core\Base\Entity
     {
         return static::$_primaryField;
     }
-
 }

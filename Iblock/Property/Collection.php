@@ -7,15 +7,9 @@ namespace Api\Core\Iblock\Property;
  */
 class Collection extends \Api\Core\Base\Collection
 {
-
     protected static string $_keyFunction = 'getCode';
 
-    /**
-     * @param $name
-     * @param $arguments
-     * @return $this|mixed
-     */
-    public function __call($name, $arguments)
+    public function __call(string $name, mixed $arguments)
     {
         if ((strpos($name, "get") === 0)) {
 
@@ -60,5 +54,4 @@ class Collection extends \Api\Core\Base\Collection
     {
         return ToUpper($strString);
     }
-
 }

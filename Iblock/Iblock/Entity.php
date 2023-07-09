@@ -7,7 +7,6 @@ namespace Api\Core\Iblock\Iblock;
  */
 class Entity extends \Api\Core\Base\Entity
 {
-
     protected static array $arFields = array(
         'ID',
         'XML_ID',
@@ -19,7 +18,7 @@ class Entity extends \Api\Core\Base\Entity
         'DESCRIPTION',
         'LIST_PAGE_URL',
         'DETAIL_PAGE_URL',
-        'SECTION_PAGE_URL'
+        'SECTION_PAGE_URL',
     );
 
     protected ?array $_arIProperty = null;
@@ -60,5 +59,4 @@ class Entity extends \Api\Core\Base\Entity
         \Api\Core\Main\Seo::getInstance()->addBreadcrumb($strName, $strUrl);
         return $this;
     }
-
 }

@@ -7,14 +7,7 @@ namespace Api\Core\Main;
  */
 class HttpClient extends \Bitrix\Main\Web\HttpClient
 {
-
-    /**
-     * @param mixed $url
-     * @param mixed $postData
-     * @param mixed $multipart
-     * @return false|string
-     */
-    public function put($url, $postData = null, $multipart = false)
+    public function put(string $url, mixed $postData = null, bool $multipart = false)
     {
         if ($multipart) {
             $postData = $this->prepareMultipart($postData);
@@ -26,13 +19,7 @@ class HttpClient extends \Bitrix\Main\Web\HttpClient
         return false;
     }
 
-    /**
-     * @param mixed $url
-     * @param mixed $postData
-     * @param mixed $multipart
-     * @return false|string
-     */
-    public function delete($url, $postData = null, $multipart = false)
+    public function delete(string $url, mixed $postData = null, bool $multipart = false)
     {
         if ($multipart) {
             $postData = $this->prepareMultipart($postData);

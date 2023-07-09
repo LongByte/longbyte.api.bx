@@ -26,7 +26,7 @@ abstract class Validate
         'checkbox-link' => self::INTEGER,
         'select' => self::INTEGER,
         'captcha' => self::STRING,
-        'file' => self::FILE
+        'file' => self::FILE,
     );
     protected $_value;
     protected $_messageTemplates = array();

@@ -9,7 +9,6 @@ use Bitrix\Main\Loader;
  */
 abstract class Model extends \Api\Core\Base\Model
 {
-
     protected static int $_iblockId = 0;
 
     public static function getTable(): string
@@ -22,9 +21,10 @@ abstract class Model extends \Api\Core\Base\Model
         return static::$_iblockId;
     }
 
-    public static function getOne(array $arFilter = array()): ?Entity
+    public static function getOne(array $arFilter = array(), array $arParams = array()): ?Entity
     {
         if ($obElement = static::_getElementObject($arFilter)) {
+
             $obEntity = static::_getEntityFromElementObject($obElement);
             return $obEntity;
         }
@@ -46,12 +46,20 @@ abstract class Model extends \Api\Core\Base\Model
         return null;
     }
 
-    public static function getAll(array $arFilter = array(), int $iLimit = 0, int $iPageSize = 0, int $iNumPage = 0): \Api\Core\Base\Collection
+    public static function getAll(array $arFilter = array(), int $iLimit = 0, int $iOffset = 0, array $arParams = array()): \Api\Core\Base\Collection
+    {
+        throw new \Exception('Use getAllElements method');
+    }
+
+    public static function getAllElements(array $arFilter = array(), int $iLimit = 0, int $iPageSize = 0, int $iNumPage = 0): \Api\Core\Base\Collection
     {
         Loader::includeModule('iblock');
 
         $arFilter['IBLOCK_ID'] = static::getIblockId();
-        $arSelect = static::getEntity()::getFields();
+        /** @var Entity $obEntityClass */
+        $obEntityClass = static::getEntity();
+        $arSelect = $obEntityClass::getFields();
+
         $arSelect[] = 'IBLOCK_ID';
 
         $arNavigation = array();
@@ -65,7 +73,7 @@ abstract class Model extends \Api\Core\Base\Model
             }
         }
 
-        $strCollectionClass = static::getEntity()::getCollection();
+        $strCollectionClass = $obEntityClass::getCollection();
         $obCollection = new $strCollectionClass();
 
         $rsElement = \CIBlockElement::GetList(
@@ -87,7 +95,9 @@ abstract class Model extends \Api\Core\Base\Model
 
     public static function getFromArray(array $arElements): \Api\Core\Base\Collection
     {
-        $strCollectionClass = static::getEntity()::getCollection();
+        /** @var Entity $obEntityClass */
+        $obEntityClass = static::getEntity();
+        $strCollectionClass = $obEntityClass::getCollection();
         $obCollection = new $strCollectionClass();
 
         foreach ($arElements as $arElement) {
@@ -98,17 +108,14 @@ abstract class Model extends \Api\Core\Base\Model
         return $obCollection;
     }
 
-    /**
-     * @param array $arFilter
-     * @param array $arParams
-     * @return \_CIBElement|array|false
-     */
-    protected static function _getElementObject(array $arFilter = array(), array $arParams = array())
+    protected static function _getElementObject(array $arFilter = array(), array $arParams = array()): \_CIBElement|array|false
     {
         Loader::includeModule('iblock');
 
         $arFilter['IBLOCK_ID'] = static::getIblockId();
-        $arSelect = static::getEntity()::getFields();
+        /** @var Entity $obEntityClass */
+        $obEntityClass = static::getEntity();
+        $arSelect = $obEntityClass::getFields();
         $arSelect[] = 'IBLOCK_ID';
 
         $rsElement = \CIBlockElement::GetList(
@@ -159,5 +166,4 @@ abstract class Model extends \Api\Core\Base\Model
 
         return $obEntity;
     }
-
 }

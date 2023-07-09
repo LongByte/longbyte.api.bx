@@ -29,10 +29,10 @@ class Uri extends \Bitrix\Main\Web\Uri
         return $this->params;
     }
 
-    public function deleteParams(array $arParams): self
+    public function deleteParams(array $arParams, $preserveDots = false): self
     {
         $this->params = null;
-        return parent::deleteParams($arParams);
+        return parent::deleteParams($arParams, $preserveDots);
     }
 
     public function addParam(string $strKey, string $strValue): self

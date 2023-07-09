@@ -71,7 +71,7 @@ namespace Api\Core\Iblock\Property;
  * @method boolean getIsRequired()
  * @method $this setIsRequired(boolean $bIsRequired)
  * @method bool hasIsRequired()
- * @method enum getVersion()
+ * @method string getVersion()
  * @method $this setVersion(string $mixedVersion)
  * @method bool hasVersion()
  * @method string getUserType()
@@ -102,11 +102,6 @@ namespace Api\Core\Iblock\Property;
  */
 class Entity extends \Api\Core\Base\Entity
 {
-
-    protected ?\Api\Core\Iblock\Property\Value\Entity $_obValueObject = null;
-
-    protected ?\Api\Core\Iblock\Property\Value\Collection $_obValuesCollection = null;
-
     public static function getModel(): string
     {
         return Model::class;
@@ -122,7 +117,7 @@ class Entity extends \Api\Core\Base\Entity
         return array_keys(static::getModel()::getTable()::getScalarFields());
     }
 
-    public function getFields(): array
+    public static function getFields(): array
     {
         $arFields = static::getTableFields();
         $arFields[] = 'VALUE';
@@ -130,21 +125,6 @@ class Entity extends \Api\Core\Base\Entity
         $arFields[] = 'VALUE_ID';
         $arFields[] = 'DESCRIPTION';
         return $arFields;
-    }
-
-    public function isMultiple(): bool
-    {
-        return $this->getMultiple() == 'Y';
-    }
-
-    public function isWithDescription(): bool
-    {
-        return $this->getWithDescription() == 'Y';
-    }
-
-    public function isFileProperty(): bool
-    {
-        return $this->getPropertyType() == \Bitrix\Iblock\PropertyTable::TYPE_FILE;
     }
 
     public function getValueObject(): ?\Api\Core\Iblock\Property\Value\Entity

@@ -7,9 +7,7 @@ namespace Api\Core\Base;
  */
 abstract class Entity
 {
-
-    /** @var array|int */
-    protected $_primary;
+    protected array|int|null $_primary = null;
     protected bool $_exists = false;
     protected bool $_changed = false;
     protected ?array $_data = null;
@@ -23,7 +21,7 @@ abstract class Entity
         return Collection::class;
     }
 
-    public function __construct($primary = null, array $data = array())
+    public function __construct(array|int|null $primary = null, array $data = array())
     {
         if ($data) {
             $this->_data = array_fill_keys($this->getFields(), '');
@@ -87,12 +85,7 @@ abstract class Entity
         return $this->_data;
     }
 
-    /**
-     * @param $name
-     * @param $arguments
-     * @return $this|mixed
-     */
-    public function __call($name, $arguments)
+    public function __call(string $name, mixed $arguments)
     {
         if ((strpos($name, "get") === 0)) {
 
@@ -172,13 +165,7 @@ abstract class Entity
         return $this->_changed;
     }
 
-    /**
-     *
-     * @param mixed $oldValue
-     * @param mixed $newValue
-     * @return bool
-     */
-    protected function checkChanges($oldValue, $newValue): bool
+    protected function checkChanges(mixed $oldValue, mixed $newValue): bool
     {
         if (is_null($oldValue) && !is_null($newValue) || !is_null($oldValue) && is_null($newValue)) {
             return true;
@@ -192,9 +179,10 @@ abstract class Entity
         if (is_numeric($oldValue) && is_numeric($newValue)) {
             $oldValue = (float) $oldValue;
             $newValue = (float) $newValue;
-            if ($newValue != 0) {
-                return abs(($oldValue - $newValue) / $newValue) > 0.000000001;
+            if ($newValue == 0) {
+                return $newValue == $oldValue;
             }
+            return abs(($oldValue - $newValue) / $newValue) > 0.000000001;
         }
 
         return $oldValue != $newValue;
@@ -207,7 +195,7 @@ abstract class Entity
         }
         $arArray = array();
         foreach ($arData as $strKey => $value) {
-            if (strpos($strKey, '~') === 0) {
+            if (str_starts_with($strKey, '~')) {
                 continue;
             }
             $strLowerKey = self::toLower($strKey);
@@ -231,7 +219,7 @@ abstract class Entity
         return \ToUpper($strString);
     }
 
-    public function getFields(): array
+    public static function getFields(): array
     {
         return static::$arFields;
     }
