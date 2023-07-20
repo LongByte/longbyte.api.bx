@@ -154,7 +154,7 @@ abstract class Model extends \Api\Core\Base\Model
         $obEntity = new $strEntityClass($arElement['ID'], $arElement);
         $obPropertyCollection = $obEntity->getPropertyCollection();
 
-        $arAllowProps = $obEntity->getProps();
+        $arAllowProps = $obEntity::getProps();
 
         foreach ($arProperties as $arProperty) {
             if (!in_array($arProperty['CODE'], $arAllowProps)) {

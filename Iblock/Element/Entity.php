@@ -52,7 +52,7 @@ abstract class Entity extends \Api\Core\Base\Entity
         return $this;
     }
 
-    public function getProps(): array
+    public static function getProps(): array
     {
         return static::$arProps;
     }
@@ -98,7 +98,7 @@ abstract class Entity extends \Api\Core\Base\Entity
                 if ($_arData) {
                     if (is_array($_arData['PROPERTIES'])) {
                         foreach ($_arData['PROPERTIES'] as $arProperty) {
-                            if (!in_array($arProperty['CODE'], $this->getProps())) {
+                            if (!in_array($arProperty['CODE'], $this::getProps())) {
                                 continue;
                             }
                             $obProperty = new \Api\Core\Iblock\Property\Entity($arProperty['ID'], $arProperty);
@@ -113,7 +113,7 @@ abstract class Entity extends \Api\Core\Base\Entity
             } else {
                 /** @var \Api\Core\Iblock\Property\Collection $obCollection */
                 $obCollection = \Api\Core\Iblock\Property\Model::getAll(array(
-                    '=CODE' => $this->getProps(),
+                    '=CODE' => $this::getProps(),
                     'IBLOCK_ID' => $this->getModel()::getIblockId()
                 ),
                     0,
@@ -134,8 +134,8 @@ abstract class Entity extends \Api\Core\Base\Entity
         if (is_array($this->getFields())) {
             $arFields = array_merge($arFields, $this->getFields());
         }
-        if (is_array($this->getProps())) {
-            $arFields = array_merge($arFields, $this->getProps());
+        if (is_array($this::getProps())) {
+            $arFields = array_merge($arFields, $this::getProps());
         }
         return $arFields;
     }
@@ -222,7 +222,7 @@ abstract class Entity extends \Api\Core\Base\Entity
 
         $arProperties = array();
 
-        foreach ($this->getProps() as $strProperty) {
+        foreach ($this::getProps() as $strProperty) {
             $obProperty = $this->getPropertyCollection()->getByKey($strProperty);
             if (!is_null($obProperty)) {
                 $arProperties[$strProperty] = $obProperty->toSaveFormat();
