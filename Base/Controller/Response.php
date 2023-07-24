@@ -25,9 +25,21 @@ class Response
         return $this;
     }
 
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
+
     public function hasErrors(): bool
     {
         return count($this->errors);
+    }
+
+    public function clearErrors(): self
+    {
+        $this->errors = array();
+        $this->success = true;
+        return $this;
     }
 
     public function toArray(): array

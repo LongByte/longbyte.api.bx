@@ -134,9 +134,9 @@ class Controller
             default:
                 header('Content-Type: application/json');
                 if ($this->response instanceof \Api\Core\Base\Controller\Response) {
-                    return \Bitrix\Main\Web\Json::encode($this->response->toArray());
+                    return \Bitrix\Main\Web\Json::encode($this->response->toArray(), JSON_UNESCAPED_UNICODE);
                 } else {
-                    return \Bitrix\Main\Web\Json::encode($this->response);
+                    return \Bitrix\Main\Web\Json::encode($this->response, JSON_UNESCAPED_UNICODE);
                 }
         }
     }
